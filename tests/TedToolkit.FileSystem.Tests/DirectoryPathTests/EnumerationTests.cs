@@ -12,166 +12,124 @@ namespace TedToolkit.FileSystem.Tests.DirectoryPathTests;
 internal sealed class EnumerationTests
 {
     [Test]
-    public async Task Should_enumerate_directories()
+    public async Task Should_enumerate_directories_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
+        var recursiveOptions = new EnumerationOptions() { RecurseSubdirectories = true, };
 
-        var directories = path.EnumerateDirectories().OrderBy(x => x.FullName).ToArray();
+        await Assert.That(path.EnumerateDirectories().Select(x => x.FullName).Order().ToArray())
+            .IsEquivalentTo([
+                TestAssets.NestedDirectory.FullName,
+                TestAssets.SiblingDirectory.FullName
+            ]);
 
-        await Assert.That(directories.Length).IsEqualTo(2);
-        await Assert.That(directories[0]).IsEqualTo(new DirectoryPath(TestAssets.NestedDirectory.FullName));
-        await Assert.That(directories[1]).IsEqualTo(new DirectoryPath(TestAssets.SiblingDirectory.FullName));
+        await Assert.That(path.EnumerateDirectories("nested").Single())
+            .IsEqualTo(new DirectoryPath(TestAssets.NestedDirectory.FullName));
+
+        await Assert.That(path.EnumerateDirectories("*", SearchOption.AllDirectories).Count()).IsEqualTo(2);
+        await Assert.That(path.EnumerateDirectories("*", recursiveOptions).Count()).IsEqualTo(2);
     }
 
     [Test]
-    public async Task Should_enumerate_directories_with_search_pattern_and_option()
+    public async Task Should_get_directories_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
+        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
 
-        var directories = path.EnumerateDirectories("*", SearchOption.AllDirectories).OrderBy(x => x.FullName).ToArray();
+        await Assert.That(path.GetDirectories().Select(x => x.FullName).OrderBy(x => x).ToArray())
+            .IsEquivalentTo([
+                TestAssets.NestedDirectory.FullName,
+                TestAssets.SiblingDirectory.FullName
+            ]);
 
-        await Assert.That(directories.Length).IsEqualTo(2);
+        await Assert.That(path.GetDirectories("nested").Single())
+            .IsEqualTo(new DirectoryPath(TestAssets.NestedDirectory.FullName));
+
+        await Assert.That(path.GetDirectories("*", SearchOption.AllDirectories).Length).IsEqualTo(2);
+        await Assert.That(path.GetDirectories("*", recursiveOptions).Length).IsEqualTo(2);
     }
 
     [Test]
-    public async Task Should_enumerate_directories_with_enumeration_options()
+    public async Task Should_enumerate_files_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var options = new EnumerationOptions
-        {
-            RecurseSubdirectories = true,
-        };
+        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
 
-        var directories = path.EnumerateDirectories("*", options).OrderBy(x => x.FullName).ToArray();
+        await Assert.That(path.EnumerateFiles().Single())
+            .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
 
-        await Assert.That(directories.Length).IsEqualTo(2);
+        await Assert.That(path.EnumerateFiles("root-file.txt").Single())
+            .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
+
+        await Assert.That(path.EnumerateFiles("*", SearchOption.AllDirectories).Select(x => x.FullName).OrderBy(x => x).ToArray())
+            .IsEquivalentTo([
+                TestAssets.NestedFile.FullName,
+                TestAssets.RootFile.FullName,
+                TestAssets.SiblingFile.FullName
+            ]);
+
+        await Assert.That(path.EnumerateFiles("*", recursiveOptions).Count()).IsEqualTo(3);
     }
 
     [Test]
-    public async Task Should_get_directories_as_array()
+    public async Task Should_get_files_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
+        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
 
-        var directories = path.GetDirectories("nested");
+        await Assert.That(path.GetFiles().Single())
+            .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
 
-        await Assert.That(directories.Length).IsEqualTo(1);
-        await Assert.That(directories[0]).IsEqualTo(new DirectoryPath(TestAssets.NestedDirectory.FullName));
+        await Assert.That(path.GetFiles("root-file.txt").Single())
+            .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
+
+        await Assert.That(path.GetFiles("*", SearchOption.AllDirectories).Select(x => x.FullName).OrderBy(x => x).ToArray())
+            .IsEquivalentTo([
+                TestAssets.NestedFile.FullName,
+                TestAssets.RootFile.FullName,
+                TestAssets.SiblingFile.FullName
+            ]);
+
+        await Assert.That(path.GetFiles("*", recursiveOptions).Length).IsEqualTo(3);
     }
 
     [Test]
-    public async Task Should_get_directories_as_array_with_enumeration_options()
+    public async Task Should_enumerate_file_system_entries_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var options = new EnumerationOptions
-        {
-            RecurseSubdirectories = true,
-        };
+        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
 
-        var directories = path.GetDirectories("*", options).OrderBy(x => x.FullName).ToArray();
+        await Assert.That(path.EnumerateFileSystemEntries().OrderBy(x => x).ToArray())
+            .IsEquivalentTo([
+                TestAssets.NestedDirectory.FullName,
+                TestAssets.RootFile.FullName,
+                TestAssets.SiblingDirectory.FullName
+            ]);
 
-        await Assert.That(directories.Length).IsEqualTo(2);
+        await Assert.That(path.EnumerateFileSystemEntries("root-file.txt").Single())
+            .IsEqualTo(TestAssets.RootFile.FullName);
+
+        await Assert.That(path.EnumerateFileSystemEntries("*", SearchOption.AllDirectories).Count()).IsEqualTo(5);
+        await Assert.That(path.EnumerateFileSystemEntries("*", recursiveOptions).Count()).IsEqualTo(5);
     }
 
     [Test]
-    public async Task Should_enumerate_files()
+    public async Task Should_get_file_system_entries_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
+        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
 
-        var files = path.EnumerateFiles("*", SearchOption.AllDirectories).OrderBy(x => x.FullName).ToArray();
+        await Assert.That(path.GetFileSystemEntries().OrderBy(x => x).ToArray())
+            .IsEquivalentTo([
+                TestAssets.NestedDirectory.FullName,
+                TestAssets.RootFile.FullName,
+                TestAssets.SiblingDirectory.FullName
+            ]);
 
-        await Assert.That(files.Length).IsEqualTo(3);
-        await Assert.That(files[0]).IsEqualTo(new FilePath(TestAssets.NestedFile.FullName));
-        await Assert.That(files[1]).IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
-        await Assert.That(files[2]).IsEqualTo(new FilePath(TestAssets.SiblingFile.FullName));
-    }
+        await Assert.That(path.GetFileSystemEntries("root-file.txt").Single())
+            .IsEqualTo(TestAssets.RootFile.FullName);
 
-    [Test]
-    public async Task Should_enumerate_files_with_enumeration_options()
-    {
-        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var options = new EnumerationOptions
-        {
-            RecurseSubdirectories = true,
-        };
-
-        var files = path.EnumerateFiles("*", options).OrderBy(x => x.FullName).ToArray();
-
-        await Assert.That(files.Length).IsEqualTo(3);
-    }
-
-    [Test]
-    public async Task Should_get_files_as_array()
-    {
-        var path = new DirectoryPath(TestAssets.NestedDirectory.FullName);
-
-        var files = path.GetFiles("*.txt");
-
-        await Assert.That(files.Length).IsEqualTo(1);
-        await Assert.That(files[0]).IsEqualTo(new FilePath(TestAssets.NestedFile.FullName));
-    }
-
-    [Test]
-    public async Task Should_get_files_as_array_with_enumeration_options()
-    {
-        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var options = new EnumerationOptions
-        {
-            RecurseSubdirectories = true,
-        };
-
-        var files = path.GetFiles("*", options).OrderBy(x => x.FullName).ToArray();
-
-        await Assert.That(files.Length).IsEqualTo(3);
-    }
-
-    [Test]
-    public async Task Should_enumerate_file_system_entries()
-    {
-        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-
-        var entries = path.EnumerateFileSystemEntries().OrderBy(x => x).ToArray();
-
-        await Assert.That(entries.Length).IsEqualTo(3);
-        await Assert.That(entries[0]).IsEqualTo(TestAssets.NestedDirectory.FullName);
-        await Assert.That(entries[1]).IsEqualTo(TestAssets.RootFile.FullName);
-        await Assert.That(entries[2]).IsEqualTo(TestAssets.SiblingDirectory.FullName);
-    }
-
-    [Test]
-    public async Task Should_enumerate_file_system_entries_with_enumeration_options()
-    {
-        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var options = new EnumerationOptions
-        {
-            RecurseSubdirectories = true,
-        };
-
-        var entries = path.EnumerateFileSystemEntries("*", options).OrderBy(x => x).ToArray();
-
-        await Assert.That(entries.Length).IsEqualTo(5);
-    }
-
-    [Test]
-    public async Task Should_get_file_system_entries_as_array()
-    {
-        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-
-        var entries = path.GetFileSystemEntries("*", SearchOption.AllDirectories).OrderBy(x => x).ToArray();
-
-        await Assert.That(entries.Length).IsEqualTo(5);
-    }
-
-    [Test]
-    public async Task Should_get_file_system_entries_as_array_with_enumeration_options()
-    {
-        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var options = new EnumerationOptions
-        {
-            RecurseSubdirectories = true,
-        };
-
-        var entries = path.GetFileSystemEntries("*", options).OrderBy(x => x).ToArray();
-
-        await Assert.That(entries.Length).IsEqualTo(5);
+        await Assert.That(path.GetFileSystemEntries("*", SearchOption.AllDirectories).Length).IsEqualTo(5);
+        await Assert.That(path.GetFileSystemEntries("*", recursiveOptions).Length).IsEqualTo(5);
     }
 }

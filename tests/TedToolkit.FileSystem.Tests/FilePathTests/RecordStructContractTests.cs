@@ -69,4 +69,28 @@ internal sealed class RecordStructContractTests
 
         await Assert.That(path.FullName).IsEqualTo(TestAssets.NestedFile.FullName);
     }
+
+    /// <summary>
+    /// Verifies that creating a file path from a null file info instance preserves the public argument contract.
+    /// </summary>
+    [Test]
+    public async Task Should_throw_argument_null_exception_when_creating_file_path_from_null_file_info()
+    {
+        FileInfo fileInfo = null!;
+
+        await Assert.That(() => FilePath.FromFileInfo(fileInfo))
+            .Throws<ArgumentNullException>();
+    }
+
+    /// <summary>
+    /// Verifies that implicit conversion from a null file info instance matches the factory method contract.
+    /// </summary>
+    [Test]
+    public async Task Should_throw_argument_null_exception_when_implicitly_converting_null_file_info()
+    {
+        FileInfo fileInfo = null!;
+
+        await Assert.That(() => (FilePath)fileInfo)
+            .Throws<ArgumentNullException>();
+    }
 }

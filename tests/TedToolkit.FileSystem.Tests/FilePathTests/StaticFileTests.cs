@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace TedToolkit.FileSystem.Tests.FilePathTests;
@@ -24,7 +25,7 @@ internal sealed class StaticFileTests
         }
         finally
         {
-            DeleteFileIfExists(temporaryFile.FullName);
+            this.DeleteFileIfExists(temporaryFile.FullName);
         }
     }
 
@@ -39,15 +40,23 @@ internal sealed class StaticFileTests
     [Test]
     public async Task Should_create_file_path_from_executing_assembly()
     {
-        var path = FilePath.FromExecutingAssembly();
+        var path = this.ReadExecutingAssemblyPath();
 
         await Assert.That(path).IsEqualTo(new FilePath(typeof(FilePath).Assembly.Location));
     }
 
     [Test]
+    public async Task Should_expose_assembly_factories_as_static_properties()
+    {
+        await this.AssertAssemblyPropertyContract("EntryAssembly", typeof(FilePath?));
+        await this.AssertAssemblyPropertyContract("ExecutingAssembly", typeof(FilePath));
+        await this.AssertAssemblyPropertyContract("CallingAssembly", typeof(FilePath));
+    }
+
+    [Test]
     public async Task Should_create_file_path_from_calling_assembly()
     {
-        var path = GetPathFromCallingAssembly();
+        var path = this.GetPathFromCallingAssembly();
 
         await Assert.That(path).IsEqualTo(new FilePath(typeof(StaticFileTests).Assembly.Location));
     }
@@ -56,7 +65,7 @@ internal sealed class StaticFileTests
     public async Task Should_create_file_path_from_entry_assembly_when_available()
     {
         var expectedAssembly = System.Reflection.Assembly.GetEntryAssembly();
-        var path = FilePath.FromEntryAssembly();
+        var path = this.ReadEntryAssemblyPath();
 
         if (expectedAssembly is null)
         {
@@ -67,13 +76,50 @@ internal sealed class StaticFileTests
         await Assert.That(path).IsEqualTo(new FilePath(expectedAssembly.Location));
     }
 
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    private static FilePath GetPathFromCallingAssembly()
+    [Test]
+    public async Task Should_throw_argument_null_exception_when_creating_file_path_from_null_assembly()
     {
-        return FilePath.FromCallingAssembly();
+        Assembly assembly = null!;
+
+        await Assert.That(() => FilePath.FromAssembly(assembly))
+            .Throws<ArgumentNullException>();
     }
 
-    private static void DeleteFileIfExists(string filePath)
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private FilePath GetPathFromCallingAssembly()
+    {
+        return this.ReadCallingAssemblyPath();
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private FilePath ReadExecutingAssemblyPath()
+    {
+        return FilePath.ExecutingAssembly;
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private FilePath? ReadEntryAssemblyPath()
+    {
+        return FilePath.EntryAssembly;
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private FilePath ReadCallingAssemblyPath()
+    {
+        return FilePath.CallingAssembly;
+    }
+
+    private async Task AssertAssemblyPropertyContract(string propertyName, Type propertyType)
+    {
+        var property = typeof(FilePath).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static);
+        var method = typeof(FilePath).GetMethod($"From{propertyName}", BindingFlags.Public | BindingFlags.Static);
+
+        await Assert.That(property).IsNotNull();
+        await Assert.That(property!.PropertyType).IsEqualTo(propertyType);
+        await Assert.That(method).IsNull();
+    }
+
+    private void DeleteFileIfExists(string filePath)
     {
         if (!File.Exists(filePath))
         {

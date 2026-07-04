@@ -22,5 +22,7 @@ public readonly partial record struct FilePath
     /// <returns>A file system watcher for the current file path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileSystemWatcher Watch()
-        => new(Path.GetDirectoryName(FullName)!, Name) { EnableRaisingEvents = true };
+    {
+        return new(Path.GetDirectoryName(FullName)!, Name) { EnableRaisingEvents = true, };
+    }
 }

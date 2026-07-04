@@ -24,7 +24,7 @@ internal sealed class DirectoryOperationsTests
     [Test]
     public async Task Should_create_directory()
     {
-        var path = CreateTemporaryDirectoryPath();
+        var path = this.CreateTemporaryDirectoryPath();
 
         try
         {
@@ -35,14 +35,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_delete_directory()
     {
-        var path = CreateCreatedTemporaryDirectoryPath();
+        var path = this.CreateCreatedTemporaryDirectoryPath();
 
         path.Delete();
 
@@ -50,10 +50,21 @@ internal sealed class DirectoryOperationsTests
     }
 
     [Test]
+    public async Task Should_delete_directory_recursively_when_requested()
+    {
+        var path = this.CreateCreatedTemporaryDirectoryPath();
+        Directory.CreateDirectory(Path.Combine(path.FullName, "child"));
+
+        path.Delete(recursive: true);
+
+        await Assert.That(path.Exists).IsFalse();
+    }
+
+    [Test]
     public async Task Should_move_directory_to_destination()
     {
-        var source = CreateCreatedTemporaryDirectoryPath();
-        var destination = CreateTemporaryDirectoryPath();
+        var source = this.CreateCreatedTemporaryDirectoryPath();
+        var destination = this.CreateTemporaryDirectoryPath();
 
         try
         {
@@ -64,15 +75,15 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(source.FullName);
-            DeleteDirectoryIfExists(destination.FullName);
+            this.DeleteDirectoryIfExists(source.FullName);
+            this.DeleteDirectoryIfExists(destination.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_creation_time_through_property()
     {
-        var path = CreateCreatedTemporaryDirectoryPath();
+        var path = this.CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 1, 2, 3, 4, 5, DateTimeKind.Local);
 
         try
@@ -83,14 +94,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_last_write_time_through_property()
     {
-        var path = CreateCreatedTemporaryDirectoryPath();
+        var path = this.CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 2, 3, 4, 5, 6, DateTimeKind.Local);
 
         try
@@ -101,14 +112,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_last_access_time_through_property()
     {
-        var path = CreateCreatedTemporaryDirectoryPath();
+        var path = this.CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 3, 4, 5, 6, 7, DateTimeKind.Local);
 
         try
@@ -119,14 +130,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_creation_time_utc_through_property()
     {
-        var path = CreateCreatedTemporaryDirectoryPath();
+        var path = this.CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 4, 5, 6, 7, 8, DateTimeKind.Utc);
 
         try
@@ -137,14 +148,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_last_write_time_utc_through_property()
     {
-        var path = CreateCreatedTemporaryDirectoryPath();
+        var path = this.CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 5, 6, 7, 8, 9, DateTimeKind.Utc);
 
         try
@@ -155,14 +166,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_last_access_time_utc_through_property()
     {
-        var path = CreateCreatedTemporaryDirectoryPath();
+        var path = this.CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 6, 7, 8, 9, 10, DateTimeKind.Utc);
 
         try
@@ -173,14 +184,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_attributes_through_property()
     {
-        var path = CreateCreatedTemporaryDirectoryPath();
+        var path = this.CreateCreatedTemporaryDirectoryPath();
 
         try
         {
@@ -190,14 +201,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_create_directory_with_unix_file_mode_when_supported()
     {
-        var path = CreateTemporaryDirectoryPath();
+        var path = this.CreateTemporaryDirectoryPath();
 
         try
         {
@@ -220,14 +231,14 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(path.FullName);
+            this.DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_create_symbolic_link_and_resolve_target_when_supported()
     {
-        var workspace = CreateCreatedTemporaryDirectoryPath();
+        var workspace = this.CreateCreatedTemporaryDirectoryPath();
         var target = workspace / "target";
         var link = workspace / "link";
         target.Create();
@@ -242,6 +253,7 @@ internal sealed class DirectoryOperationsTests
                 linkWasCreated = true;
 
                 await Assert.That(createdLink).IsEqualTo(link);
+                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: false)).IsEqualTo(target);
                 await Assert.That(link.ResolveLinkTarget(returnFinalTarget: true)).IsEqualTo(target);
             }
             catch (UnauthorizedAccessException)
@@ -257,7 +269,7 @@ internal sealed class DirectoryOperationsTests
         }
         finally
         {
-            DeleteDirectoryIfExists(workspace.FullName);
+            this.DeleteDirectoryIfExists(workspace.FullName);
         }
     }
 
@@ -279,19 +291,45 @@ internal sealed class DirectoryOperationsTests
         }
     }
 
-    private static DirectoryPath CreateTemporaryDirectoryPath()
+    [Test]
+    public async Task Should_return_same_text_from_to_string()
+    {
+        var path = new DirectoryPath(TestAssets.NestedDirectory.FullName);
+
+        await Assert.That(path.ToString()).IsEqualTo(path.FullName);
+    }
+
+    [Test]
+    public async Task Should_throw_argument_null_exception_when_creating_from_null_directory_info()
+    {
+        DirectoryInfo directoryInfo = null!;
+
+        await Assert.That(() => DirectoryPath.FromDirectoryInfo(directoryInfo))
+            .Throws<ArgumentNullException>();
+    }
+
+    [Test]
+    public async Task Should_throw_argument_null_exception_when_implicitly_converting_null_directory_info()
+    {
+        DirectoryInfo directoryInfo = null!;
+
+        await Assert.That(() => (DirectoryPath)directoryInfo)
+            .Throws<ArgumentNullException>();
+    }
+
+    private DirectoryPath CreateTemporaryDirectoryPath()
     {
         return new(Path.Combine(Path.GetTempPath(), "TedToolkit.FileSystem.Tests", Guid.NewGuid().ToString("N")));
     }
 
-    private static DirectoryPath CreateCreatedTemporaryDirectoryPath()
+    private DirectoryPath CreateCreatedTemporaryDirectoryPath()
     {
-        var path = CreateTemporaryDirectoryPath();
+        var path = this.CreateTemporaryDirectoryPath();
         Directory.CreateDirectory(path.FullName);
         return path;
     }
 
-    private static void DeleteDirectoryIfExists(string directoryPath)
+    private void DeleteDirectoryIfExists(string directoryPath)
     {
         if (Directory.Exists(directoryPath))
         {

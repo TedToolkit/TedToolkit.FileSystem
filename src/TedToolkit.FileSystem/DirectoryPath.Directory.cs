@@ -186,9 +186,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The created directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath Create()
-        {
-            return new(Directory.CreateDirectory(FullName).FullName);
-        }
+    {
+        return FromDirectoryInfo(Directory.CreateDirectory(FullName));
+    }
 
 #if NET7_0_OR_GREATER
     /// <summary>
@@ -200,9 +200,9 @@ public readonly partial record struct DirectoryPath
     [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath Create(UnixFileMode unixCreateMode)
-        {
-            return new(Directory.CreateDirectory(FullName, unixCreateMode).FullName);
-        }
+    {
+        return FromDirectoryInfo(Directory.CreateDirectory(FullName, unixCreateMode));
+    }
 #endif
 
 #if NET6_0_OR_GREATER
@@ -214,9 +214,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The created symbolic link path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath CreateSymbolicLink(DirectoryPath target)
-        {
-            return new(Directory.CreateSymbolicLink(FullName, target.FullName).FullName);
-        }
+    {
+        return new(Directory.CreateSymbolicLink(FullName, target.FullName).FullName);
+    }
 
     /// <summary>
     /// Resolves the current directory path if it is a symbolic link.
@@ -226,11 +226,11 @@ public readonly partial record struct DirectoryPath
     /// <returns>The resolved target directory path when one exists; otherwise, <see langword="null" />.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath? ResolveLinkTarget(bool returnFinalTarget)
-        {
-            return Directory.ResolveLinkTarget(FullName, returnFinalTarget) is { } fileSystemInfo
-                ? new DirectoryPath(fileSystemInfo.FullName)
-                : default(DirectoryPath?);
-        }
+    {
+        return Directory.ResolveLinkTarget(FullName, returnFinalTarget) is { } fileSystemInfo
+            ? new DirectoryPath(fileSystemInfo.FullName)
+            : default(DirectoryPath?);
+    }
 #endif
 
     /// <summary>
@@ -240,9 +240,9 @@ public readonly partial record struct DirectoryPath
     /// <param name="recursive">Whether child content should also be deleted.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Delete(bool recursive = false)
-        {
-            Directory.Delete(FullName, recursive);
-        }
+    {
+        Directory.Delete(FullName, recursive);
+    }
 
     /// <summary>
     /// Moves the directory to a new destination.
@@ -251,9 +251,9 @@ public readonly partial record struct DirectoryPath
     /// <param name="destination">The destination directory path.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void MoveTo(DirectoryPath destination)
-        {
-            Directory.Move(FullName, destination.FullName);
-        }
+    {
+        Directory.Move(FullName, destination.FullName);
+    }
 
     /// <summary>
     /// Sets the current working directory to the current directory path.
@@ -261,7 +261,7 @@ public readonly partial record struct DirectoryPath
     /// <remarks>Wraps <see cref="Directory.SetCurrentDirectory(string)" />.</remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetCurrentDirectory()
-        {
-            Directory.SetCurrentDirectory(FullName);
-        }
+    {
+        Directory.SetCurrentDirectory(FullName);
+    }
 }

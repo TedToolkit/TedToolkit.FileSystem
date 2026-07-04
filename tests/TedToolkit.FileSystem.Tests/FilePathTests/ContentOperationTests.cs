@@ -19,7 +19,7 @@ internal sealed class ContentOperationTests
     {
         var file = TestWorkspace.CreateFile("content.txt");
         var path = new FilePath(file.FullName);
-        var lines = new[] { "alpha", "beta" };
+        var lines = new[] { "alpha", "beta", };
 
         try
         {

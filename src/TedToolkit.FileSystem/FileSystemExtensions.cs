@@ -20,9 +20,22 @@ public static class FileSystemExtensions
     /// <returns>A file name value object.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FileName AsFileName(this string value)
-        {
-            return new(value);
-        }
+    {
+        return new(value);
+    }
+
+    /// <summary>
+    /// Wraps a base file name and extension as a file name value object.
+    /// </summary>
+    /// <remarks>Constructs <see cref="FileName" /> using <see cref="Path.ChangeExtension(string,string?)" /> semantics.</remarks>
+    /// <param name="value">The base file name text.</param>
+    /// <param name="extension">The extension to apply.</param>
+    /// <returns>A file name value object.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static FileName AsFileName(this string value, string? extension)
+    {
+        return new(value, extension);
+    }
 
     /// <summary>
     /// Converts a directory info instance to a directory path value object.
@@ -33,9 +46,9 @@ public static class FileSystemExtensions
     /// <returns>A directory path value object.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath ToPath(this DirectoryInfo directoryInfo)
-        {
-            return new((directoryInfo ?? throw new ArgumentNullException(nameof(directoryInfo))).FullName);
-        }
+    {
+        return DirectoryPath.FromDirectoryInfo(directoryInfo);
+    }
 
     /// <summary>
     /// Converts a file info instance to a file path value object.
@@ -46,7 +59,7 @@ public static class FileSystemExtensions
     /// <returns>A file path value object.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath ToPath(this FileInfo fileInfo)
-        {
-            return new((fileInfo ?? throw new ArgumentNullException(nameof(fileInfo))).FullName);
-        }
+    {
+        return FilePath.FromFileInfo(fileInfo);
+    }
 }

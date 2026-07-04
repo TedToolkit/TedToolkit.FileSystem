@@ -32,4 +32,28 @@ internal sealed class ToPathTests
 
         await Assert.That(path.FullName).IsEqualTo(TestAssets.NestedFile.FullName);
     }
+
+    /// <summary>
+    /// Verifies that converting a null directory info instance preserves the public argument contract.
+    /// </summary>
+    [Test]
+    public async Task Should_throw_argument_null_exception_when_converting_null_directory_info()
+    {
+        DirectoryInfo directoryInfo = null!;
+
+        await Assert.That(() => directoryInfo.ToPath())
+            .Throws<ArgumentNullException>();
+    }
+
+    /// <summary>
+    /// Verifies that converting a null file info instance preserves the public argument contract.
+    /// </summary>
+    [Test]
+    public async Task Should_throw_argument_null_exception_when_converting_null_file_info()
+    {
+        FileInfo fileInfo = null!;
+
+        await Assert.That(() => fileInfo.ToPath())
+            .Throws<ArgumentNullException>();
+    }
 }

@@ -41,9 +41,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The logical drives available on the current machine.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath[] GetLogicalDrives()
-        {
-            return Directory.GetLogicalDrives().Select(static x => new DirectoryPath(x)).ToArray();
-        }
+    {
+        return Directory.GetLogicalDrives().Select(static x => new DirectoryPath(x)).ToArray();
+    }
 
     /// <summary>
     /// Gets the desktop directory for the current user.
@@ -158,9 +158,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The created temporary directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath CreateTempSubdirectory(string prefix)
-        {
-            return new(Directory.CreateTempSubdirectory(prefix).FullName);
-        }
+    {
+        return FromDirectoryInfo(Directory.CreateTempSubdirectory(prefix));
+    }
 #endif
 
     /// <summary>
@@ -184,9 +184,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The resolved directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath GetFolderPath(Environment.SpecialFolder folder)
-        {
-            return new(Environment.GetFolderPath(folder));
-        }
+    {
+        return new(Environment.GetFolderPath(folder));
+    }
 
     /// <summary>
     /// Gets the path of the specified special folder using the requested verification option.
@@ -197,7 +197,7 @@ public readonly partial record struct DirectoryPath
     /// <returns>The resolved directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath GetFolderPath(Environment.SpecialFolder folder, Environment.SpecialFolderOption option)
-        {
-            return new(Environment.GetFolderPath(folder, option));
-        }
+    {
+        return new(Environment.GetFolderPath(folder, option));
+    }
 }

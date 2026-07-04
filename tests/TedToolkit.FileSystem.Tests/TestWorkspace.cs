@@ -27,7 +27,7 @@ internal static class TestWorkspace
         var directory = CreateDirectory();
         var file = new FileInfo(Path.Combine(directory.FullName, fileName));
         Directory.CreateDirectory(file.DirectoryName!);
-        File.WriteAllText(file.FullName, contents ?? string.Empty);
+        File.WriteAllText(file.FullName, contents ?? "");
         return file;
     }
 }

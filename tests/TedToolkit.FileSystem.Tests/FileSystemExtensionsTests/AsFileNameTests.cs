@@ -19,4 +19,15 @@ internal sealed class AsFileNameTests
 
         await Assert.That(fileName).IsEqualTo(new FileName("report.txt"));
     }
+
+    /// <summary>
+    /// Verifies that a base name and extension can be converted directly to a file name value object.
+    /// </summary>
+    [Test]
+    public async Task Should_wrap_name_and_extension_as_file_name()
+    {
+        var fileName = "report".AsFileName("txt");
+
+        await Assert.That(fileName).IsEqualTo(new FileName(Path.ChangeExtension("report", "txt")));
+    }
 }

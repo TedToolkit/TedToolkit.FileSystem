@@ -49,4 +49,20 @@ internal sealed class RecordStructContractTests
 
         await Assert.That(left != right).IsTrue();
     }
+
+    /// <summary>
+    /// Verifies that the file name value object combines a base name and extension using BCL semantics.
+    /// </summary>
+    [Test]
+    [Arguments("file", "txt")]
+    [Arguments("file", ".txt")]
+    [Arguments("archive.tar", ".gz")]
+    [Arguments("README", null)]
+    [Arguments("README", "")]
+    public async Task Should_combine_name_and_extension_using_change_extension_semantics(string name, string? extension)
+    {
+        var fileName = new FileName(name, extension);
+
+        await Assert.That(fileName.Name).IsEqualTo(Path.ChangeExtension(name, extension));
+    }
 }

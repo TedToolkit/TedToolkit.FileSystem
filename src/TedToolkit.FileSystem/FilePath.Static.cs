@@ -21,9 +21,9 @@ public readonly partial record struct FilePath
     /// <returns>The created temporary file path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath GetTempFileName()
-        {
-            return new(Path.GetTempFileName());
-        }
+    {
+        return new(Path.GetTempFileName());
+    }
 
     /// <summary>
     /// Creates a file path value object from an assembly location.
@@ -34,43 +34,46 @@ public readonly partial record struct FilePath
     /// <returns>A file path value object that uses the assembly location.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath FromAssembly(Assembly assembly)
-        {
-            return new((assembly ?? throw new ArgumentNullException(nameof(assembly))).Location);
-        }
+    {
+        return new((assembly ?? throw new ArgumentNullException(nameof(assembly))).Location);
+    }
 
     /// <summary>
-    /// Creates a file path value object from the entry assembly location when available.
+    /// Gets a file path value object from the entry assembly location when available.
     /// </summary>
     /// <remarks>Wraps <see cref="Assembly.GetEntryAssembly()" /> and uses <see cref="Assembly.Location" /> when a value is returned.</remarks>
-    /// <returns>
-    /// A file path value object that uses the entry assembly location, or <see langword="null" />
-    /// when the current process has no entry assembly.
-    /// </returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static FilePath? FromEntryAssembly()
+    public static FilePath? EntryAssembly
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
         {
-            return Assembly.GetEntryAssembly() is { } assembly ? FromAssembly(assembly) : default(FilePath?);
+            return Assembly.GetEntryAssembly() is { } assembly ? new FilePath(assembly.Location) : default(FilePath?);
         }
+    }
 
     /// <summary>
-    /// Creates a file path value object from the currently executing assembly location.
+    /// Gets a file path value object from the currently executing assembly location.
     /// </summary>
     /// <remarks>Wraps <see cref="Assembly.GetExecutingAssembly()" /> and uses <see cref="Assembly.Location" />.</remarks>
-    /// <returns>A file path value object that uses the executing assembly location.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static FilePath FromExecutingAssembly()
+    public static FilePath ExecutingAssembly
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
         {
             return new(Assembly.GetExecutingAssembly().Location);
         }
+    }
 
     /// <summary>
-    /// Creates a file path value object from the calling assembly location.
+    /// Gets a file path value object from the calling assembly location.
     /// </summary>
     /// <remarks>Wraps <see cref="Assembly.GetCallingAssembly()" /> and uses <see cref="Assembly.Location" />.</remarks>
-    /// <returns>A file path value object that uses the calling assembly location.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static FilePath FromCallingAssembly()
+    public static FilePath CallingAssembly
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
         {
             return new(Assembly.GetCallingAssembly().Location);
         }
+    }
 }
