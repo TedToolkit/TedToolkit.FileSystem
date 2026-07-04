@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Sourcy.DotNet" Version="1.0.1" />
+    <PackageVersion Include="TUnit" Version="1.35.2" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\externals\TedToolkit\props\CodeAnalysis.props" />
+  <Import Project="..\..\externals\TedToolkit\props\NugetPackage.props" />
+  <Import Project="..\..\externals\TedToolkit\props\AlmostAllFrameworks.props" />
+
+  <PropertyGroup>
+    <Title>TedToolkit.FileSystem</Title>
+    <Description>A small .NET library for normalized file system path value objects.</Description>
+    <NoWarn>$(NoWarn);CA1724</NoWarn>
+  </PropertyGroup>
+
+</Project>
