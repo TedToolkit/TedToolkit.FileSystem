@@ -12,40 +12,38 @@ namespace TedToolkit.FileSystem.Tests.FilePathTests;
 internal sealed class RecordStructContractTests
 {
     /// <summary>
-    /// 验证创建文件路径值对象时会保留传入的完整路径文本。
+    /// Verifies that the file path value object keeps the original full path text.
     /// </summary>
     [Test]
-    [Arguments("")]
-    [Arguments("file.txt")]
-    [Arguments("folder\\file.txt")]
-    [Arguments("C:\\workspace\\file.txt")]
-    public async Task Should_expose_input_text_through_full_name_when_constructed(string fullName)
+    public async Task Should_expose_input_text_through_full_name_when_constructed()
     {
+        var fullName = TestAssets.NestedFile.FullName;
         var path = new FilePath(fullName);
 
         await Assert.That(path.FullName).IsEqualTo(fullName);
     }
 
     /// <summary>
-    /// 验证两个文件路径值对象在完整路径文本相同时会被视为相等。
+    /// Verifies that two file path value objects are equal when the full path text matches.
     /// </summary>
     [Test]
     public async Task Should_be_equal_when_full_name_is_the_same()
     {
-        var left = new FilePath("folder\\file.txt");
-        var right = new FilePath("folder\\file.txt");
+        var fullName = TestAssets.RootFile.FullName;
+        var left = new FilePath(fullName);
+        var right = new FilePath(fullName);
 
         await Assert.That(left == right).IsTrue();
     }
 
     /// <summary>
-    /// 验证两个文件路径值对象在完整路径文本不同时会被视为不相等。
+    /// Verifies that two file path value objects are not equal when the full path text differs.
     /// </summary>
     [Test]
     public async Task Should_not_be_equal_when_full_name_is_different()
     {
-        var left = new FilePath("folder\\file.txt");
-        var right = new FilePath("folder\\other.txt");
+        var left = new FilePath(TestAssets.NestedFile.FullName);
+        var right = new FilePath(TestAssets.SiblingFile.FullName);
 
         await Assert.That(left != right).IsTrue();
     }

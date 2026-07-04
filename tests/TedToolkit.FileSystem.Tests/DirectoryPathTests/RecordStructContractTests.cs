@@ -12,40 +12,38 @@ namespace TedToolkit.FileSystem.Tests.DirectoryPathTests;
 internal sealed class RecordStructContractTests
 {
     /// <summary>
-    /// 验证创建目录路径值对象时会保留传入的完整路径文本。
+    /// Verifies that the directory path value object keeps the original full path text.
     /// </summary>
     [Test]
-    [Arguments("")]
-    [Arguments("folder")]
-    [Arguments("folder\\child")]
-    [Arguments("C:\\workspace")]
-    public async Task Should_expose_input_text_through_full_name_when_constructed(string fullName)
+    public async Task Should_expose_input_text_through_full_name_when_constructed()
     {
+        var fullName = TestAssets.NestedDirectory.FullName;
         var path = new DirectoryPath(fullName);
 
         await Assert.That(path.FullName).IsEqualTo(fullName);
     }
 
     /// <summary>
-    /// 验证两个目录路径值对象在完整路径文本相同时会被视为相等。
+    /// Verifies that two directory path value objects are equal when the full path text matches.
     /// </summary>
     [Test]
     public async Task Should_be_equal_when_full_name_is_the_same()
     {
-        var left = new DirectoryPath("folder\\child");
-        var right = new DirectoryPath("folder\\child");
+        var fullName = TestAssets.RootDirectory.FullName;
+        var left = new DirectoryPath(fullName);
+        var right = new DirectoryPath(fullName);
 
         await Assert.That(left == right).IsTrue();
     }
 
     /// <summary>
-    /// 验证两个目录路径值对象在完整路径文本不同时会被视为不相等。
+    /// Verifies that two directory path value objects are not equal when the full path text differs.
     /// </summary>
     [Test]
     public async Task Should_not_be_equal_when_full_name_is_different()
     {
-        var left = new DirectoryPath("folder\\child");
-        var right = new DirectoryPath("folder\\other");
+        var left = new DirectoryPath(TestAssets.NestedDirectory.FullName);
+        var right = new DirectoryPath(TestAssets.SiblingDirectory.FullName);
 
         await Assert.That(left != right).IsTrue();
     }

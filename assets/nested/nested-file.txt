@@ -1,0 +1,1 @@
+Nested asset file for FilePath and DirectoryPath tests.

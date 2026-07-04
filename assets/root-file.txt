@@ -1,0 +1,1 @@
+Root asset file for FilePath tests.
