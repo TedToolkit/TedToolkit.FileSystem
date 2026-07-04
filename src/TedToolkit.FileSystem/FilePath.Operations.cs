@@ -19,6 +19,7 @@ public readonly partial record struct FilePath
     /// <param name="destination">The destination file path.</param>
     /// <param name="overwrite">A value indicating whether an existing destination should be overwritten.</param>
     /// <returns>The destination file path.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath CopyTo(FilePath destination, bool overwrite = false)
     {
         File.Copy(FullName, destination.FullName, overwrite);
@@ -31,6 +32,7 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="File.Move(string,string)" />.</remarks>
     /// <param name="destination">The destination file path.</param>
     /// <returns>The destination file path.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath MoveTo(FilePath destination)
     {
         File.Move(FullName, destination.FullName);
@@ -44,9 +46,19 @@ public readonly partial record struct FilePath
     /// <param name="destination">The destination file path.</param>
     /// <param name="overwrite">A value indicating whether an existing destination should be overwritten.</param>
     /// <returns>The destination file path.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath MoveTo(FilePath destination, bool overwrite)
     {
-        Compatibility.MoveFile(FullName, destination.FullName, overwrite);
+#if NET6_0_OR_GREATER
+        File.Move(FullName, destination.FullName, overwrite);
+#else
+        if (overwrite && File.Exists(destination.FullName))
+        {
+            File.Delete(destination.FullName);
+        }
+
+        File.Move(FullName, destination.FullName);
+#endif
         return destination;
     }
 
@@ -54,10 +66,9 @@ public readonly partial record struct FilePath
     /// Deletes the file.
     /// </summary>
     /// <remarks>Wraps <see cref="File.Delete(string)" />.</remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Delete()
-    {
-        File.Delete(FullName);
-    }
+        => File.Delete(FullName);
 
     /// <summary>
     /// Replaces the destination file with the current file and optionally creates a backup.
@@ -67,6 +78,7 @@ public readonly partial record struct FilePath
     /// <param name="backup">The optional backup file path.</param>
     /// <param name="ignoreMetadataErrors">A value indicating whether metadata errors should be ignored.</param>
     /// <returns>The destination file path.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath Replace(FilePath destination, FilePath? backup = null, bool ignoreMetadataErrors = false)
     {
         File.Replace(FullName, destination.FullName, backup?.FullName, ignoreMetadataErrors);

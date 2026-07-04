@@ -17,20 +17,18 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>Creates a new <see cref="FileInfo" /> via <see cref="FileInfo.FileInfo(string)" />.</remarks>
     /// <returns>A file info instance for the current path.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileInfo ToFileInfo()
-    {
-        return new(FullName);
-    }
+        => new(FullName);
 
     /// <summary>
     /// Gets the absolute file path for the current path text.
     /// </summary>
     /// <remarks>Wraps <see cref="Path.GetFullPath(string)" />.</remarks>
     /// <returns>An absolute file path value.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath GetFullPath()
-    {
-        return new(Path.GetFullPath(FullName));
-    }
+        => new(Path.GetFullPath(FullName));
 
     /// <summary>
     /// Gets the absolute file path for the current path text using the supplied base directory.
@@ -38,9 +36,14 @@ public readonly partial record struct FilePath
     /// <remarks>Resolves the current path against the supplied base directory.</remarks>
     /// <param name="basePath">The base directory to resolve against.</param>
     /// <returns>An absolute file path value.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath GetFullPath(DirectoryPath basePath)
     {
-        return new(Compatibility.GetFullPath(FullName, basePath.FullName));
+#if NET6_0_OR_GREATER
+        return new(Path.GetFullPath(FullName, basePath.FullName));
+#else
+        return new(Path.GetFullPath(Path.Combine(basePath.FullName, FullName)));
+#endif
     }
 
     /// <summary>
@@ -49,30 +52,31 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Path.ChangeExtension(string,string?)" />.</remarks>
     /// <param name="extension">The new extension value.</param>
     /// <returns>A file path with the updated extension.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath ChangeExtension(string? extension)
-    {
-        return new(Path.ChangeExtension(FullName, extension)!);
-    }
+        => new(Path.ChangeExtension(FullName, extension)!);
 
+#if NET6_0_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Gets the path from the supplied base directory to the current file path.
     /// </summary>
-    /// <remarks>Computes the relative path from the supplied base directory to the current file path.</remarks>
+    /// <remarks>Wraps <see cref="Path.GetRelativePath(string,string)" />.</remarks>
     /// <param name="relativeTo">The base directory path.</param>
     /// <returns>A relative file path value.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath GetRelativePath(DirectoryPath relativeTo)
-    {
-        return new(Compatibility.GetRelativePath(relativeTo.FullName, FullName));
-    }
+        => new(Path.GetRelativePath(relativeTo.FullName, FullName));
+#endif
 
+#if NET6_0_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Gets the path from the supplied base directory string to the current file path.
     /// </summary>
-    /// <remarks>Computes the relative path from the supplied base directory string to the current file path.</remarks>
+    /// <remarks>Wraps <see cref="Path.GetRelativePath(string,string)" />.</remarks>
     /// <param name="relativeTo">The base directory path string.</param>
     /// <returns>A relative file path value.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath GetRelativePath(string relativeTo)
-    {
-        return new(Compatibility.GetRelativePath(relativeTo, FullName));
-    }
+        => new(Path.GetRelativePath(relativeTo, FullName));
+#endif
 }

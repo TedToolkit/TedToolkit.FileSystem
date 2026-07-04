@@ -17,14 +17,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.CreateDirectory(string)" /> for <see cref="ParentDirectory" />.</remarks>
     /// <returns>The created or existing parent directory path.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the file path does not contain a parent directory.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath CreateParentDirectory()
-    {
-        if (ParentDirectory is not { } directoryPath)
-        {
-            throw new InvalidOperationException("The file path does not contain a parent directory.");
-        }
-
-        return Directory.CreateDirectory(directoryPath.FullName);
-    }
+        => new(Directory.CreateDirectory(Path.GetDirectoryName(FullName)!).FullName);
 }

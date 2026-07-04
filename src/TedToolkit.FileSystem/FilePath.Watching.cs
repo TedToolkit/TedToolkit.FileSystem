@@ -20,16 +20,7 @@ public readonly partial record struct FilePath
     /// and enables <see cref="FileSystemWatcher.EnableRaisingEvents" />.
     /// </remarks>
     /// <returns>A file system watcher for the current file path.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the file path does not contain a parent directory.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileSystemWatcher Watch()
-    {
-        if (ParentDirectory is not { } directoryPath)
-        {
-            throw new InvalidOperationException("The file path does not contain a parent directory.");
-        }
-
-        var watcher = new FileSystemWatcher(directoryPath.FullName, Name);
-        watcher.EnableRaisingEvents = true;
-        return watcher;
-    }
+        => new(Path.GetDirectoryName(FullName)!, Name) { EnableRaisingEvents = true };
 }

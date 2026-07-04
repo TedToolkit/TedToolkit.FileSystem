@@ -19,10 +19,9 @@ public readonly partial record struct FilePath
 #if NET6_0_OR_GREATER
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 #endif
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Encrypt()
-    {
-        File.Encrypt(FullName);
-    }
+        => File.Encrypt(FullName);
 
     /// <summary>
     /// Decrypts the file.
@@ -31,10 +30,9 @@ public readonly partial record struct FilePath
 #if NET6_0_OR_GREATER
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 #endif
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Decrypt()
-    {
-        File.Decrypt(FullName);
-    }
+        => File.Decrypt(FullName);
 
 #if NET6_0_OR_GREATER
     /// <summary>
@@ -43,10 +41,9 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="File.CreateSymbolicLink(string,string)" />.</remarks>
     /// <param name="pathToTarget">The target path for the symbolic link.</param>
     /// <returns>The created symbolic link information.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileSystemInfo CreateSymbolicLink(string pathToTarget)
-    {
-        return File.CreateSymbolicLink(FullName, pathToTarget);
-    }
+        => File.CreateSymbolicLink(FullName, pathToTarget);
 
     /// <summary>
     /// Resolves the symbolic link target for the current file path.
@@ -54,10 +51,9 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="File.ResolveLinkTarget(string,bool)" />.</remarks>
     /// <param name="returnFinalTarget">A value indicating whether the final target should be resolved.</param>
     /// <returns>The resolved link target information.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileSystemInfo? ResolveLinkTarget(bool returnFinalTarget)
-    {
-        return File.ResolveLinkTarget(FullName, returnFinalTarget);
-    }
+        => File.ResolveLinkTarget(FullName, returnFinalTarget);
 #endif
 #if NET7_0_OR_GREATER
 
@@ -68,28 +64,13 @@ public readonly partial record struct FilePath
     /// The getter wraps <see cref="File.GetUnixFileMode(string)" />.
     /// The setter wraps <see cref="File.SetUnixFileMode(string,System.IO.UnixFileMode)" />.
     /// </remarks>
-    /// <exception cref="PlatformNotSupportedException">Thrown when Unix file modes are requested on Windows.</exception>
     public UnixFileMode UnixFileMode
     {
-        get
-        {
-            if (OperatingSystem.IsWindows())
-            {
-                throw new PlatformNotSupportedException("Unix file modes are not supported on Windows.");
-            }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetUnixFileMode(FullName);
 
-            return File.GetUnixFileMode(FullName);
-        }
-
-        set
-        {
-            if (OperatingSystem.IsWindows())
-            {
-                throw new PlatformNotSupportedException("Unix file modes are not supported on Windows.");
-            }
-
-            File.SetUnixFileMode(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetUnixFileMode(FullName, value);
     }
 #endif
 }

@@ -41,7 +41,6 @@ internal sealed class WatchingTests
         var path = new FilePath("watch.txt");
 
         await Assert.That(() => path.Watch())
-            .Throws<InvalidOperationException>()
-            .WithMessage("The file path does not contain a parent directory.");
+            .Throws<ArgumentException>();
     }
 }

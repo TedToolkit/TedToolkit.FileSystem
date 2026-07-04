@@ -18,10 +18,8 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Path.GetFileName(string)" />.</remarks>
     public string Name
     {
-        get
-        {
-            return Path.GetFileName(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Path.GetFileName(FullName);
     }
 
     /// <summary>
@@ -30,10 +28,8 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Path.GetFileNameWithoutExtension(string)" />.</remarks>
     public string NameWithoutExtension
     {
-        get
-        {
-            return Path.GetFileNameWithoutExtension(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Path.GetFileNameWithoutExtension(FullName);
     }
 
     /// <summary>
@@ -42,10 +38,8 @@ public readonly partial record struct FilePath
     /// <remarks>Builds a <see cref="FileName" /> from <see cref="Name" />, which wraps <see cref="Path.GetFileName(string)" />.</remarks>
     public FileName FileName
     {
-        get
-        {
-            return new(Name);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new(Name);
     }
 
     /// <summary>
@@ -54,10 +48,8 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Path.GetExtension(string)" />.</remarks>
     public string? Extension
     {
-        get
-        {
-            return Path.GetExtension(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Path.GetExtension(FullName);
     }
 
     /// <summary>
@@ -66,16 +58,8 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Path.GetDirectoryName(string)" />.</remarks>
     public DirectoryPath? ParentDirectory
     {
-        get
-        {
-            var directoryName = Path.GetDirectoryName(FullName);
-            if (directoryName is null)
-            {
-                return default;
-            }
-
-            return new DirectoryPath(directoryName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Path.GetDirectoryName(FullName) is { } directoryName ? new DirectoryPath(directoryName) : default(DirectoryPath?);
     }
 
     /// <summary>
@@ -84,10 +68,8 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Path.GetPathRoot(string)" />.</remarks>
     public string Root
     {
-        get
-        {
-            return Path.GetPathRoot(FullName) ?? "";
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Path.GetPathRoot(FullName) ?? "";
     }
 
     /// <summary>
@@ -96,10 +78,8 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Path.HasExtension(string)" />.</remarks>
     public bool HasExtension
     {
-        get
-        {
-            return Path.HasExtension(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Path.HasExtension(FullName);
     }
 
     /// <summary>
@@ -108,10 +88,8 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Path.IsPathRooted(string)" />.</remarks>
     public bool IsPathRooted
     {
-        get
-        {
-            return Path.IsPathRooted(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Path.IsPathRooted(FullName);
     }
 
     /// <summary>
@@ -120,9 +98,14 @@ public readonly partial record struct FilePath
     /// <remarks>Determines whether the current path is fully qualified.</remarks>
     public bool IsFullyQualified
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-            return Compatibility.IsPathFullyQualified(FullName);
+#if NET6_0_OR_GREATER
+            return Path.IsPathFullyQualified(FullName);
+#else
+            return Path.IsPathRooted(FullName) && !string.IsNullOrEmpty(Path.GetPathRoot(FullName)) && FullName.Length > Path.GetPathRoot(FullName)!.Length;
+#endif
         }
     }
 
@@ -132,10 +115,8 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="File.Exists(string)" />.</remarks>
     public bool Exists
     {
-        get
-        {
-            return File.Exists(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.Exists(FullName);
     }
 
     /// <summary>
@@ -144,10 +125,8 @@ public readonly partial record struct FilePath
     /// <remarks>Reads <see cref="FileInfo.Length" /> from the <see cref="FileInfo" /> created by <see cref="ToFileInfo()" />.</remarks>
     public long Length
     {
-        get
-        {
-            return ToFileInfo().Length;
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => ToFileInfo().Length;
     }
 
     /// <summary>
@@ -159,15 +138,11 @@ public readonly partial record struct FilePath
     /// </remarks>
     public DateTime CreationTime
     {
-        get
-        {
-            return File.GetCreationTime(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetCreationTime(FullName);
 
-        set
-        {
-            File.SetCreationTime(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetCreationTime(FullName, value);
     }
 
     /// <summary>
@@ -179,15 +154,11 @@ public readonly partial record struct FilePath
     /// </remarks>
     public DateTime CreationTimeUtc
     {
-        get
-        {
-            return File.GetCreationTimeUtc(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetCreationTimeUtc(FullName);
 
-        set
-        {
-            File.SetCreationTimeUtc(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetCreationTimeUtc(FullName, value);
     }
 
     /// <summary>
@@ -199,15 +170,11 @@ public readonly partial record struct FilePath
     /// </remarks>
     public DateTime LastWriteTime
     {
-        get
-        {
-            return File.GetLastWriteTime(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetLastWriteTime(FullName);
 
-        set
-        {
-            File.SetLastWriteTime(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetLastWriteTime(FullName, value);
     }
 
     /// <summary>
@@ -219,15 +186,11 @@ public readonly partial record struct FilePath
     /// </remarks>
     public DateTime LastWriteTimeUtc
     {
-        get
-        {
-            return File.GetLastWriteTimeUtc(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetLastWriteTimeUtc(FullName);
 
-        set
-        {
-            File.SetLastWriteTimeUtc(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetLastWriteTimeUtc(FullName, value);
     }
 
     /// <summary>
@@ -239,15 +202,11 @@ public readonly partial record struct FilePath
     /// </remarks>
     public DateTime LastAccessTime
     {
-        get
-        {
-            return File.GetLastAccessTime(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetLastAccessTime(FullName);
 
-        set
-        {
-            File.SetLastAccessTime(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetLastAccessTime(FullName, value);
     }
 
     /// <summary>
@@ -259,15 +218,11 @@ public readonly partial record struct FilePath
     /// </remarks>
     public DateTime LastAccessTimeUtc
     {
-        get
-        {
-            return File.GetLastAccessTimeUtc(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetLastAccessTimeUtc(FullName);
 
-        set
-        {
-            File.SetLastAccessTimeUtc(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetLastAccessTimeUtc(FullName, value);
     }
 
     /// <summary>
@@ -279,14 +234,10 @@ public readonly partial record struct FilePath
     /// </remarks>
     public FileAttributes Attributes
     {
-        get
-        {
-            return File.GetAttributes(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetAttributes(FullName);
 
-        set
-        {
-            File.SetAttributes(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetAttributes(FullName, value);
     }
 }

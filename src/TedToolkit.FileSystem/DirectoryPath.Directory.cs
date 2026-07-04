@@ -18,10 +18,8 @@ public readonly partial record struct DirectoryPath
     /// <remarks>Wraps <see cref="Directory.Exists(string)" />.</remarks>
     public bool Exists
     {
-        get
-        {
-            return Directory.Exists(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Directory.Exists(FullName);
     }
 
     /// <summary>
@@ -33,15 +31,11 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime CreationTime
     {
-        get
-        {
-            return Directory.GetCreationTime(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Directory.GetCreationTime(FullName);
 
-        set
-        {
-            Directory.SetCreationTime(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => Directory.SetCreationTime(FullName, value);
     }
 
     /// <summary>
@@ -53,15 +47,11 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime LastWriteTime
     {
-        get
-        {
-            return Directory.GetLastWriteTime(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Directory.GetLastWriteTime(FullName);
 
-        set
-        {
-            Directory.SetLastWriteTime(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => Directory.SetLastWriteTime(FullName, value);
     }
 
     /// <summary>
@@ -73,15 +63,11 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime LastAccessTime
     {
-        get
-        {
-            return Directory.GetLastAccessTime(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Directory.GetLastAccessTime(FullName);
 
-        set
-        {
-            Directory.SetLastAccessTime(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => Directory.SetLastAccessTime(FullName, value);
     }
 
     /// <summary>
@@ -93,15 +79,11 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime CreationTimeUtc
     {
-        get
-        {
-            return Directory.GetCreationTimeUtc(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Directory.GetCreationTimeUtc(FullName);
 
-        set
-        {
-            Directory.SetCreationTimeUtc(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => Directory.SetCreationTimeUtc(FullName, value);
     }
 
     /// <summary>
@@ -113,15 +95,11 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime LastWriteTimeUtc
     {
-        get
-        {
-            return Directory.GetLastWriteTimeUtc(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Directory.GetLastWriteTimeUtc(FullName);
 
-        set
-        {
-            Directory.SetLastWriteTimeUtc(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => Directory.SetLastWriteTimeUtc(FullName, value);
     }
 
     /// <summary>
@@ -133,15 +111,11 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime LastAccessTimeUtc
     {
-        get
-        {
-            return Directory.GetLastAccessTimeUtc(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Directory.GetLastAccessTimeUtc(FullName);
 
-        set
-        {
-            Directory.SetLastAccessTimeUtc(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => Directory.SetLastAccessTimeUtc(FullName, value);
     }
 
     /// <summary>
@@ -153,15 +127,11 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public FileAttributes Attributes
     {
-        get
-        {
-            return File.GetAttributes(FullName);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => File.GetAttributes(FullName);
 
-        set
-        {
-            File.SetAttributes(FullName, value);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => File.SetAttributes(FullName, value);
     }
 
     /// <summary>
@@ -169,10 +139,9 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.CreateDirectory(string)" />.</remarks>
     /// <returns>The created directory path.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath Create()
-    {
-        return new(Directory.CreateDirectory(FullName).FullName);
-    }
+        => new(Directory.CreateDirectory(FullName).FullName);
 
 #if NET7_0_OR_GREATER
     /// <summary>
@@ -181,16 +150,9 @@ public readonly partial record struct DirectoryPath
     /// <remarks>Wraps <see cref="Directory.CreateDirectory(string,System.IO.UnixFileMode)" />.</remarks>
     /// <param name="unixCreateMode">The Unix file mode to apply.</param>
     /// <returns>The created directory path.</returns>
-    /// <exception cref="PlatformNotSupportedException">Thrown when Unix file modes are requested on Windows.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath Create(UnixFileMode unixCreateMode)
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            throw new PlatformNotSupportedException("Unix file modes are not supported on Windows.");
-        }
-
-        return new(Directory.CreateDirectory(FullName, unixCreateMode).FullName);
-    }
+        => new(Directory.CreateDirectory(FullName, unixCreateMode).FullName);
 #endif
 
 #if NET6_0_OR_GREATER
@@ -200,10 +162,9 @@ public readonly partial record struct DirectoryPath
     /// <remarks>Wraps <see cref="Directory.CreateSymbolicLink(string,string)" />.</remarks>
     /// <param name="target">The target directory path.</param>
     /// <returns>The created symbolic link path.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath CreateSymbolicLink(DirectoryPath target)
-    {
-        return new(Directory.CreateSymbolicLink(FullName, target.FullName).FullName);
-    }
+        => new(Directory.CreateSymbolicLink(FullName, target.FullName).FullName);
 
     /// <summary>
     /// Resolves the current directory path if it is a symbolic link.
@@ -211,16 +172,9 @@ public readonly partial record struct DirectoryPath
     /// <remarks>Wraps <see cref="Directory.ResolveLinkTarget(string,bool)" />.</remarks>
     /// <param name="returnFinalTarget">Whether the final target should be resolved recursively.</param>
     /// <returns>The resolved target directory path when one exists; otherwise, <see langword="null" />.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath? ResolveLinkTarget(bool returnFinalTarget)
-    {
-        var fileSystemInfo = Directory.ResolveLinkTarget(FullName, returnFinalTarget);
-        if (fileSystemInfo is null)
-        {
-            return null;
-        }
-
-        return new DirectoryPath(fileSystemInfo.FullName);
-    }
+        => Directory.ResolveLinkTarget(FullName, returnFinalTarget) is { } fileSystemInfo ? new DirectoryPath(fileSystemInfo.FullName) : null;
 #endif
 
     /// <summary>
@@ -228,27 +182,24 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.Delete(string,bool)" />.</remarks>
     /// <param name="recursive">Whether child content should also be deleted.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Delete(bool recursive = false)
-    {
-        Directory.Delete(FullName, recursive);
-    }
+        => Directory.Delete(FullName, recursive);
 
     /// <summary>
     /// Moves the directory to a new destination.
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.Move(string,string)" />.</remarks>
     /// <param name="destination">The destination directory path.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void MoveTo(DirectoryPath destination)
-    {
-        Directory.Move(FullName, destination.FullName);
-    }
+        => Directory.Move(FullName, destination.FullName);
 
     /// <summary>
     /// Sets the current working directory to the current directory path.
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.SetCurrentDirectory(string)" />.</remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetCurrentDirectory()
-    {
-        Directory.SetCurrentDirectory(FullName);
-    }
+        => Directory.SetCurrentDirectory(FullName);
 }
