@@ -73,7 +73,9 @@ public readonly partial record struct FilePath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-            return Path.GetDirectoryName(FullName) is { } directoryName ? new DirectoryPath(directoryName) : default(DirectoryPath?);
+            return Path.GetDirectoryName(FullName) is { } directoryName
+                ? new DirectoryPath(directoryName)
+                : default(DirectoryPath?);
         }
     }
 

@@ -13,6 +13,8 @@ This is an English-only project.
 
 - Public file system APIs should map directly to a corresponding .NET BCL member whenever possible.
 - XML documentation for public file system APIs should use `remarks` to identify the underlying Microsoft API being wrapped.
+- For target-framework guards, keep each `#if` scoped to exactly one member. Do not let a single `#if` span multiple methods or properties.
+- The target-framework condition on a guarded member must exactly match the availability of the single BCL API or overload that member forwards to.
 - Avoid adding public convenience aliases or chained wrappers that only delegate to another custom API, except when expressing an equivalent BCL-shaped member as a property instead of a method.
 - When a public API only exposes parameterless get/set semantics and does not have same-concept overloads that require arguments, model it as a property instead of a method.
 - This library should remain a forwarding layer, not an algorithm or business-logic layer.

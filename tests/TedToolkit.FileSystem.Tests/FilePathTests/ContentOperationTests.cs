@@ -23,29 +23,29 @@ internal sealed class ContentOperationTests
 
         try
         {
-            path.WriteAllText("hello");
-            await Assert.That(path.ReadAllText()).IsEqualTo("hello");
+            WriteAllText(in path, "hello");
+            await Assert.That(ReadAllText(in path)).IsEqualTo("hello");
 
-            path.AppendAllText(" world");
-            await Assert.That(path.ReadAllText()).IsEqualTo("hello world");
+            AppendAllText(in path, " world");
+            await Assert.That(ReadAllText(in path)).IsEqualTo("hello world");
 
-            path.WriteAllLines(lines, Encoding.UTF8);
-            await Assert.That(path.ReadAllLines(Encoding.UTF8)).IsEquivalentTo(lines);
+            WriteAllLines(in path, lines, Encoding.UTF8);
+            await Assert.That(ReadAllLines(in path, Encoding.UTF8)).IsEquivalentTo(lines);
 
-            path.WriteAllBytes("abc"u8.ToArray());
-            await Assert.That(path.ReadAllBytes()).IsEquivalentTo("abc"u8.ToArray());
+            WriteAllBytes(in path, "abc"u8.ToArray());
+            await Assert.That(ReadAllBytes(in path)).IsEquivalentTo("abc"u8.ToArray());
 
-            await path.WriteAllTextAsync("async", CancellationToken.None);
-            await Assert.That(await path.ReadAllTextAsync(CancellationToken.None)).IsEqualTo("async");
+            await path.WriteAllTextAsync("async", CancellationToken.None).ConfigureAwait(false);
+            await Assert.That(await path.ReadAllTextAsync(CancellationToken.None).ConfigureAwait(false)).IsEqualTo("async");
 
-            await path.AppendAllTextAsync(" text", Encoding.UTF8, CancellationToken.None);
-            await Assert.That(await path.ReadAllTextAsync(Encoding.UTF8, CancellationToken.None)).IsEqualTo("async text");
+            await path.AppendAllTextAsync(" text", Encoding.UTF8, CancellationToken.None).ConfigureAwait(false);
+            await Assert.That(await path.ReadAllTextAsync(Encoding.UTF8, CancellationToken.None).ConfigureAwait(false)).IsEqualTo("async text");
 
-            await path.WriteAllLinesAsync(lines, Encoding.UTF8, CancellationToken.None);
-            await Assert.That(await path.ReadAllLinesAsync(Encoding.UTF8, CancellationToken.None)).IsEquivalentTo(lines);
+            await path.WriteAllLinesAsync(lines, Encoding.UTF8, CancellationToken.None).ConfigureAwait(false);
+            await Assert.That(await path.ReadAllLinesAsync(Encoding.UTF8, CancellationToken.None).ConfigureAwait(false)).IsEquivalentTo(lines);
 
-            await path.WriteAllBytesAsync("xyz"u8.ToArray(), CancellationToken.None);
-            await Assert.That(await path.ReadAllBytesAsync(CancellationToken.None)).IsEquivalentTo("xyz"u8.ToArray());
+            await path.WriteAllBytesAsync("xyz"u8.ToArray(), CancellationToken.None).ConfigureAwait(false);
+            await Assert.That(await path.ReadAllBytesAsync(CancellationToken.None).ConfigureAwait(false)).IsEquivalentTo("xyz"u8.ToArray());
         }
         finally
         {
@@ -80,17 +80,17 @@ internal sealed class ContentOperationTests
             {
             }
 
-            using (var writer = path.CreateText())
+            await using (var writer = path.CreateText())
             {
-                await writer.WriteAsync("created");
+                await writer.WriteAsync("created".AsMemory()).ConfigureAwait(false);
             }
 
-            using (var writer = path.AppendText())
+            await using (var writer = path.AppendText())
             {
-                await writer.WriteAsync("+append");
+                await writer.WriteAsync("+append".AsMemory()).ConfigureAwait(false);
             }
 
-            await Assert.That(path.ReadAllText()).IsEqualTo("created+append");
+            await Assert.That(ReadAllText(in path)).IsEqualTo("created+append");
         }
         finally
         {
@@ -113,11 +113,11 @@ internal sealed class ContentOperationTests
 
         try
         {
-            source.WriteAllText("source");
-            replacement.WriteAllText("replacement");
+            WriteAllText(in source, "source");
+            WriteAllText(in replacement, "replacement");
 
             source.CopyTo(copy);
-            await Assert.That(copy.ReadAllText()).IsEqualTo("source");
+            await Assert.That(ReadAllText(in copy)).IsEqualTo("source");
 
             copy.MoveTo(moved);
             await Assert.That(moved.Exists).IsTrue();
@@ -125,8 +125,8 @@ internal sealed class ContentOperationTests
 
             replacement.Replace(moved, backup);
 
-            await Assert.That(moved.ReadAllText()).IsEqualTo("replacement");
-            await Assert.That(backup.ReadAllText()).IsEqualTo("source");
+            await Assert.That(ReadAllText(in moved)).IsEqualTo("replacement");
+            await Assert.That(ReadAllText(in backup)).IsEqualTo("source");
 
             moved.Delete();
             await Assert.That(moved.Exists).IsFalse();
@@ -135,5 +135,40 @@ internal sealed class ContentOperationTests
         {
             root.Delete(true);
         }
+    }
+
+    private static void AppendAllText(in FilePath path, string contents)
+    {
+        path.AppendAllText(contents);
+    }
+
+    private static string[] ReadAllLines(in FilePath path, Encoding encoding)
+    {
+        return path.ReadAllLines(encoding);
+    }
+
+    private static byte[] ReadAllBytes(in FilePath path)
+    {
+        return path.ReadAllBytes();
+    }
+
+    private static string ReadAllText(in FilePath path)
+    {
+        return path.ReadAllText();
+    }
+
+    private static void WriteAllBytes(in FilePath path, byte[] bytes)
+    {
+        path.WriteAllBytes(bytes);
+    }
+
+    private static void WriteAllLines(in FilePath path, IEnumerable<string> contents, Encoding encoding)
+    {
+        path.WriteAllLines(contents, encoding);
+    }
+
+    private static void WriteAllText(in FilePath path, string contents)
+    {
+        path.WriteAllText(contents);
     }
 }

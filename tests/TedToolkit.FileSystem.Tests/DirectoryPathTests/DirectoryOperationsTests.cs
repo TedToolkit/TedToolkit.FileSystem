@@ -5,6 +5,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Reflection;
+using System.Runtime.ExceptionServices;
+using System.Runtime.Versioning;
 using TedToolkit.FileSystem;
 
 namespace TedToolkit.FileSystem.Tests.DirectoryPathTests;
@@ -24,221 +27,217 @@ internal sealed class DirectoryOperationsTests
     [Test]
     public async Task Should_create_directory()
     {
-        var path = this.CreateTemporaryDirectoryPath();
+        var path = CreateTemporaryDirectoryPath();
 
         try
         {
             var createdDirectory = path.Create();
 
-            await Assert.That(path.Exists).IsTrue();
-            await Assert.That(createdDirectory.FullName).IsEqualTo(path.FullName);
+            await Assert.That(path.Exists).IsTrue().ConfigureAwait(false);
+            await Assert.That(createdDirectory.FullName).IsEqualTo(path.FullName).ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_delete_directory()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
 
         path.Delete();
 
-        await Assert.That(path.Exists).IsFalse();
+        await Assert.That(path.Exists).IsFalse().ConfigureAwait(false);
     }
 
     [Test]
     public async Task Should_delete_directory_recursively_when_requested()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
         Directory.CreateDirectory(Path.Combine(path.FullName, "child"));
 
         path.Delete(recursive: true);
 
-        await Assert.That(path.Exists).IsFalse();
+        await Assert.That(path.Exists).IsFalse().ConfigureAwait(false);
     }
 
     [Test]
     public async Task Should_move_directory_to_destination()
     {
-        var source = this.CreateCreatedTemporaryDirectoryPath();
-        var destination = this.CreateTemporaryDirectoryPath();
+        var source = CreateCreatedTemporaryDirectoryPath();
+        var destination = CreateTemporaryDirectoryPath();
 
         try
         {
             source.MoveTo(destination);
 
-            await Assert.That(source.Exists).IsFalse();
-            await Assert.That(destination.Exists).IsTrue();
+            await Assert.That(source.Exists).IsFalse().ConfigureAwait(false);
+            await Assert.That(destination.Exists).IsTrue().ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(source.FullName);
-            this.DeleteDirectoryIfExists(destination.FullName);
+            DeleteDirectoryIfExists(source.FullName);
+            DeleteDirectoryIfExists(destination.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_creation_time_through_property()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 1, 2, 3, 4, 5, DateTimeKind.Local);
 
         try
         {
             path.CreationTime = expectedTime;
 
-            await Assert.That(path.CreationTime).IsEqualTo(Directory.GetCreationTime(path.FullName));
+            await Assert.That(path.CreationTime).IsEqualTo(Directory.GetCreationTime(path.FullName)).ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_last_write_time_through_property()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 2, 3, 4, 5, 6, DateTimeKind.Local);
 
         try
         {
             path.LastWriteTime = expectedTime;
 
-            await Assert.That(path.LastWriteTime).IsEqualTo(Directory.GetLastWriteTime(path.FullName));
+            await Assert.That(path.LastWriteTime).IsEqualTo(Directory.GetLastWriteTime(path.FullName)).ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_last_access_time_through_property()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 3, 4, 5, 6, 7, DateTimeKind.Local);
 
         try
         {
             path.LastAccessTime = expectedTime;
 
-            await Assert.That(path.LastAccessTime).IsEqualTo(Directory.GetLastAccessTime(path.FullName));
+            await Assert.That(path.LastAccessTime).IsEqualTo(Directory.GetLastAccessTime(path.FullName)).ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_creation_time_utc_through_property()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 4, 5, 6, 7, 8, DateTimeKind.Utc);
 
         try
         {
             path.CreationTimeUtc = expectedTime;
 
-            await Assert.That(path.CreationTimeUtc).IsEqualTo(Directory.GetCreationTimeUtc(path.FullName));
+            await Assert.That(path.CreationTimeUtc).IsEqualTo(Directory.GetCreationTimeUtc(path.FullName)).ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_last_write_time_utc_through_property()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 5, 6, 7, 8, 9, DateTimeKind.Utc);
 
         try
         {
             path.LastWriteTimeUtc = expectedTime;
 
-            await Assert.That(path.LastWriteTimeUtc).IsEqualTo(Directory.GetLastWriteTimeUtc(path.FullName));
+            await Assert.That(path.LastWriteTimeUtc).IsEqualTo(Directory.GetLastWriteTimeUtc(path.FullName)).ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_last_access_time_utc_through_property()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
         var expectedTime = new DateTime(2024, 6, 7, 8, 9, 10, DateTimeKind.Utc);
 
         try
         {
             path.LastAccessTimeUtc = expectedTime;
 
-            await Assert.That(path.LastAccessTimeUtc).IsEqualTo(Directory.GetLastAccessTimeUtc(path.FullName));
+            await Assert.That(path.LastAccessTimeUtc).IsEqualTo(Directory.GetLastAccessTimeUtc(path.FullName)).ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_get_and_set_attributes_through_property()
     {
-        var path = this.CreateCreatedTemporaryDirectoryPath();
+        var path = CreateCreatedTemporaryDirectoryPath();
 
         try
         {
             path.Attributes = FileAttributes.ReadOnly;
 
-            await Assert.That(path.Attributes).IsEqualTo(File.GetAttributes(path.FullName));
+            await Assert.That(path.Attributes).IsEqualTo(File.GetAttributes(path.FullName)).ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_create_directory_with_unix_file_mode_when_supported()
     {
-        var path = this.CreateTemporaryDirectoryPath();
+        var path = CreateTemporaryDirectoryPath();
 
         try
         {
-            var platformSupportsUnixFileMode = false;
-
-            try
+            if (OperatingSystem.IsWindows())
             {
-                var createdDirectory = path.Create(UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
-                platformSupportsUnixFileMode = true;
-
-                await Assert.That(createdDirectory).IsEqualTo(path);
-                await Assert.That(path.Exists).IsTrue();
-            }
-            catch (PlatformNotSupportedException)
-            {
-                await Assert.That(OperatingSystem.IsWindows()).IsTrue();
+                await Assert.That(() => CreateDirectoryViaReflection(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute))
+                    .Throws<PlatformNotSupportedException>()
+                    .ConfigureAwait(false);
+                return;
             }
 
-            await Assert.That(platformSupportsUnixFileMode || OperatingSystem.IsWindows()).IsTrue();
+            var createdDirectory = CreateDirectory(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+
+            await Assert.That(createdDirectory).IsEqualTo(path).ConfigureAwait(false);
+            await Assert.That(path.Exists).IsTrue().ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(path.FullName);
+            DeleteDirectoryIfExists(path.FullName);
         }
     }
 
     [Test]
     public async Task Should_create_symbolic_link_and_resolve_target_when_supported()
     {
-        var workspace = this.CreateCreatedTemporaryDirectoryPath();
+        var workspace = CreateCreatedTemporaryDirectoryPath();
         var target = workspace / "target";
         var link = workspace / "link";
         target.Create();
@@ -252,24 +251,24 @@ internal sealed class DirectoryOperationsTests
                 var createdLink = link.CreateSymbolicLink(target);
                 linkWasCreated = true;
 
-                await Assert.That(createdLink).IsEqualTo(link);
-                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: false)).IsEqualTo(target);
-                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: true)).IsEqualTo(target);
+                await Assert.That(createdLink).IsEqualTo(link).ConfigureAwait(false);
+                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: false)).IsEqualTo(target).ConfigureAwait(false);
+                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: true)).IsEqualTo(target).ConfigureAwait(false);
             }
             catch (UnauthorizedAccessException)
             {
-                await Assert.That(OperatingSystem.IsWindows()).IsTrue();
+                await Assert.That(OperatingSystem.IsWindows()).IsTrue().ConfigureAwait(false);
             }
             catch (IOException)
             {
-                await Assert.That(OperatingSystem.IsWindows()).IsTrue();
+                await Assert.That(OperatingSystem.IsWindows()).IsTrue().ConfigureAwait(false);
             }
 
-            await Assert.That(linkWasCreated || OperatingSystem.IsWindows()).IsTrue();
+            await Assert.That(linkWasCreated || OperatingSystem.IsWindows()).IsTrue().ConfigureAwait(false);
         }
         finally
         {
-            this.DeleteDirectoryIfExists(workspace.FullName);
+            DeleteDirectoryIfExists(workspace.FullName);
         }
     }
 
@@ -283,7 +282,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.SetCurrentDirectory();
 
-            await Assert.That(Environment.CurrentDirectory).IsEqualTo(path.FullName);
+            await Assert.That(Environment.CurrentDirectory).IsEqualTo(path.FullName).ConfigureAwait(false);
         }
         finally
         {
@@ -296,7 +295,7 @@ internal sealed class DirectoryOperationsTests
     {
         var path = new DirectoryPath(TestAssets.NestedDirectory.FullName);
 
-        await Assert.That(path.ToString()).IsEqualTo(path.FullName);
+        await Assert.That(path.ToString()).IsEqualTo(path.FullName).ConfigureAwait(false);
     }
 
     [Test]
@@ -305,7 +304,8 @@ internal sealed class DirectoryOperationsTests
         DirectoryInfo directoryInfo = null!;
 
         await Assert.That(() => DirectoryPath.FromDirectoryInfo(directoryInfo))
-            .Throws<ArgumentNullException>();
+            .Throws<ArgumentNullException>()
+            .ConfigureAwait(false);
     }
 
     [Test]
@@ -314,22 +314,42 @@ internal sealed class DirectoryOperationsTests
         DirectoryInfo directoryInfo = null!;
 
         await Assert.That(() => (DirectoryPath)directoryInfo)
-            .Throws<ArgumentNullException>();
+            .Throws<ArgumentNullException>()
+            .ConfigureAwait(false);
     }
 
-    private DirectoryPath CreateTemporaryDirectoryPath()
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("macos")]
+    private static DirectoryPath CreateDirectory(DirectoryPath path, UnixFileMode unixFileMode)
+    {
+        return path.Create(unixFileMode);
+    }
+
+    private static void CreateDirectoryViaReflection(DirectoryPath path, UnixFileMode unixFileMode)
+    {
+        try
+        {
+            typeof(DirectoryPath).GetMethod(nameof(DirectoryPath.Create), [typeof(UnixFileMode)])!.Invoke(path, [unixFileMode]);
+        }
+        catch (TargetInvocationException exception) when (exception.InnerException is not null)
+        {
+            ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+        }
+    }
+
+    private static DirectoryPath CreateTemporaryDirectoryPath()
     {
         return new(Path.Combine(Path.GetTempPath(), "TedToolkit.FileSystem.Tests", Guid.NewGuid().ToString("N")));
     }
 
-    private DirectoryPath CreateCreatedTemporaryDirectoryPath()
+    private static DirectoryPath CreateCreatedTemporaryDirectoryPath()
     {
-        var path = this.CreateTemporaryDirectoryPath();
+        var path = CreateTemporaryDirectoryPath();
         Directory.CreateDirectory(path.FullName);
         return path;
     }
 
-    private void DeleteDirectoryIfExists(string directoryPath)
+    private static void DeleteDirectoryIfExists(string directoryPath)
     {
         if (Directory.Exists(directoryPath))
         {

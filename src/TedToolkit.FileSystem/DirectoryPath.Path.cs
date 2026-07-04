@@ -112,9 +112,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The resolved absolute directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath GetFullPath()
-        {
-            return new(Path.GetFullPath(FullName));
-        }
+    {
+        return new(Path.GetFullPath(FullName));
+    }
 
 #if NET6_0_OR_GREATER
     /// <summary>
@@ -125,9 +125,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The resolved absolute directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath GetFullPath(DirectoryPath basePath)
-        {
-            return new(Path.GetFullPath(FullName, basePath.FullName));
-        }
+    {
+        return new(Path.GetFullPath(FullName, basePath.FullName));
+    }
 #endif
 
     /// <summary>
@@ -138,9 +138,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>A directory path with the changed extension segment.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath ChangeExtension(string? extension)
-        {
-            return new(Path.ChangeExtension(FullName, extension)!);
-        }
+    {
+        return new(Path.ChangeExtension(FullName, extension)!);
+    }
 
 #if NET6_0_OR_GREATER
     /// <summary>
@@ -150,9 +150,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>A directory path without a trailing directory separator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath TrimEndingDirectorySeparator()
-        {
-            return new(Path.TrimEndingDirectorySeparator(FullName));
-        }
+    {
+        return new(Path.TrimEndingDirectorySeparator(FullName));
+    }
 #endif
 
 #if NET6_0_OR_GREATER || NETSTANDARD2_1
@@ -164,8 +164,8 @@ public readonly partial record struct DirectoryPath
     /// <returns>The relative path text from the current directory to the target directory.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string GetRelativePathTo(DirectoryPath target)
-        {
-            return Path.GetRelativePath(FullName, target.FullName);
-        }
+    {
+        return Path.GetRelativePath(FullName, target.FullName);
+    }
 #endif
 }

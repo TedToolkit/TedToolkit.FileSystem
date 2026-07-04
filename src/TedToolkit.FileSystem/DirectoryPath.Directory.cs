@@ -217,7 +217,9 @@ public readonly partial record struct DirectoryPath
     {
         return new(Directory.CreateSymbolicLink(FullName, target.FullName).FullName);
     }
+#endif
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Resolves the current directory path if it is a symbolic link.
     /// </summary>

@@ -22,9 +22,9 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <returns>A directory path value object that uses the directory full name.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath FromDirectoryInfo(DirectoryInfo directoryInfo)
-        {
-            return new((directoryInfo ?? throw new ArgumentNullException(nameof(directoryInfo))).FullName);
-        }
+    {
+        return new((directoryInfo ?? throw new ArgumentNullException(nameof(directoryInfo))).FullName);
+    }
 
     /// <summary>
     /// Converts a directory info instance into a directory path value object.
@@ -33,9 +33,9 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <param name="directoryInfo">The directory info instance to convert.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator DirectoryPath(DirectoryInfo directoryInfo)
-        {
-            return FromDirectoryInfo(directoryInfo);
-        }
+    {
+        return FromDirectoryInfo(directoryInfo);
+    }
 
     /// <summary>
     /// Combines the current directory path with a child directory name.
@@ -45,9 +45,9 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <returns>A child directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath Combine(string childDirectoryName)
-        {
-            return new(Path.Combine(FullName, childDirectoryName));
-        }
+    {
+        return new(Path.Combine(FullName, childDirectoryName));
+    }
 
     /// <summary>
     /// Combines the current directory path with a child file name.
@@ -57,9 +57,9 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <returns>A child file path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath Combine(FileName fileName)
-        {
-            return new(Path.Combine(FullName, fileName.Name));
-        }
+    {
+        return new(Path.Combine(FullName, fileName.Name));
+    }
 
     /// <summary>
     /// Combines a directory path with a child directory name.
@@ -69,9 +69,9 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <param name="right">The child directory name.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath operator /(DirectoryPath left, string right)
-        {
-            return new(Path.Combine(left.FullName, right));
-        }
+    {
+        return new(Path.Combine(left.FullName, right));
+    }
 
     /// <summary>
     /// Combines a directory path with a child file name.
@@ -81,9 +81,9 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <param name="right">The child file name.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath operator /(DirectoryPath left, FileName right)
-        {
-            return new(Path.Combine(left.FullName, right.Name));
-        }
+    {
+        return new(Path.Combine(left.FullName, right.Name));
+    }
 
     /// <summary>
     /// Returns the raw full directory path text.
@@ -92,7 +92,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <returns>The raw full directory path text.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string ToString()
-        {
-            return FullName;
-        }
+    {
+        return FullName;
+    }
 }

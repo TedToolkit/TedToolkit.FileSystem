@@ -15,12 +15,12 @@ internal sealed class EnumerationTests
     public async Task Should_enumerate_directories_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new EnumerationOptions() { RecurseSubdirectories = true, };
+        var recursiveOptions = new() { RecurseSubdirectories = true, };
 
         await Assert.That(path.EnumerateDirectories().Select(x => x.FullName).Order().ToArray())
             .IsEquivalentTo([
                 TestAssets.NestedDirectory.FullName,
-                TestAssets.SiblingDirectory.FullName
+                TestAssets.SiblingDirectory.FullName,
             ]);
 
         await Assert.That(path.EnumerateDirectories("nested").Single())
@@ -34,12 +34,12 @@ internal sealed class EnumerationTests
     public async Task Should_get_directories_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
+        var recursiveOptions = new() { RecurseSubdirectories = true, };
 
-        await Assert.That(path.GetDirectories().Select(x => x.FullName).OrderBy(x => x).ToArray())
+        await Assert.That(path.GetDirectories().Select(x => x.FullName).Order().ToArray())
             .IsEquivalentTo([
                 TestAssets.NestedDirectory.FullName,
-                TestAssets.SiblingDirectory.FullName
+                TestAssets.SiblingDirectory.FullName,
             ]);
 
         await Assert.That(path.GetDirectories("nested").Single())
@@ -53,7 +53,7 @@ internal sealed class EnumerationTests
     public async Task Should_enumerate_files_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
+        var recursiveOptions = new() { RecurseSubdirectories = true, };
 
         await Assert.That(path.EnumerateFiles().Single())
             .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
@@ -61,11 +61,11 @@ internal sealed class EnumerationTests
         await Assert.That(path.EnumerateFiles("root-file.txt").Single())
             .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
 
-        await Assert.That(path.EnumerateFiles("*", SearchOption.AllDirectories).Select(x => x.FullName).OrderBy(x => x).ToArray())
+        await Assert.That(path.EnumerateFiles("*", SearchOption.AllDirectories).OrderBy(x => x.FullName).Select(x => x.FullName).ToArray())
             .IsEquivalentTo([
                 TestAssets.NestedFile.FullName,
                 TestAssets.RootFile.FullName,
-                TestAssets.SiblingFile.FullName
+                TestAssets.SiblingFile.FullName,
             ]);
 
         await Assert.That(path.EnumerateFiles("*", recursiveOptions).Count()).IsEqualTo(3);
@@ -75,7 +75,7 @@ internal sealed class EnumerationTests
     public async Task Should_get_files_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
+        var recursiveOptions = new() { RecurseSubdirectories = true, };
 
         await Assert.That(path.GetFiles().Single())
             .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
@@ -83,11 +83,11 @@ internal sealed class EnumerationTests
         await Assert.That(path.GetFiles("root-file.txt").Single())
             .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
 
-        await Assert.That(path.GetFiles("*", SearchOption.AllDirectories).Select(x => x.FullName).OrderBy(x => x).ToArray())
+        await Assert.That(path.GetFiles("*", SearchOption.AllDirectories).OrderBy(x => x.FullName).Select(x => x.FullName).ToArray())
             .IsEquivalentTo([
                 TestAssets.NestedFile.FullName,
                 TestAssets.RootFile.FullName,
-                TestAssets.SiblingFile.FullName
+                TestAssets.SiblingFile.FullName,
             ]);
 
         await Assert.That(path.GetFiles("*", recursiveOptions).Length).IsEqualTo(3);
@@ -97,13 +97,13 @@ internal sealed class EnumerationTests
     public async Task Should_enumerate_file_system_entries_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
+        var recursiveOptions = new() { RecurseSubdirectories = true, };
 
-        await Assert.That(path.EnumerateFileSystemEntries().OrderBy(x => x).ToArray())
+        await Assert.That(path.EnumerateFileSystemEntries().Order().ToArray())
             .IsEquivalentTo([
                 TestAssets.NestedDirectory.FullName,
                 TestAssets.RootFile.FullName,
-                TestAssets.SiblingDirectory.FullName
+                TestAssets.SiblingDirectory.FullName,
             ]);
 
         await Assert.That(path.EnumerateFileSystemEntries("root-file.txt").Single())
@@ -117,13 +117,13 @@ internal sealed class EnumerationTests
     public async Task Should_get_file_system_entries_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new EnumerationOptions { RecurseSubdirectories = true, };
+        var recursiveOptions = new() { RecurseSubdirectories = true, };
 
-        await Assert.That(path.GetFileSystemEntries().OrderBy(x => x).ToArray())
+        await Assert.That(path.GetFileSystemEntries().Order().ToArray())
             .IsEquivalentTo([
                 TestAssets.NestedDirectory.FullName,
                 TestAssets.RootFile.FullName,
-                TestAssets.SiblingDirectory.FullName
+                TestAssets.SiblingDirectory.FullName,
             ]);
 
         await Assert.That(path.GetFileSystemEntries("root-file.txt").Single())

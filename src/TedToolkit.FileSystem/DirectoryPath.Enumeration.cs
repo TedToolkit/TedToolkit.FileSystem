@@ -19,9 +19,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The child directory paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<DirectoryPath> EnumerateDirectories()
-        {
-            return Directory.EnumerateDirectories(FullName).Select(static x => new DirectoryPath(x));
-        }
+    {
+        return Directory.EnumerateDirectories(FullName).Select(static x => new DirectoryPath(x));
+    }
 
     /// <summary>
     /// Enumerates child directories matching a search pattern.
@@ -31,9 +31,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child directory paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<DirectoryPath> EnumerateDirectories(string searchPattern)
-        {
-            return Directory.EnumerateDirectories(FullName, searchPattern).Select(static x => new DirectoryPath(x));
-        }
+    {
+        return Directory.EnumerateDirectories(FullName, searchPattern).Select(static x => new DirectoryPath(x));
+    }
 
     /// <summary>
     /// Enumerates child directories matching a search pattern and search option.
@@ -44,9 +44,10 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child directory paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<DirectoryPath> EnumerateDirectories(string searchPattern, SearchOption searchOption)
-        {
-            return Directory.EnumerateDirectories(FullName, searchPattern, searchOption).Select(static x => new DirectoryPath(x));
-        }
+    {
+        return Directory.EnumerateDirectories(FullName, searchPattern, searchOption)
+            .Select(static x => new DirectoryPath(x));
+    }
 
 #if NETCOREAPP3_0_OR_GREATER
     /// <summary>
@@ -58,9 +59,10 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child directory paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<DirectoryPath> EnumerateDirectories(string searchPattern, EnumerationOptions enumerationOptions)
-        {
-            return Directory.EnumerateDirectories(FullName, searchPattern, enumerationOptions).Select(static x => new DirectoryPath(x));
-        }
+    {
+        return Directory.EnumerateDirectories(FullName, searchPattern, enumerationOptions)
+            .Select(static x => new DirectoryPath(x));
+    }
 #endif
 
     /// <summary>
@@ -70,9 +72,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The child directory paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath[] GetDirectories()
-        {
-            return Directory.GetDirectories(FullName).Select(static x => new DirectoryPath(x)).ToArray();
-        }
+    {
+        return Directory.GetDirectories(FullName).Select(static x => new DirectoryPath(x)).ToArray();
+    }
 
     /// <summary>
     /// Gets child directories matching a search pattern as an array.
@@ -82,9 +84,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child directory paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath[] GetDirectories(string searchPattern)
-        {
-            return Directory.GetDirectories(FullName, searchPattern).Select(static x => new DirectoryPath(x)).ToArray();
-        }
+    {
+        return Directory.GetDirectories(FullName, searchPattern).Select(static x => new DirectoryPath(x)).ToArray();
+    }
 
     /// <summary>
     /// Gets child directories matching a search pattern and search option as an array.
@@ -95,9 +97,10 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child directory paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath[] GetDirectories(string searchPattern, SearchOption searchOption)
-        {
-            return Directory.GetDirectories(FullName, searchPattern, searchOption).Select(static x => new DirectoryPath(x)).ToArray();
-        }
+    {
+        return Directory.GetDirectories(FullName, searchPattern, searchOption).Select(static x => new DirectoryPath(x))
+            .ToArray();
+    }
 
 #if NETCOREAPP3_0_OR_GREATER
     /// <summary>
@@ -109,9 +112,10 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child directory paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath[] GetDirectories(string searchPattern, EnumerationOptions enumerationOptions)
-        {
-            return Directory.GetDirectories(FullName, searchPattern, enumerationOptions).Select(static x => new DirectoryPath(x)).ToArray();
-        }
+    {
+        return Directory.GetDirectories(FullName, searchPattern, enumerationOptions)
+            .Select(static x => new DirectoryPath(x)).ToArray();
+    }
 #endif
 
     /// <summary>
@@ -121,9 +125,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The child file paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<FilePath> EnumerateFiles()
-        {
-            return Directory.EnumerateFiles(FullName).Select(static x => new FilePath(x));
-        }
+    {
+        return Directory.EnumerateFiles(FullName).Select(static x => new FilePath(x));
+    }
 
     /// <summary>
     /// Enumerates child files matching a search pattern.
@@ -133,9 +137,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<FilePath> EnumerateFiles(string searchPattern)
-        {
-            return Directory.EnumerateFiles(FullName, searchPattern).Select(static x => new FilePath(x));
-        }
+    {
+        return Directory.EnumerateFiles(FullName, searchPattern).Select(static x => new FilePath(x));
+    }
 
     /// <summary>
     /// Enumerates child files matching a search pattern and search option.
@@ -146,9 +150,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<FilePath> EnumerateFiles(string searchPattern, SearchOption searchOption)
-        {
-            return Directory.EnumerateFiles(FullName, searchPattern, searchOption).Select(static x => new FilePath(x));
-        }
+    {
+        return Directory.EnumerateFiles(FullName, searchPattern, searchOption).Select(static x => new FilePath(x));
+    }
 
 #if NETCOREAPP3_0_OR_GREATER
     /// <summary>
@@ -160,9 +164,10 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<FilePath> EnumerateFiles(string searchPattern, EnumerationOptions enumerationOptions)
-        {
-            return Directory.EnumerateFiles(FullName, searchPattern, enumerationOptions).Select(static x => new FilePath(x));
-        }
+    {
+        return Directory.EnumerateFiles(FullName, searchPattern, enumerationOptions)
+            .Select(static x => new FilePath(x));
+    }
 #endif
 
     /// <summary>
@@ -172,9 +177,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The child file paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath[] GetFiles()
-        {
-            return Directory.GetFiles(FullName).Select(static x => new FilePath(x)).ToArray();
-        }
+    {
+        return Directory.GetFiles(FullName).Select(static x => new FilePath(x)).ToArray();
+    }
 
     /// <summary>
     /// Gets child files matching a search pattern as an array.
@@ -184,9 +189,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath[] GetFiles(string searchPattern)
-        {
-            return Directory.GetFiles(FullName, searchPattern).Select(static x => new FilePath(x)).ToArray();
-        }
+    {
+        return Directory.GetFiles(FullName, searchPattern).Select(static x => new FilePath(x)).ToArray();
+    }
 
     /// <summary>
     /// Gets child files matching a search pattern and search option as an array.
@@ -197,9 +202,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath[] GetFiles(string searchPattern, SearchOption searchOption)
-        {
-            return Directory.GetFiles(FullName, searchPattern, searchOption).Select(static x => new FilePath(x)).ToArray();
-        }
+    {
+        return Directory.GetFiles(FullName, searchPattern, searchOption).Select(static x => new FilePath(x)).ToArray();
+    }
 
 #if NETCOREAPP3_0_OR_GREATER
     /// <summary>
@@ -211,9 +216,10 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath[] GetFiles(string searchPattern, EnumerationOptions enumerationOptions)
-        {
-            return Directory.GetFiles(FullName, searchPattern, enumerationOptions).Select(static x => new FilePath(x)).ToArray();
-        }
+    {
+        return Directory.GetFiles(FullName, searchPattern, enumerationOptions).Select(static x => new FilePath(x))
+            .ToArray();
+    }
 #endif
 
     /// <summary>
@@ -223,9 +229,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The child file system entry paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<string> EnumerateFileSystemEntries()
-        {
-            return Directory.EnumerateFileSystemEntries(FullName);
-        }
+    {
+        return Directory.EnumerateFileSystemEntries(FullName);
+    }
 
     /// <summary>
     /// Enumerates child file system entries matching a search pattern.
@@ -235,9 +241,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file system entry paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<string> EnumerateFileSystemEntries(string searchPattern)
-        {
-            return Directory.EnumerateFileSystemEntries(FullName, searchPattern);
-        }
+    {
+        return Directory.EnumerateFileSystemEntries(FullName, searchPattern);
+    }
 
     /// <summary>
     /// Enumerates child file system entries matching a search pattern and search option.
@@ -248,9 +254,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file system entry paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<string> EnumerateFileSystemEntries(string searchPattern, SearchOption searchOption)
-        {
-            return Directory.EnumerateFileSystemEntries(FullName, searchPattern, searchOption);
-        }
+    {
+        return Directory.EnumerateFileSystemEntries(FullName, searchPattern, searchOption);
+    }
 
 #if NETCOREAPP3_0_OR_GREATER
     /// <summary>
@@ -262,9 +268,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file system entry paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<string> EnumerateFileSystemEntries(string searchPattern, EnumerationOptions enumerationOptions)
-        {
-            return Directory.EnumerateFileSystemEntries(FullName, searchPattern, enumerationOptions);
-        }
+    {
+        return Directory.EnumerateFileSystemEntries(FullName, searchPattern, enumerationOptions);
+    }
 #endif
 
     /// <summary>
@@ -274,9 +280,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The child file system entry paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string[] GetFileSystemEntries()
-        {
-            return Directory.GetFileSystemEntries(FullName);
-        }
+    {
+        return Directory.GetFileSystemEntries(FullName);
+    }
 
     /// <summary>
     /// Gets child file system entries matching a search pattern as an array.
@@ -286,9 +292,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file system entry paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string[] GetFileSystemEntries(string searchPattern)
-        {
-            return Directory.GetFileSystemEntries(FullName, searchPattern);
-        }
+    {
+        return Directory.GetFileSystemEntries(FullName, searchPattern);
+    }
 
     /// <summary>
     /// Gets child file system entries matching a search pattern and search option as an array.
@@ -299,9 +305,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file system entry paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string[] GetFileSystemEntries(string searchPattern, SearchOption searchOption)
-        {
-            return Directory.GetFileSystemEntries(FullName, searchPattern, searchOption);
-        }
+    {
+        return Directory.GetFileSystemEntries(FullName, searchPattern, searchOption);
+    }
 
 #if NETCOREAPP3_0_OR_GREATER
     /// <summary>
@@ -313,8 +319,8 @@ public readonly partial record struct DirectoryPath
     /// <returns>The matching child file system entry paths.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string[] GetFileSystemEntries(string searchPattern, EnumerationOptions enumerationOptions)
-        {
-            return Directory.GetFileSystemEntries(FullName, searchPattern, enumerationOptions);
-        }
+    {
+        return Directory.GetFileSystemEntries(FullName, searchPattern, enumerationOptions);
+    }
 #endif
 }

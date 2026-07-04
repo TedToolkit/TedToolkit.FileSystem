@@ -19,9 +19,9 @@ public readonly partial record struct FilePath
     /// <returns>A writable file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream Create()
-        {
-            return File.Create(FullName);
-        }
+    {
+        return File.Create(FullName);
+    }
 
     /// <summary>
     /// Creates or overwrites the file and returns a writable stream that uses the specified buffer size.
@@ -31,9 +31,9 @@ public readonly partial record struct FilePath
     /// <returns>A writable file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream Create(int bufferSize)
-        {
-            return File.Create(FullName, bufferSize);
-        }
+    {
+        return File.Create(FullName, bufferSize);
+    }
 
     /// <summary>
     /// Creates or overwrites the file and returns a writable stream that uses the specified buffer size and options.
@@ -44,9 +44,9 @@ public readonly partial record struct FilePath
     /// <returns>A writable file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream Create(int bufferSize, FileOptions options)
-        {
-            return File.Create(FullName, bufferSize, options);
-        }
+    {
+        return File.Create(FullName, bufferSize, options);
+    }
 
     /// <summary>
     /// Opens the file with the supplied mode.
@@ -56,9 +56,9 @@ public readonly partial record struct FilePath
     /// <returns>The opened file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream Open(FileMode mode)
-        {
-            return File.Open(FullName, mode);
-        }
+    {
+        return File.Open(FullName, mode);
+    }
 
     /// <summary>
     /// Opens the file with the supplied mode and access.
@@ -69,9 +69,9 @@ public readonly partial record struct FilePath
     /// <returns>The opened file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream Open(FileMode mode, FileAccess access)
-        {
-            return File.Open(FullName, mode, access);
-        }
+    {
+        return File.Open(FullName, mode, access);
+    }
 
     /// <summary>
     /// Opens the file with the supplied mode, access, and share options.
@@ -83,9 +83,9 @@ public readonly partial record struct FilePath
     /// <returns>The opened file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream Open(FileMode mode, FileAccess access, FileShare share)
-        {
-            return File.Open(FullName, mode, access, share);
-        }
+    {
+        return File.Open(FullName, mode, access, share);
+    }
 
 #if NET6_0_OR_GREATER
     /// <summary>
@@ -96,10 +96,12 @@ public readonly partial record struct FilePath
     /// <returns>The opened file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream Open(FileStreamOptions options)
-        {
-            return File.Open(FullName, options);
-        }
+    {
+        return File.Open(FullName, options);
+    }
+#endif
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Opens a file handle for the current file path.
     /// </summary>
@@ -119,9 +121,9 @@ public readonly partial record struct FilePath
         FileShare share = FileShare.Read,
         FileOptions options = FileOptions.None,
         long preallocationSize = 0)
-        {
-            return File.OpenHandle(FullName, mode, access, share, options, preallocationSize);
-        }
+    {
+        return File.OpenHandle(FullName, mode, access, share, options, preallocationSize);
+    }
 #endif
 
     /// <summary>
@@ -131,9 +133,9 @@ public readonly partial record struct FilePath
     /// <returns>A readable file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream OpenRead()
-        {
-            return File.OpenRead(FullName);
-        }
+    {
+        return File.OpenRead(FullName);
+    }
 
     /// <summary>
     /// Opens the file for writing.
@@ -142,9 +144,9 @@ public readonly partial record struct FilePath
     /// <returns>A writable file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileStream OpenWrite()
-        {
-            return File.OpenWrite(FullName);
-        }
+    {
+        return File.OpenWrite(FullName);
+    }
 
     /// <summary>
     /// Opens the file as a text reader.
@@ -153,9 +155,9 @@ public readonly partial record struct FilePath
     /// <returns>A stream reader.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public StreamReader OpenText()
-        {
-            return File.OpenText(FullName);
-        }
+    {
+        return File.OpenText(FullName);
+    }
 
     /// <summary>
     /// Creates or overwrites the file as a text writer.
@@ -164,9 +166,9 @@ public readonly partial record struct FilePath
     /// <returns>A stream writer.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public StreamWriter CreateText()
-        {
-            return File.CreateText(FullName);
-        }
+    {
+        return File.CreateText(FullName);
+    }
 
     /// <summary>
     /// Opens the file as an appending text writer.
@@ -175,7 +177,7 @@ public readonly partial record struct FilePath
     /// <returns>A stream writer.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public StreamWriter AppendText()
-        {
-            return File.AppendText(FullName);
-        }
+    {
+        return File.AppendText(FullName);
+    }
 }

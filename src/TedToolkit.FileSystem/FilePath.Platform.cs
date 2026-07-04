@@ -21,9 +21,9 @@ public readonly partial record struct FilePath
 #endif
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Encrypt()
-        {
-            File.Encrypt(FullName);
-        }
+    {
+        File.Encrypt(FullName);
+    }
 
     /// <summary>
     /// Decrypts the file.
@@ -34,9 +34,9 @@ public readonly partial record struct FilePath
 #endif
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Decrypt()
-        {
-            File.Decrypt(FullName);
-        }
+    {
+        File.Decrypt(FullName);
+    }
 
 #if NET6_0_OR_GREATER
     /// <summary>
@@ -47,9 +47,9 @@ public readonly partial record struct FilePath
     /// <returns>The created symbolic link information.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileSystemInfo CreateSymbolicLink(string pathToTarget)
-        {
-            return File.CreateSymbolicLink(FullName, pathToTarget);
-        }
+    {
+        return File.CreateSymbolicLink(FullName, pathToTarget);
+    }
 
     /// <summary>
     /// Resolves the symbolic link target for the current file path.
@@ -59,12 +59,12 @@ public readonly partial record struct FilePath
     /// <returns>The resolved link target information.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileSystemInfo? ResolveLinkTarget(bool returnFinalTarget)
-        {
-            return File.ResolveLinkTarget(FullName, returnFinalTarget);
-        }
+    {
+        return File.ResolveLinkTarget(FullName, returnFinalTarget);
+    }
 #endif
-#if NET7_0_OR_GREATER
 
+#if NET7_0_OR_GREATER
     /// <summary>
     /// Gets or sets the Unix file mode for the current file path.
     /// </summary>

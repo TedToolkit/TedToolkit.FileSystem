@@ -61,9 +61,9 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="File.Delete(string)" />.</remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Delete()
-        {
-            File.Delete(FullName);
-        }
+    {
+        File.Delete(FullName);
+    }
 
     /// <summary>
     /// Replaces the destination file with the current file and optionally creates a backup.

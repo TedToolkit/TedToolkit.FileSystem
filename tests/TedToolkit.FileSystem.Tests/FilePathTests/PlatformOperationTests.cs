@@ -5,6 +5,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Reflection;
+using System.Runtime.ExceptionServices;
+
 namespace TedToolkit.FileSystem.Tests.FilePathTests;
 
 internal sealed class PlatformOperationTests
@@ -19,7 +22,7 @@ internal sealed class PlatformOperationTests
         var root = TestWorkspace.CreateDirectory();
         var target = new FilePath(Path.Combine(root.FullName, "target.txt"));
         var link = new FilePath(Path.Combine(root.FullName, "link.txt"));
-        target.WriteAllText("target");
+        await target.WriteAllTextAsync("target", CancellationToken.None).ConfigureAwait(false);
 
         try
         {
@@ -66,14 +69,14 @@ internal sealed class PlatformOperationTests
         {
             if (OperatingSystem.IsWindows())
             {
-                await Assert.That(() => path.UnixFileMode)
+                await Assert.That(() => GetUnixFileModeViaReflection(in path))
                     .Throws<PlatformNotSupportedException>();
                 return;
             }
 
-            path.UnixFileMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
+            SetUnixFileModeViaReflection(in path, UnixFileMode.UserRead | UnixFileMode.UserWrite);
 
-            await Assert.That(path.UnixFileMode)
+            await Assert.That(GetUnixFileModeViaReflection(in path))
                 .IsEqualTo(File.GetUnixFileMode(file.FullName));
         }
         finally
@@ -96,9 +99,9 @@ internal sealed class PlatformOperationTests
         {
             if (!OperatingSystem.IsWindows())
             {
-                await Assert.That(() => path.Encrypt())
+                await Assert.That(() => InvokeEncryptViaReflection(in path))
                     .Throws<PlatformNotSupportedException>();
-                await Assert.That(() => path.Decrypt())
+                await Assert.That(() => InvokeDecryptViaReflection(in path))
                     .Throws<PlatformNotSupportedException>();
                 return;
             }
@@ -121,6 +124,53 @@ internal sealed class PlatformOperationTests
             }
 
             file.Directory!.Delete(true);
+        }
+    }
+
+    private static UnixFileMode GetUnixFileModeViaReflection(in FilePath path)
+    {
+        try
+        {
+            return (UnixFileMode)typeof(FilePath).GetProperty(nameof(FilePath.UnixFileMode), BindingFlags.Instance | BindingFlags.Public)!.GetValue(path)!;
+        }
+        catch (TargetInvocationException exception) when (exception.InnerException is not null)
+        {
+            ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+            return default;
+        }
+    }
+
+    private static void InvokeDecryptViaReflection(in FilePath path)
+    {
+        InvokePublicInstanceMember(path, nameof(FilePath.Decrypt));
+    }
+
+    private static void InvokeEncryptViaReflection(in FilePath path)
+    {
+        InvokePublicInstanceMember(path, nameof(FilePath.Encrypt));
+    }
+
+    private static void InvokePublicInstanceMember(object target, string memberName)
+    {
+        try
+        {
+            target.GetType().GetMethod(memberName, BindingFlags.Instance | BindingFlags.Public)!.Invoke(target, null);
+        }
+        catch (TargetInvocationException exception) when (exception.InnerException is not null)
+        {
+            ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+        }
+    }
+
+    private static void SetUnixFileModeViaReflection(in FilePath path, UnixFileMode unixFileMode)
+    {
+        try
+        {
+            typeof(FilePath).GetProperty(nameof(FilePath.UnixFileMode), BindingFlags.Instance | BindingFlags.Public)!.SetValue(path, unixFileMode);
+        }
+        catch (TargetInvocationException exception) when (exception.InnerException is not null)
+        {
+            ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
         }
     }
 }
