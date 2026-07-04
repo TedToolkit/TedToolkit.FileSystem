@@ -47,4 +47,78 @@ internal sealed class RecordStructContractTests
 
         await Assert.That(left != right).IsTrue();
     }
+
+    /// <summary>
+    /// Verifies that a directory info instance can be converted implicitly into a directory path value object.
+    /// </summary>
+    [Test]
+    public async Task Should_support_implicit_conversion_from_directory_info()
+    {
+        DirectoryPath path = TestAssets.NestedDirectory;
+
+        await Assert.That(path.FullName).IsEqualTo(TestAssets.NestedDirectory.FullName);
+    }
+
+    /// <summary>
+    /// Verifies that a directory path can be created from a directory info instance through the named factory method.
+    /// </summary>
+    [Test]
+    public async Task Should_create_directory_path_from_directory_info()
+    {
+        var path = DirectoryPath.FromDirectoryInfo(TestAssets.NestedDirectory);
+
+        await Assert.That(path.FullName).IsEqualTo(TestAssets.NestedDirectory.FullName);
+    }
+
+    /// <summary>
+    /// Verifies that combining a directory path with a string creates a child directory path.
+    /// </summary>
+    [Test]
+    public async Task Should_create_child_directory_when_combined_with_string()
+    {
+        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
+
+        var childDirectory = path / "nested";
+
+        await Assert.That(childDirectory.FullName).IsEqualTo(Path.Combine(TestAssets.RootDirectory.FullName, "nested"));
+    }
+
+    /// <summary>
+    /// Verifies that combining a directory path with a string through the named method creates a child directory path.
+    /// </summary>
+    [Test]
+    public async Task Should_create_child_directory_when_combined_with_string_method()
+    {
+        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
+
+        var childDirectory = path.Combine("nested");
+
+        await Assert.That(childDirectory.FullName).IsEqualTo(Path.Combine(TestAssets.RootDirectory.FullName, "nested"));
+    }
+
+    /// <summary>
+    /// Verifies that combining a directory path with a file name creates a child file path.
+    /// </summary>
+    [Test]
+    public async Task Should_create_child_file_when_combined_with_file_name()
+    {
+        var path = new DirectoryPath(TestAssets.NestedDirectory.FullName);
+
+        var childFile = path / new FileName("nested-file.txt");
+
+        await Assert.That(childFile.FullName).IsEqualTo(Path.Combine(TestAssets.NestedDirectory.FullName, "nested-file.txt"));
+    }
+
+    /// <summary>
+    /// Verifies that combining a directory path with a file name through the named method creates a child file path.
+    /// </summary>
+    [Test]
+    public async Task Should_create_child_file_when_combined_with_file_name_method()
+    {
+        var path = new DirectoryPath(TestAssets.NestedDirectory.FullName);
+
+        var childFile = path.Combine(new FileName("nested-file.txt"));
+
+        await Assert.That(childFile.FullName).IsEqualTo(Path.Combine(TestAssets.NestedDirectory.FullName, "nested-file.txt"));
+    }
 }

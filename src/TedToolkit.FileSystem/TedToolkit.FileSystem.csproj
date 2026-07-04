@@ -7,7 +7,7 @@
   <PropertyGroup>
     <Title>TedToolkit.FileSystem</Title>
     <Description>A small .NET library for normalized file system path value objects.</Description>
-    <NoWarn>$(NoWarn);CA1724</NoWarn>
+    <NoWarn>$(NoWarn);CA1724;RCS1231;CA2225</NoWarn>
   </PropertyGroup>
 
 </Project>

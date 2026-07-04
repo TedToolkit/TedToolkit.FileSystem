@@ -47,4 +47,26 @@ internal sealed class RecordStructContractTests
 
         await Assert.That(left != right).IsTrue();
     }
+
+    /// <summary>
+    /// Verifies that a file info instance can be converted implicitly into a file path value object.
+    /// </summary>
+    [Test]
+    public async Task Should_support_implicit_conversion_from_file_info()
+    {
+        FilePath path = TestAssets.NestedFile;
+
+        await Assert.That(path.FullName).IsEqualTo(TestAssets.NestedFile.FullName);
+    }
+
+    /// <summary>
+    /// Verifies that a file path can be created from a file info instance through the named factory method.
+    /// </summary>
+    [Test]
+    public async Task Should_create_file_path_from_file_info()
+    {
+        var path = FilePath.FromFileInfo(TestAssets.NestedFile);
+
+        await Assert.That(path.FullName).IsEqualTo(TestAssets.NestedFile.FullName);
+    }
 }
