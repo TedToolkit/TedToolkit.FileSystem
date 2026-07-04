@@ -14,6 +14,7 @@ This is an English-only project.
 - Public file system APIs should map directly to a corresponding .NET BCL member whenever possible.
 - XML documentation for public file system APIs should use `remarks` to identify the underlying Microsoft API being wrapped.
 - Avoid adding public convenience aliases or chained wrappers that only delegate to another custom API, except when expressing an equivalent BCL-shaped member as a property instead of a method.
+- When a public API only exposes parameterless get/set semantics and does not have same-concept overloads that require arguments, model it as a property instead of a method.
 
 ## Test Execution
 

@@ -19,6 +19,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <remarks>Uses the <see cref="FileSystemInfo.FullName" /> value from the supplied <see cref="DirectoryInfo" /> instance.</remarks>
     /// <param name="directoryInfo">The directory info instance to convert.</param>
     /// <returns>A directory path value object that uses the directory full name.</returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static DirectoryPath FromDirectoryInfo(DirectoryInfo directoryInfo)
     {
 #if NET6_0_OR_GREATER

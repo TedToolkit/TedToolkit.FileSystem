@@ -30,6 +30,7 @@ public readonly partial record struct FilePath
     /// <remarks>Uses the <see cref="Assembly.Location" /> value from the supplied <see cref="Assembly" /> instance.</remarks>
     /// <param name="assembly">The assembly to convert.</param>
     /// <returns>A file path value object that uses the assembly location.</returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static FilePath FromAssembly(Assembly assembly)
     {
 #if NET6_0_OR_GREATER
