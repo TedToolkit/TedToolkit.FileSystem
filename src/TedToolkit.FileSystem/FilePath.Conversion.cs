@@ -15,6 +15,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Converts the path value object into a file info instance.
     /// </summary>
+    /// <remarks>Creates a new <see cref="FileInfo" /> via <see cref="FileInfo.FileInfo(string)" />.</remarks>
     /// <returns>A file info instance for the current path.</returns>
     public FileInfo ToFileInfo()
     {
@@ -24,6 +25,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the absolute file path for the current path text.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetFullPath(string)" />.</remarks>
     /// <returns>An absolute file path value.</returns>
     public FilePath GetFullPath()
     {
@@ -33,6 +35,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the absolute file path for the current path text using the supplied base directory.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetFullPath(string,string)" />.</remarks>
     /// <param name="basePath">The base directory to resolve against.</param>
     /// <returns>An absolute file path value.</returns>
     public FilePath GetFullPath(DirectoryPath basePath)
@@ -43,6 +46,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Changes the file extension.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.ChangeExtension(string,string?)" />.</remarks>
     /// <param name="extension">The new extension value.</param>
     /// <returns>A file path with the updated extension.</returns>
     public FilePath ChangeExtension(string? extension)
@@ -51,32 +55,9 @@ public readonly partial record struct FilePath
     }
 
     /// <summary>
-    /// Returns a file path with the supplied file name in the current parent directory.
-    /// </summary>
-    /// <param name="fileName">The replacement file name.</param>
-    /// <returns>A file path with the replacement file name.</returns>
-    public FilePath WithFileName(string fileName)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
-
-        return ParentDirectory is { } directoryPath
-            ? new(Path.Combine(directoryPath.FullName, fileName))
-            : new(fileName);
-    }
-
-    /// <summary>
-    /// Returns a file path with the supplied extension.
-    /// </summary>
-    /// <param name="extension">The replacement extension.</param>
-    /// <returns>A file path with the replacement extension.</returns>
-    public FilePath WithExtension(string? extension)
-    {
-        return ChangeExtension(extension);
-    }
-
-    /// <summary>
     /// Gets the path from the supplied base directory to the current file path.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetRelativePath(string,string)" />.</remarks>
     /// <param name="relativeTo">The base directory path.</param>
     /// <returns>A relative file path value.</returns>
     public FilePath GetRelativePath(DirectoryPath relativeTo)
@@ -87,6 +68,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the path from the supplied base directory string to the current file path.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetRelativePath(string,string)" />.</remarks>
     /// <param name="relativeTo">The base directory path string.</param>
     /// <returns>A relative file path value.</returns>
     public FilePath GetRelativePath(string relativeTo)

@@ -16,6 +16,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <summary>
     /// Creates a directory path value object from a directory info instance.
     /// </summary>
+    /// <remarks>Uses the <see cref="DirectoryInfo.FullName" /> value from the supplied <see cref="DirectoryInfo" /> instance.</remarks>
     /// <param name="directoryInfo">The directory info instance to convert.</param>
     /// <returns>A directory path value object that uses the directory full name.</returns>
     public static DirectoryPath FromDirectoryInfo(DirectoryInfo directoryInfo)
@@ -27,6 +28,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <summary>
     /// Converts a directory info instance into a directory path value object.
     /// </summary>
+    /// <remarks>Delegates to <see cref="FromDirectoryInfo(DirectoryInfo)" />, which uses the <see cref="DirectoryInfo.FullName" /> value.</remarks>
     /// <param name="directoryInfo">The directory info instance to convert.</param>
     public static implicit operator DirectoryPath(DirectoryInfo directoryInfo)
     {
@@ -36,6 +38,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <summary>
     /// Combines the current directory path with a child directory name.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.Combine(string,string)" />.</remarks>
     /// <param name="childDirectoryName">The child directory name.</param>
     /// <returns>A child directory path.</returns>
     public DirectoryPath Combine(string childDirectoryName)
@@ -46,6 +49,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <summary>
     /// Combines the current directory path with a child file name.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.Combine(string,string)" /> with <see cref="FileName.Name" />.</remarks>
     /// <param name="fileName">The child file name.</param>
     /// <returns>A child file path.</returns>
     public FilePath Combine(FileName fileName)
@@ -56,6 +60,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <summary>
     /// Combines a directory path with a child directory name.
     /// </summary>
+    /// <remarks>Delegates to <see cref="Combine(string)" />, which wraps <see cref="Path.Combine(string,string)" />.</remarks>
     /// <param name="left">The parent directory path.</param>
     /// <param name="right">The child directory name.</param>
     public static DirectoryPath operator /(DirectoryPath left, string right)
@@ -66,6 +71,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <summary>
     /// Combines a directory path with a child file name.
     /// </summary>
+    /// <remarks>Delegates to <see cref="Combine(FileName)" />, which wraps <see cref="Path.Combine(string,string)" />.</remarks>
     /// <param name="left">The parent directory path.</param>
     /// <param name="right">The child file name.</param>
     public static FilePath operator /(DirectoryPath left, FileName right)
@@ -76,6 +82,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <summary>
     /// Returns the raw full directory path text.
     /// </summary>
+    /// <remarks>Returns the stored <c>FullName</c> value directly without calling an additional BCL API.</remarks>
     /// <returns>The raw full directory path text.</returns>
     public override string ToString()
     {

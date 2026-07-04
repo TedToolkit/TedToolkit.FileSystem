@@ -15,6 +15,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Creates the parent directory when it does not already exist.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.CreateDirectory(string)" /> for <see cref="ParentDirectory" />.</remarks>
     /// <returns>The created or existing parent directory path.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the file path does not contain a parent directory.</exception>
     public DirectoryPath CreateParentDirectory()
@@ -25,15 +26,5 @@ public readonly partial record struct FilePath
         }
 
         return Directory.CreateDirectory(directoryPath.FullName);
-    }
-
-    /// <summary>
-    /// Ensures that the parent directory exists.
-    /// </summary>
-    /// <returns>The current file path.</returns>
-    public FilePath EnsureParentDirectoryExists()
-    {
-        _ = CreateParentDirectory();
-        return this;
     }
 }

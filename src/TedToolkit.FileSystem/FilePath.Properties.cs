@@ -15,6 +15,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the file name portion of the path.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetFileName(string)" />.</remarks>
     public string Name
     {
         get
@@ -26,6 +27,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the file name portion of the path without its extension.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetFileNameWithoutExtension(string)" />.</remarks>
     public string NameWithoutExtension
     {
         get
@@ -37,6 +39,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the file name value object for the current path.
     /// </summary>
+    /// <remarks>Builds a <see cref="FileName" /> from <see cref="Name" />, which wraps <see cref="Path.GetFileName(string)" />.</remarks>
     public FileName FileName
     {
         get
@@ -48,6 +51,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the file extension portion of the path.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetExtension(string)" />.</remarks>
     public string? Extension
     {
         get
@@ -59,6 +63,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the parent directory path when one is available.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetDirectoryName(string)" />.</remarks>
     public DirectoryPath? ParentDirectory
     {
         get
@@ -76,6 +81,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the root directory information for the current path.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.GetPathRoot(string)" />.</remarks>
     public string Root
     {
         get
@@ -87,6 +93,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets a value indicating whether the file path has an extension.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.HasExtension(string)" />.</remarks>
     public bool HasExtension
     {
         get
@@ -98,6 +105,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets a value indicating whether the path string contains a root.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.IsPathRooted(string)" />.</remarks>
     public bool IsPathRooted
     {
         get
@@ -109,6 +117,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets a value indicating whether the path is fully qualified.
     /// </summary>
+    /// <remarks>Wraps <see cref="Path.IsPathFullyQualified(string)" />.</remarks>
     public bool IsFullyQualified
     {
         get
@@ -120,6 +129,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets a value indicating whether the file exists.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Exists(string)" />.</remarks>
     public bool Exists
     {
         get
@@ -131,6 +141,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the file length in bytes.
     /// </summary>
+    /// <remarks>Reads <see cref="FileInfo.Length" /> from the <see cref="FileInfo" /> created by <see cref="ToFileInfo()" />.</remarks>
     public long Length
     {
         get
@@ -142,6 +153,10 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets or sets the file creation time in local time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetCreationTime(string)" />.
+    /// The setter wraps <see cref="File.SetCreationTime(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime CreationTime
     {
         get
@@ -158,6 +173,10 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets or sets the file creation time in UTC.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetCreationTimeUtc(string)" />.
+    /// The setter wraps <see cref="File.SetCreationTimeUtc(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime CreationTimeUtc
     {
         get
@@ -174,6 +193,10 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets or sets the file last write time in local time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetLastWriteTime(string)" />.
+    /// The setter wraps <see cref="File.SetLastWriteTime(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime LastWriteTime
     {
         get
@@ -190,6 +213,10 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets or sets the file last write time in UTC.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetLastWriteTimeUtc(string)" />.
+    /// The setter wraps <see cref="File.SetLastWriteTimeUtc(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime LastWriteTimeUtc
     {
         get
@@ -206,6 +233,10 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets or sets the file last access time in local time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetLastAccessTime(string)" />.
+    /// The setter wraps <see cref="File.SetLastAccessTime(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime LastAccessTime
     {
         get
@@ -222,6 +253,10 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets or sets the file last access time in UTC.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetLastAccessTimeUtc(string)" />.
+    /// The setter wraps <see cref="File.SetLastAccessTimeUtc(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime LastAccessTimeUtc
     {
         get
@@ -238,6 +273,10 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets or sets the file attributes.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetAttributes(string)" />.
+    /// The setter wraps <see cref="File.SetAttributes(string,System.IO.FileAttributes)" />.
+    /// </remarks>
     public FileAttributes Attributes
     {
         get

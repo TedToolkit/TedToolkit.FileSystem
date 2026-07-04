@@ -15,6 +15,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Creates or overwrites the file and returns a writable stream.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Create(string)" />.</remarks>
     /// <returns>A writable file stream.</returns>
     public FileStream Create()
     {
@@ -24,6 +25,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Creates or overwrites the file and returns a writable stream that uses the specified buffer size.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Create(string,int)" />.</remarks>
     /// <param name="bufferSize">The buffer size.</param>
     /// <returns>A writable file stream.</returns>
     public FileStream Create(int bufferSize)
@@ -34,6 +36,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Creates or overwrites the file and returns a writable stream that uses the specified buffer size and options.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Create(string,int,System.IO.FileOptions)" />.</remarks>
     /// <param name="bufferSize">The buffer size.</param>
     /// <param name="options">The file options.</param>
     /// <returns>A writable file stream.</returns>
@@ -45,6 +48,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file with the supplied mode.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Open(string,System.IO.FileMode)" />.</remarks>
     /// <param name="mode">The file mode.</param>
     /// <returns>The opened file stream.</returns>
     public FileStream Open(FileMode mode)
@@ -55,6 +59,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file with the supplied mode and access.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Open(string,System.IO.FileMode,System.IO.FileAccess)" />.</remarks>
     /// <param name="mode">The file mode.</param>
     /// <param name="access">The file access mode.</param>
     /// <returns>The opened file stream.</returns>
@@ -66,6 +71,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file with the supplied mode, access, and share options.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Open(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)" />.</remarks>
     /// <param name="mode">The file mode.</param>
     /// <param name="access">The file access mode.</param>
     /// <param name="share">The file share mode.</param>
@@ -78,6 +84,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file using the supplied file stream options.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Open(string,System.IO.FileStreamOptions)" />.</remarks>
     /// <param name="options">The file stream options.</param>
     /// <returns>The opened file stream.</returns>
     public FileStream Open(FileStreamOptions options)
@@ -88,6 +95,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file for reading.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.OpenRead(string)" />.</remarks>
     /// <returns>A readable file stream.</returns>
     public FileStream OpenRead()
     {
@@ -97,6 +105,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file for writing.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.OpenWrite(string)" />.</remarks>
     /// <returns>A writable file stream.</returns>
     public FileStream OpenWrite()
     {
@@ -106,6 +115,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file as a text reader.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.OpenText(string)" />.</remarks>
     /// <returns>A stream reader.</returns>
     public StreamReader OpenText()
     {
@@ -115,6 +125,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Creates or overwrites the file as a text writer.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.CreateText(string)" />.</remarks>
     /// <returns>A stream writer.</returns>
     public StreamWriter CreateText()
     {
@@ -124,6 +135,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file as an appending text writer.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.AppendText(string)" />.</remarks>
     /// <returns>A stream writer.</returns>
     public StreamWriter AppendText()
     {
@@ -133,9 +145,12 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens a file handle for the current file path.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.OpenHandle(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,System.IO.FileOptions,long)" />.</remarks>
     /// <param name="mode">The file mode.</param>
     /// <param name="access">The file access mode.</param>
     /// <param name="share">The file share mode.</param>
+    /// <param name="options">The file options.</param>
+    /// <param name="preallocationSize">The preallocated size, in bytes.</param>
     /// <returns>The opened file handle.</returns>
     public Microsoft.Win32.SafeHandles.SafeFileHandle OpenHandle(
         FileMode mode = FileMode.Open,

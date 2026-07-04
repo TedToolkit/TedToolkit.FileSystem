@@ -15,11 +15,16 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets a value indicating whether the directory exists.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.Exists(string)" />.</remarks>
     public bool Exists => Directory.Exists(FullName);
 
     /// <summary>
     /// Gets or sets the directory creation time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="Directory.GetCreationTime(string)" />.
+    /// The setter wraps <see cref="Directory.SetCreationTime(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime CreationTime
     {
         get => Directory.GetCreationTime(FullName);
@@ -29,6 +34,10 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets or sets the directory last write time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="Directory.GetLastWriteTime(string)" />.
+    /// The setter wraps <see cref="Directory.SetLastWriteTime(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime LastWriteTime
     {
         get => Directory.GetLastWriteTime(FullName);
@@ -38,6 +47,10 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets or sets the directory last access time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="Directory.GetLastAccessTime(string)" />.
+    /// The setter wraps <see cref="Directory.SetLastAccessTime(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime LastAccessTime
     {
         get => Directory.GetLastAccessTime(FullName);
@@ -47,6 +60,10 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets or sets the directory creation time in Coordinated Universal Time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="Directory.GetCreationTimeUtc(string)" />.
+    /// The setter wraps <see cref="Directory.SetCreationTimeUtc(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime CreationTimeUtc
     {
         get => Directory.GetCreationTimeUtc(FullName);
@@ -56,6 +73,10 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets or sets the directory last write time in Coordinated Universal Time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="Directory.GetLastWriteTimeUtc(string)" />.
+    /// The setter wraps <see cref="Directory.SetLastWriteTimeUtc(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime LastWriteTimeUtc
     {
         get => Directory.GetLastWriteTimeUtc(FullName);
@@ -65,6 +86,10 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets or sets the directory last access time in Coordinated Universal Time.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="Directory.GetLastAccessTimeUtc(string)" />.
+    /// The setter wraps <see cref="Directory.SetLastAccessTimeUtc(string,System.DateTime)" />.
+    /// </remarks>
     public DateTime LastAccessTimeUtc
     {
         get => Directory.GetLastAccessTimeUtc(FullName);
@@ -74,6 +99,10 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets or sets the file system attributes for the directory.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetAttributes(string)" />.
+    /// The setter wraps <see cref="File.SetAttributes(string,System.IO.FileAttributes)" />.
+    /// </remarks>
     public FileAttributes Attributes
     {
         get => File.GetAttributes(FullName);
@@ -83,6 +112,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Creates the directory if it does not already exist.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.CreateDirectory(string)" />.</remarks>
     /// <returns>The created directory path.</returns>
     public DirectoryPath Create()
     {
@@ -92,6 +122,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Creates the directory using the specified Unix file mode when the platform supports it.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.CreateDirectory(string,System.IO.UnixFileMode)" />.</remarks>
     /// <param name="unixCreateMode">The Unix file mode to apply.</param>
     /// <returns>The created directory path.</returns>
     public DirectoryPath Create(UnixFileMode unixCreateMode)
@@ -102,6 +133,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Deletes the directory.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.Delete(string,bool)" />.</remarks>
     /// <param name="recursive">Whether child content should also be deleted.</param>
     public void Delete(bool recursive = false)
     {
@@ -111,6 +143,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Moves the directory to a new destination.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.Move(string,string)" />.</remarks>
     /// <param name="destination">The destination directory path.</param>
     public void MoveTo(DirectoryPath destination)
     {
@@ -120,6 +153,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Creates a symbolic link at the current directory path that points to the target directory path.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.CreateSymbolicLink(string,string)" />.</remarks>
     /// <param name="target">The target directory path.</param>
     /// <returns>The created symbolic link path.</returns>
     public DirectoryPath CreateSymbolicLink(DirectoryPath target)
@@ -130,6 +164,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Resolves the current directory path if it is a symbolic link.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.ResolveLinkTarget(string,bool)" />.</remarks>
     /// <param name="returnFinalTarget">Whether the final target should be resolved recursively.</param>
     /// <returns>The resolved target directory path when one exists; otherwise, <see langword="null" />.</returns>
     public DirectoryPath? ResolveLinkTarget(bool returnFinalTarget)
@@ -141,6 +176,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Sets the current working directory to the current directory path.
     /// </summary>
+    /// <remarks>Wraps <see cref="Directory.SetCurrentDirectory(string)" />.</remarks>
     public void SetCurrentDirectory()
     {
         Directory.SetCurrentDirectory(FullName);

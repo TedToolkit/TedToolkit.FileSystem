@@ -26,7 +26,6 @@ internal sealed class ContentOperationTests
 
             await Assert.That(directory.FullName).IsEqualTo(Path.Combine(root.FullName, "nested"));
             await Assert.That(Directory.Exists(directory.FullName)).IsTrue();
-            await Assert.That(path.EnsureParentDirectoryExists()).IsEqualTo(path);
         }
         finally
         {

@@ -16,6 +16,7 @@ public readonly partial record struct FilePath(string FullName)
     /// <summary>
     /// Creates a file path value object from a file info instance.
     /// </summary>
+    /// <remarks>Uses the <see cref="FileInfo.FullName" /> value from the supplied <see cref="FileInfo" /> instance.</remarks>
     /// <param name="fileInfo">The file info instance to convert.</param>
     /// <returns>A file path value object that uses the file full name.</returns>
     public static FilePath FromFileInfo(FileInfo fileInfo)
@@ -27,6 +28,7 @@ public readonly partial record struct FilePath(string FullName)
     /// <summary>
     /// Converts a file info instance into a file path value object.
     /// </summary>
+    /// <remarks>Delegates to <see cref="FromFileInfo(FileInfo)" />, which uses the <see cref="FileInfo.FullName" /> value.</remarks>
     /// <param name="fileInfo">The file info instance to convert.</param>
     public static implicit operator FilePath(FileInfo fileInfo)
     {

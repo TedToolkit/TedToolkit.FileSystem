@@ -15,6 +15,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Copies the file to another file path.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Copy(string,string,bool)" />.</remarks>
     /// <param name="destination">The destination file path.</param>
     /// <param name="overwrite">A value indicating whether an existing destination should be overwritten.</param>
     /// <returns>The destination file path.</returns>
@@ -27,6 +28,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Moves the file to another file path.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Move(string,string)" />.</remarks>
     /// <param name="destination">The destination file path.</param>
     /// <returns>The destination file path.</returns>
     public FilePath MoveTo(FilePath destination)
@@ -38,6 +40,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Moves the file to another file path and optionally overwrites the destination.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Move(string,string,bool)" />.</remarks>
     /// <param name="destination">The destination file path.</param>
     /// <param name="overwrite">A value indicating whether an existing destination should be overwritten.</param>
     /// <returns>The destination file path.</returns>
@@ -50,6 +53,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Deletes the file.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Delete(string)" />.</remarks>
     public void Delete()
     {
         File.Delete(FullName);
@@ -58,6 +62,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Replaces the destination file with the current file and optionally creates a backup.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Replace(string,string,string?,bool)" />.</remarks>
     /// <param name="destination">The destination file path to replace.</param>
     /// <param name="backup">The optional backup file path.</param>
     /// <param name="ignoreMetadataErrors">A value indicating whether metadata errors should be ignored.</param>

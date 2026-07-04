@@ -15,6 +15,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Encrypts the file.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Encrypt(string)" />.</remarks>
     public void Encrypt()
     {
         File.Encrypt(FullName);
@@ -23,6 +24,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Decrypts the file.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.Decrypt(string)" />.</remarks>
     public void Decrypt()
     {
         File.Decrypt(FullName);
@@ -31,6 +33,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Creates a symbolic link at the current file path.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.CreateSymbolicLink(string,string)" />.</remarks>
     /// <param name="pathToTarget">The target path for the symbolic link.</param>
     /// <returns>The created symbolic link information.</returns>
     public FileSystemInfo CreateSymbolicLink(string pathToTarget)
@@ -41,6 +44,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Resolves the symbolic link target for the current file path.
     /// </summary>
+    /// <remarks>Wraps <see cref="File.ResolveLinkTarget(string,bool)" />.</remarks>
     /// <param name="returnFinalTarget">A value indicating whether the final target should be resolved.</param>
     /// <returns>The resolved link target information.</returns>
     public FileSystemInfo? ResolveLinkTarget(bool returnFinalTarget)
@@ -51,6 +55,10 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets or sets the Unix file mode for the current file path.
     /// </summary>
+    /// <remarks>
+    /// The getter wraps <see cref="File.GetUnixFileMode(string)" />.
+    /// The setter wraps <see cref="File.SetUnixFileMode(string,System.IO.UnixFileMode)" />.
+    /// </remarks>
     public UnixFileMode UnixFileMode
     {
         get

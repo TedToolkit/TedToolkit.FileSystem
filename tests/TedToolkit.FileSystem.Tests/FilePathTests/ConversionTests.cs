@@ -21,8 +21,6 @@ internal sealed class ConversionTests
         await Assert.That(path.ToFileInfo().FullName).IsEqualTo(TestAssets.NestedFile.FullName);
         await Assert.That(path.GetFullPath().FullName).IsEqualTo(Path.GetFullPath(TestAssets.NestedFile.FullName));
         await Assert.That(path.ChangeExtension(".md").FullName).IsEqualTo(Path.ChangeExtension(TestAssets.NestedFile.FullName, ".md"));
-        await Assert.That(path.WithExtension(".json").FullName).IsEqualTo(Path.ChangeExtension(TestAssets.NestedFile.FullName, ".json"));
-        await Assert.That(path.WithFileName("renamed.txt").FullName).IsEqualTo(Path.Combine(TestAssets.NestedDirectory.FullName, "renamed.txt"));
         await Assert.That(path.GetRelativePath(TestAssets.RootDirectory.ToPath()).FullName).IsEqualTo(Path.GetRelativePath(TestAssets.RootDirectory.FullName, TestAssets.NestedFile.FullName));
     }
 
