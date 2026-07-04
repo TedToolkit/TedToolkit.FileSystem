@@ -96,7 +96,9 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens a file handle for the current file path.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.OpenHandle(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,System.IO.FileOptions,long)" />.</remarks>
+    /// <remarks>
+    /// Wraps <c>File.OpenHandle(string, FileMode, FileAccess, FileShare, FileOptions, long)</c>.
+    /// </remarks>
     /// <param name="mode">The file mode.</param>
     /// <param name="access">The file access mode.</param>
     /// <param name="share">The file share mode.</param>

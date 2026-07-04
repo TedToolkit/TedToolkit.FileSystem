@@ -16,6 +16,9 @@ public readonly partial record struct FilePath
     /// Encrypts the file.
     /// </summary>
     /// <remarks>Wraps <see cref="File.Encrypt(string)" />.</remarks>
+#if NET6_0_OR_GREATER
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+#endif
     public void Encrypt()
     {
         File.Encrypt(FullName);
@@ -25,6 +28,9 @@ public readonly partial record struct FilePath
     /// Decrypts the file.
     /// </summary>
     /// <remarks>Wraps <see cref="File.Decrypt(string)" />.</remarks>
+#if NET6_0_OR_GREATER
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+#endif
     public void Decrypt()
     {
         File.Decrypt(FullName);

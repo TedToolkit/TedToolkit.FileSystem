@@ -32,7 +32,14 @@ public readonly partial record struct FilePath
     /// <returns>A file path value object that uses the assembly location.</returns>
     public static FilePath FromAssembly(Assembly assembly)
     {
-        Compatibility.ThrowIfNull(assembly, nameof(assembly));
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(assembly);
+#else
+        if (assembly is null)
+        {
+            throw new ArgumentNullException(nameof(assembly));
+        }
+#endif
         return new(assembly.Location);
     }
 

@@ -28,6 +28,8 @@ public readonly partial record struct FilePath
             throw new InvalidOperationException("The file path does not contain a parent directory.");
         }
 
-        return new(directoryPath.FullName, Name) { EnableRaisingEvents = true };
+        var watcher = new FileSystemWatcher(directoryPath.FullName, Name);
+        watcher.EnableRaisingEvents = true;
+        return watcher;
     }
 }

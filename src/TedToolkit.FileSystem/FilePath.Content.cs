@@ -204,7 +204,7 @@ public readonly partial record struct FilePath
         File.AppendAllLines(FullName, contents, encoding);
     }
 
-#if NET6_0_OR_GREATER
+#if NET9_0_OR_GREATER
     /// <summary>
     /// Appends all bytes to the file.
     /// </summary>
@@ -282,6 +282,7 @@ public readonly partial record struct FilePath
         return File.ReadAllLinesAsync(FullName, encoding, cancellationToken);
     }
 
+#if NET7_0_OR_GREATER
     /// <summary>
     /// Reads the file line by line asynchronously using the default encoding.
     /// </summary>
@@ -304,6 +305,7 @@ public readonly partial record struct FilePath
     {
         return File.ReadLinesAsync(FullName, encoding, cancellationToken);
     }
+#endif
 
     /// <summary>
     /// Writes all text to the file asynchronously using the default encoding.
@@ -317,7 +319,7 @@ public readonly partial record struct FilePath
         return File.WriteAllTextAsync(FullName, contents, cancellationToken);
     }
 
-#if NET10_0_OR_GREATER
+#if NET9_0_OR_GREATER
     /// <summary>
     /// Writes all text to the file asynchronously from a read-only memory buffer using the default encoding.
     /// </summary>
@@ -334,7 +336,9 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Writes all text to the file asynchronously using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.WriteAllTextAsync(string,string,System.Text.Encoding,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>
+    /// Wraps <see cref="File.WriteAllTextAsync(string,string,System.Text.Encoding,System.Threading.CancellationToken)" />.
+    /// </remarks>
     /// <param name="contents">The text to write.</param>
     /// <param name="encoding">The encoding to use.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -344,7 +348,7 @@ public readonly partial record struct FilePath
         return File.WriteAllTextAsync(FullName, contents, encoding, cancellationToken);
     }
 
-#if NET10_0_OR_GREATER
+#if NET9_0_OR_GREATER
     /// <summary>
     /// Writes all text to the file asynchronously from a read-only memory buffer using the supplied encoding.
     /// </summary>
@@ -372,6 +376,7 @@ public readonly partial record struct FilePath
         return File.WriteAllBytesAsync(FullName, bytes, cancellationToken);
     }
 
+#if NET9_0_OR_GREATER
     /// <summary>
     /// Writes all bytes to the file asynchronously from a read-only memory buffer.
     /// </summary>
@@ -383,11 +388,14 @@ public readonly partial record struct FilePath
     {
         return File.WriteAllBytesAsync(FullName, bytes, cancellationToken);
     }
+#endif
 
     /// <summary>
     /// Writes all lines to the file asynchronously using the default encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.WriteAllLinesAsync(string,System.Collections.Generic.IEnumerable{string},System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>
+    /// Wraps <c>File.WriteAllLinesAsync(string, IEnumerable&lt;string&gt;, CancellationToken)</c>.
+    /// </remarks>
     /// <param name="contents">The lines to write.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that completes when the write operation finishes.</returns>
@@ -399,7 +407,9 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Writes all lines to the file asynchronously using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.WriteAllLinesAsync(string,System.Collections.Generic.IEnumerable{string},System.Text.Encoding,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>
+    /// Wraps <c>File.WriteAllLinesAsync(string, IEnumerable&lt;string&gt;, Encoding, CancellationToken)</c>.
+    /// </remarks>
     /// <param name="contents">The lines to write.</param>
     /// <param name="encoding">The encoding to use.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -421,7 +431,7 @@ public readonly partial record struct FilePath
         return File.AppendAllTextAsync(FullName, contents, cancellationToken);
     }
 
-#if NET10_0_OR_GREATER
+#if NET9_0_OR_GREATER
     /// <summary>
     /// Appends all text to the file asynchronously from a read-only memory buffer using the default encoding.
     /// </summary>
@@ -438,7 +448,9 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Appends all text to the file asynchronously using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.AppendAllTextAsync(string,string,System.Text.Encoding,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>
+    /// Wraps <see cref="File.AppendAllTextAsync(string,string,System.Text.Encoding,System.Threading.CancellationToken)" />.
+    /// </remarks>
     /// <param name="contents">The text to append.</param>
     /// <param name="encoding">The encoding to use.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -448,7 +460,7 @@ public readonly partial record struct FilePath
         return File.AppendAllTextAsync(FullName, contents, encoding, cancellationToken);
     }
 
-#if NET10_0_OR_GREATER
+#if NET9_0_OR_GREATER
     /// <summary>
     /// Appends all text to the file asynchronously from a read-only memory buffer using the supplied encoding.
     /// </summary>
@@ -466,7 +478,9 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Appends all lines to the file asynchronously using the default encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.AppendAllLinesAsync(string,System.Collections.Generic.IEnumerable{string},System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>
+    /// Wraps <c>File.AppendAllLinesAsync(string, IEnumerable&lt;string&gt;, CancellationToken)</c>.
+    /// </remarks>
     /// <param name="contents">The lines to append.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that completes when the append operation finishes.</returns>
@@ -478,7 +492,9 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Appends all lines to the file asynchronously using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.AppendAllLinesAsync(string,System.Collections.Generic.IEnumerable{string},System.Text.Encoding,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>
+    /// Wraps <c>File.AppendAllLinesAsync(string, IEnumerable&lt;string&gt;, Encoding, CancellationToken)</c>.
+    /// </remarks>
     /// <param name="contents">The lines to append.</param>
     /// <param name="encoding">The encoding to use.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -488,7 +504,7 @@ public readonly partial record struct FilePath
         return File.AppendAllLinesAsync(FullName, contents, encoding, cancellationToken);
     }
 
-#if NET10_0_OR_GREATER
+#if NET9_0_OR_GREATER
     /// <summary>
     /// Appends all bytes to the file asynchronously.
     /// </summary>
@@ -516,6 +532,7 @@ public readonly partial record struct FilePath
 
 #endif
 
+#if NET9_0_OR_GREATER
     /// <summary>
     /// Writes all text to the file from a read-only span using the default encoding.
     /// </summary>
@@ -536,5 +553,6 @@ public readonly partial record struct FilePath
     {
         File.WriteAllText(FullName, contents, encoding);
     }
+#endif
 #endif
 }

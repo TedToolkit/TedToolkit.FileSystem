@@ -191,7 +191,9 @@ public readonly partial record struct DirectoryPath
 
         return new(Directory.CreateDirectory(FullName, unixCreateMode).FullName);
     }
+#endif
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Creates a symbolic link at the current directory path that points to the target directory path.
     /// </summary>

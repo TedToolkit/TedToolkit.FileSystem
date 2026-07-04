@@ -21,7 +21,14 @@ public readonly partial record struct FilePath(string FullName)
     /// <returns>A file path value object that uses the file full name.</returns>
     public static FilePath FromFileInfo(FileInfo fileInfo)
     {
-        Compatibility.ThrowIfNull(fileInfo, nameof(fileInfo));
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(fileInfo);
+#else
+        if (fileInfo is null)
+        {
+            throw new ArgumentNullException(nameof(fileInfo));
+        }
+#endif
         return new(fileInfo.FullName);
     }
 

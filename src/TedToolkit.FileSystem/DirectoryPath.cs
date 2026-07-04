@@ -16,19 +16,26 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <summary>
     /// Creates a directory path value object from a directory info instance.
     /// </summary>
-    /// <remarks>Uses the <see cref="DirectoryInfo.FullName" /> value from the supplied <see cref="DirectoryInfo" /> instance.</remarks>
+    /// <remarks>Uses the <see cref="FileSystemInfo.FullName" /> value from the supplied <see cref="DirectoryInfo" /> instance.</remarks>
     /// <param name="directoryInfo">The directory info instance to convert.</param>
     /// <returns>A directory path value object that uses the directory full name.</returns>
     public static DirectoryPath FromDirectoryInfo(DirectoryInfo directoryInfo)
     {
-        Compatibility.ThrowIfNull(directoryInfo, nameof(directoryInfo));
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(directoryInfo);
+#else
+        if (directoryInfo is null)
+        {
+            throw new ArgumentNullException(nameof(directoryInfo));
+        }
+#endif
         return new(directoryInfo.FullName);
     }
 
     /// <summary>
     /// Converts a directory info instance into a directory path value object.
     /// </summary>
-    /// <remarks>Delegates to <see cref="FromDirectoryInfo(DirectoryInfo)" />, which uses the <see cref="DirectoryInfo.FullName" /> value.</remarks>
+    /// <remarks>Delegates to <see cref="FromDirectoryInfo(DirectoryInfo)" />, which uses the <see cref="FileSystemInfo.FullName" /> value.</remarks>
     /// <param name="directoryInfo">The directory info instance to convert.</param>
     public static implicit operator DirectoryPath(DirectoryInfo directoryInfo)
     {
