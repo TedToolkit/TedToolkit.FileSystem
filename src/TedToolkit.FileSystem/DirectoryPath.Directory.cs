@@ -16,7 +16,13 @@ public readonly partial record struct DirectoryPath
     /// Gets a value indicating whether the directory exists.
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.Exists(string)" />.</remarks>
-    public bool Exists => Directory.Exists(FullName);
+    public bool Exists
+    {
+        get
+        {
+            return Directory.Exists(FullName);
+        }
+    }
 
     /// <summary>
     /// Gets or sets the directory creation time.
@@ -27,8 +33,15 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime CreationTime
     {
-        get => Directory.GetCreationTime(FullName);
-        set => Directory.SetCreationTime(FullName, value);
+        get
+        {
+            return Directory.GetCreationTime(FullName);
+        }
+
+        set
+        {
+            Directory.SetCreationTime(FullName, value);
+        }
     }
 
     /// <summary>
@@ -40,8 +53,15 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime LastWriteTime
     {
-        get => Directory.GetLastWriteTime(FullName);
-        set => Directory.SetLastWriteTime(FullName, value);
+        get
+        {
+            return Directory.GetLastWriteTime(FullName);
+        }
+
+        set
+        {
+            Directory.SetLastWriteTime(FullName, value);
+        }
     }
 
     /// <summary>
@@ -53,8 +73,15 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime LastAccessTime
     {
-        get => Directory.GetLastAccessTime(FullName);
-        set => Directory.SetLastAccessTime(FullName, value);
+        get
+        {
+            return Directory.GetLastAccessTime(FullName);
+        }
+
+        set
+        {
+            Directory.SetLastAccessTime(FullName, value);
+        }
     }
 
     /// <summary>
@@ -66,8 +93,15 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime CreationTimeUtc
     {
-        get => Directory.GetCreationTimeUtc(FullName);
-        set => Directory.SetCreationTimeUtc(FullName, value);
+        get
+        {
+            return Directory.GetCreationTimeUtc(FullName);
+        }
+
+        set
+        {
+            Directory.SetCreationTimeUtc(FullName, value);
+        }
     }
 
     /// <summary>
@@ -79,8 +113,15 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime LastWriteTimeUtc
     {
-        get => Directory.GetLastWriteTimeUtc(FullName);
-        set => Directory.SetLastWriteTimeUtc(FullName, value);
+        get
+        {
+            return Directory.GetLastWriteTimeUtc(FullName);
+        }
+
+        set
+        {
+            Directory.SetLastWriteTimeUtc(FullName, value);
+        }
     }
 
     /// <summary>
@@ -92,8 +133,15 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public DateTime LastAccessTimeUtc
     {
-        get => Directory.GetLastAccessTimeUtc(FullName);
-        set => Directory.SetLastAccessTimeUtc(FullName, value);
+        get
+        {
+            return Directory.GetLastAccessTimeUtc(FullName);
+        }
+
+        set
+        {
+            Directory.SetLastAccessTimeUtc(FullName, value);
+        }
     }
 
     /// <summary>
@@ -105,8 +153,15 @@ public readonly partial record struct DirectoryPath
     /// </remarks>
     public FileAttributes Attributes
     {
-        get => File.GetAttributes(FullName);
-        set => File.SetAttributes(FullName, value);
+        get
+        {
+            return File.GetAttributes(FullName);
+        }
+
+        set
+        {
+            File.SetAttributes(FullName, value);
+        }
     }
 
     /// <summary>
@@ -119,35 +174,22 @@ public readonly partial record struct DirectoryPath
         return new(Directory.CreateDirectory(FullName).FullName);
     }
 
+#if NET7_0_OR_GREATER
     /// <summary>
     /// Creates the directory using the specified Unix file mode when the platform supports it.
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.CreateDirectory(string,System.IO.UnixFileMode)" />.</remarks>
     /// <param name="unixCreateMode">The Unix file mode to apply.</param>
     /// <returns>The created directory path.</returns>
+    /// <exception cref="PlatformNotSupportedException">Thrown when Unix file modes are requested on Windows.</exception>
     public DirectoryPath Create(UnixFileMode unixCreateMode)
     {
+        if (OperatingSystem.IsWindows())
+        {
+            throw new PlatformNotSupportedException("Unix file modes are not supported on Windows.");
+        }
+
         return new(Directory.CreateDirectory(FullName, unixCreateMode).FullName);
-    }
-
-    /// <summary>
-    /// Deletes the directory.
-    /// </summary>
-    /// <remarks>Wraps <see cref="Directory.Delete(string,bool)" />.</remarks>
-    /// <param name="recursive">Whether child content should also be deleted.</param>
-    public void Delete(bool recursive = false)
-    {
-        Directory.Delete(FullName, recursive);
-    }
-
-    /// <summary>
-    /// Moves the directory to a new destination.
-    /// </summary>
-    /// <remarks>Wraps <see cref="Directory.Move(string,string)" />.</remarks>
-    /// <param name="destination">The destination directory path.</param>
-    public void MoveTo(DirectoryPath destination)
-    {
-        Directory.Move(FullName, destination.FullName);
     }
 
     /// <summary>
@@ -170,7 +212,33 @@ public readonly partial record struct DirectoryPath
     public DirectoryPath? ResolveLinkTarget(bool returnFinalTarget)
     {
         var fileSystemInfo = Directory.ResolveLinkTarget(FullName, returnFinalTarget);
-        return fileSystemInfo is null ? null : new DirectoryPath(fileSystemInfo.FullName);
+        if (fileSystemInfo is null)
+        {
+            return null;
+        }
+
+        return new DirectoryPath(fileSystemInfo.FullName);
+    }
+#endif
+
+    /// <summary>
+    /// Deletes the directory.
+    /// </summary>
+    /// <remarks>Wraps <see cref="Directory.Delete(string,bool)" />.</remarks>
+    /// <param name="recursive">Whether child content should also be deleted.</param>
+    public void Delete(bool recursive = false)
+    {
+        Directory.Delete(FullName, recursive);
+    }
+
+    /// <summary>
+    /// Moves the directory to a new destination.
+    /// </summary>
+    /// <remarks>Wraps <see cref="Directory.Move(string,string)" />.</remarks>
+    /// <param name="destination">The destination directory path.</param>
+    public void MoveTo(DirectoryPath destination)
+    {
+        Directory.Move(FullName, destination.FullName);
     }
 
     /// <summary>

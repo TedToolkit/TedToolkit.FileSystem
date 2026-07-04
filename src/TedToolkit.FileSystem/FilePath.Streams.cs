@@ -81,6 +81,7 @@ public readonly partial record struct FilePath
         return File.Open(FullName, mode, access, share);
     }
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Opens the file using the supplied file stream options.
     /// </summary>
@@ -91,6 +92,27 @@ public readonly partial record struct FilePath
     {
         return File.Open(FullName, options);
     }
+
+    /// <summary>
+    /// Opens a file handle for the current file path.
+    /// </summary>
+    /// <remarks>Wraps <see cref="File.OpenHandle(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,System.IO.FileOptions,long)" />.</remarks>
+    /// <param name="mode">The file mode.</param>
+    /// <param name="access">The file access mode.</param>
+    /// <param name="share">The file share mode.</param>
+    /// <param name="options">The file options.</param>
+    /// <param name="preallocationSize">The preallocated size, in bytes.</param>
+    /// <returns>The opened file handle.</returns>
+    public Microsoft.Win32.SafeHandles.SafeFileHandle OpenHandle(
+        FileMode mode = FileMode.Open,
+        FileAccess access = FileAccess.Read,
+        FileShare share = FileShare.Read,
+        FileOptions options = FileOptions.None,
+        long preallocationSize = 0)
+    {
+        return File.OpenHandle(FullName, mode, access, share, options, preallocationSize);
+    }
+#endif
 
     /// <summary>
     /// Opens the file for reading.
@@ -140,25 +162,5 @@ public readonly partial record struct FilePath
     public StreamWriter AppendText()
     {
         return File.AppendText(FullName);
-    }
-
-    /// <summary>
-    /// Opens a file handle for the current file path.
-    /// </summary>
-    /// <remarks>Wraps <see cref="File.OpenHandle(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,System.IO.FileOptions,long)" />.</remarks>
-    /// <param name="mode">The file mode.</param>
-    /// <param name="access">The file access mode.</param>
-    /// <param name="share">The file share mode.</param>
-    /// <param name="options">The file options.</param>
-    /// <param name="preallocationSize">The preallocated size, in bytes.</param>
-    /// <returns>The opened file handle.</returns>
-    public Microsoft.Win32.SafeHandles.SafeFileHandle OpenHandle(
-        FileMode mode = FileMode.Open,
-        FileAccess access = FileAccess.Read,
-        FileShare share = FileShare.Read,
-        FileOptions options = FileOptions.None,
-        long preallocationSize = 0)
-    {
-        return File.OpenHandle(FullName, mode, access, share, options, preallocationSize);
     }
 }

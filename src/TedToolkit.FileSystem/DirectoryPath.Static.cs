@@ -36,12 +36,10 @@ public readonly partial record struct DirectoryPath
     /// Gets the logical drives available on the current machine.
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.GetLogicalDrives()" />.</remarks>
-    public static DirectoryPath[] LogicalDrives
+    /// <returns>The logical drives available on the current machine.</returns>
+    public static DirectoryPath[] GetLogicalDrives()
     {
-        get
-        {
-            return Directory.GetLogicalDrives().Select(static x => new DirectoryPath(x)).ToArray();
-        }
+        return Directory.GetLogicalDrives().Select(static x => new DirectoryPath(x)).ToArray();
     }
 
     /// <summary>
@@ -140,6 +138,19 @@ public readonly partial record struct DirectoryPath
         }
     }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Creates a temporary subdirectory using the specified prefix.
+    /// </summary>
+    /// <remarks>Wraps <see cref="Directory.CreateTempSubdirectory(string)" />.</remarks>
+    /// <param name="prefix">The prefix for the temporary directory name.</param>
+    /// <returns>The created temporary directory path.</returns>
+    public static DirectoryPath CreateTempSubdirectory(string prefix)
+    {
+        return new(Directory.CreateTempSubdirectory(prefix).FullName);
+    }
+#endif
+
     /// <summary>
     /// Gets the system directory for the current machine.
     /// </summary>
@@ -150,17 +161,6 @@ public readonly partial record struct DirectoryPath
         {
             return new(Environment.SystemDirectory);
         }
-    }
-
-    /// <summary>
-    /// Creates a temporary subdirectory using the specified prefix.
-    /// </summary>
-    /// <remarks>Wraps <see cref="Directory.CreateTempSubdirectory(string)" />.</remarks>
-    /// <param name="prefix">The prefix for the temporary directory name.</param>
-    /// <returns>The created temporary directory path.</returns>
-    public static DirectoryPath CreateTempSubdirectory(string prefix)
-    {
-        return new(Directory.CreateTempSubdirectory(prefix).FullName);
     }
 
     /// <summary>

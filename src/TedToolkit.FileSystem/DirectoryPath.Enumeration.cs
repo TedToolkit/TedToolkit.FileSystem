@@ -45,6 +45,7 @@ public readonly partial record struct DirectoryPath
         return Directory.EnumerateDirectories(FullName, searchPattern, searchOption).Select(static x => new DirectoryPath(x));
     }
 
+#if NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Enumerates child directories matching a search pattern and enumeration options.
     /// </summary>
@@ -56,6 +57,7 @@ public readonly partial record struct DirectoryPath
     {
         return Directory.EnumerateDirectories(FullName, searchPattern, enumerationOptions).Select(static x => new DirectoryPath(x));
     }
+#endif
 
     /// <summary>
     /// Gets child directories as an array.
@@ -90,6 +92,7 @@ public readonly partial record struct DirectoryPath
         return Directory.GetDirectories(FullName, searchPattern, searchOption).Select(static x => new DirectoryPath(x)).ToArray();
     }
 
+#if NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Gets child directories matching a search pattern and enumeration options as an array.
     /// </summary>
@@ -101,6 +104,7 @@ public readonly partial record struct DirectoryPath
     {
         return Directory.GetDirectories(FullName, searchPattern, enumerationOptions).Select(static x => new DirectoryPath(x)).ToArray();
     }
+#endif
 
     /// <summary>
     /// Enumerates child files.
@@ -135,6 +139,7 @@ public readonly partial record struct DirectoryPath
         return Directory.EnumerateFiles(FullName, searchPattern, searchOption).Select(static x => new FilePath(x));
     }
 
+#if NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Enumerates child files matching a search pattern and enumeration options.
     /// </summary>
@@ -146,6 +151,7 @@ public readonly partial record struct DirectoryPath
     {
         return Directory.EnumerateFiles(FullName, searchPattern, enumerationOptions).Select(static x => new FilePath(x));
     }
+#endif
 
     /// <summary>
     /// Gets child files as an array.
@@ -180,6 +186,7 @@ public readonly partial record struct DirectoryPath
         return Directory.GetFiles(FullName, searchPattern, searchOption).Select(static x => new FilePath(x)).ToArray();
     }
 
+#if NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Gets child files matching a search pattern and enumeration options as an array.
     /// </summary>
@@ -191,6 +198,7 @@ public readonly partial record struct DirectoryPath
     {
         return Directory.GetFiles(FullName, searchPattern, enumerationOptions).Select(static x => new FilePath(x)).ToArray();
     }
+#endif
 
     /// <summary>
     /// Enumerates child file system entries.
@@ -225,6 +233,7 @@ public readonly partial record struct DirectoryPath
         return Directory.EnumerateFileSystemEntries(FullName, searchPattern, searchOption);
     }
 
+#if NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Enumerates child file system entries matching a search pattern and enumeration options.
     /// </summary>
@@ -236,6 +245,7 @@ public readonly partial record struct DirectoryPath
     {
         return Directory.EnumerateFileSystemEntries(FullName, searchPattern, enumerationOptions);
     }
+#endif
 
     /// <summary>
     /// Gets child file system entries as an array.
@@ -270,6 +280,7 @@ public readonly partial record struct DirectoryPath
         return Directory.GetFileSystemEntries(FullName, searchPattern, searchOption);
     }
 
+#if NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Gets child file system entries matching a search pattern and enumeration options as an array.
     /// </summary>
@@ -281,4 +292,5 @@ public readonly partial record struct DirectoryPath
     {
         return Directory.GetFileSystemEntries(FullName, searchPattern, enumerationOptions);
     }
+#endif
 }

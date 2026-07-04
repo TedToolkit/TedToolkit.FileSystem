@@ -35,12 +35,12 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the absolute file path for the current path text using the supplied base directory.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.GetFullPath(string,string)" />.</remarks>
+    /// <remarks>Resolves the current path against the supplied base directory.</remarks>
     /// <param name="basePath">The base directory to resolve against.</param>
     /// <returns>An absolute file path value.</returns>
     public FilePath GetFullPath(DirectoryPath basePath)
     {
-        return new(Path.GetFullPath(FullName, basePath.FullName));
+        return new(Compatibility.GetFullPath(FullName, basePath.FullName));
     }
 
     /// <summary>
@@ -57,22 +57,22 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets the path from the supplied base directory to the current file path.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.GetRelativePath(string,string)" />.</remarks>
+    /// <remarks>Computes the relative path from the supplied base directory to the current file path.</remarks>
     /// <param name="relativeTo">The base directory path.</param>
     /// <returns>A relative file path value.</returns>
     public FilePath GetRelativePath(DirectoryPath relativeTo)
     {
-        return new(Path.GetRelativePath(relativeTo.FullName, FullName));
+        return new(Compatibility.GetRelativePath(relativeTo.FullName, FullName));
     }
 
     /// <summary>
     /// Gets the path from the supplied base directory string to the current file path.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.GetRelativePath(string,string)" />.</remarks>
+    /// <remarks>Computes the relative path from the supplied base directory string to the current file path.</remarks>
     /// <param name="relativeTo">The base directory path string.</param>
     /// <returns>A relative file path value.</returns>
     public FilePath GetRelativePath(string relativeTo)
     {
-        return new(Path.GetRelativePath(relativeTo, FullName));
+        return new(Compatibility.GetRelativePath(relativeTo, FullName));
     }
 }

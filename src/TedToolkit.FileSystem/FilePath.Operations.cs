@@ -40,13 +40,13 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Moves the file to another file path and optionally overwrites the destination.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.Move(string,string,bool)" />.</remarks>
+    /// <remarks>Moves the file and overwrites the destination when requested.</remarks>
     /// <param name="destination">The destination file path.</param>
     /// <param name="overwrite">A value indicating whether an existing destination should be overwritten.</param>
     /// <returns>The destination file path.</returns>
     public FilePath MoveTo(FilePath destination, bool overwrite)
     {
-        File.Move(FullName, destination.FullName, overwrite);
+        Compatibility.MoveFile(FullName, destination.FullName, overwrite);
         return destination;
     }
 

@@ -36,7 +36,7 @@ internal sealed class StaticDirectoryTests
     {
         var currentDrive = new DirectoryPath(Path.GetPathRoot(Environment.CurrentDirectory)!);
 
-        var logicalDrives = DirectoryPath.LogicalDrives;
+        var logicalDrives = DirectoryPath.GetLogicalDrives();
 
         await Assert.That(logicalDrives).Contains(currentDrive);
     }

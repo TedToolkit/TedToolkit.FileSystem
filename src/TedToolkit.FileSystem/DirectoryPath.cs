@@ -10,7 +10,7 @@ namespace TedToolkit.FileSystem;
 /// <summary>
 /// Represents a directory path value.
 /// </summary>
-/// <param name="FullName">The full directory path text.</param>
+/// <param name="FullName">The full directory path text stored by this value object.</param>
 public readonly partial record struct DirectoryPath(string FullName)
 {
     /// <summary>
@@ -21,7 +21,7 @@ public readonly partial record struct DirectoryPath(string FullName)
     /// <returns>A directory path value object that uses the directory full name.</returns>
     public static DirectoryPath FromDirectoryInfo(DirectoryInfo directoryInfo)
     {
-        ArgumentNullException.ThrowIfNull(directoryInfo);
+        Compatibility.ThrowIfNull(directoryInfo, nameof(directoryInfo));
         return new(directoryInfo.FullName);
     }
 

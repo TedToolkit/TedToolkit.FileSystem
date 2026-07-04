@@ -117,12 +117,12 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Gets a value indicating whether the path is fully qualified.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.IsPathFullyQualified(string)" />.</remarks>
+    /// <remarks>Determines whether the current path is fully qualified.</remarks>
     public bool IsFullyQualified
     {
         get
         {
-            return Path.IsPathFullyQualified(FullName);
+            return Compatibility.IsPathFullyQualified(FullName);
         }
     }
 

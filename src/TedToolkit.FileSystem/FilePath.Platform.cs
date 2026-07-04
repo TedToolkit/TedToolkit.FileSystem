@@ -30,6 +30,7 @@ public readonly partial record struct FilePath
         File.Decrypt(FullName);
     }
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Creates a symbolic link at the current file path.
     /// </summary>
@@ -51,6 +52,8 @@ public readonly partial record struct FilePath
     {
         return File.ResolveLinkTarget(FullName, returnFinalTarget);
     }
+#endif
+#if NET7_0_OR_GREATER
 
     /// <summary>
     /// Gets or sets the Unix file mode for the current file path.
@@ -59,16 +62,28 @@ public readonly partial record struct FilePath
     /// The getter wraps <see cref="File.GetUnixFileMode(string)" />.
     /// The setter wraps <see cref="File.SetUnixFileMode(string,System.IO.UnixFileMode)" />.
     /// </remarks>
+    /// <exception cref="PlatformNotSupportedException">Thrown when Unix file modes are requested on Windows.</exception>
     public UnixFileMode UnixFileMode
     {
         get
         {
+            if (OperatingSystem.IsWindows())
+            {
+                throw new PlatformNotSupportedException("Unix file modes are not supported on Windows.");
+            }
+
             return File.GetUnixFileMode(FullName);
         }
 
         set
         {
+            if (OperatingSystem.IsWindows())
+            {
+                throw new PlatformNotSupportedException("Unix file modes are not supported on Windows.");
+            }
+
             File.SetUnixFileMode(FullName, value);
         }
     }
+#endif
 }
