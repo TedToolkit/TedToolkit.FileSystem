@@ -11,7 +11,7 @@ namespace TedToolkit.FileSystem;
 /// Represents a file path value.
 /// </summary>
 /// <param name="FullName">The full file path text.</param>
-public readonly record struct FilePath(string FullName)
+public readonly partial record struct FilePath(string FullName)
 {
     /// <summary>
     /// Creates a file path value object from a file info instance.

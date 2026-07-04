@@ -12,7 +12,7 @@ namespace TedToolkit.FileSystem.Tests.FileNameTests;
 internal sealed class RecordStructContractTests
 {
     /// <summary>
-    /// 验证创建文件名值对象时会保留传入的名称文本。
+    /// Verifies that the file name value object preserves the provided name text.
     /// </summary>
     [Test]
     [Arguments("")]
@@ -27,7 +27,7 @@ internal sealed class RecordStructContractTests
     }
 
     /// <summary>
-    /// 验证两个文件名值对象在名称文本相同时会被视为相等。
+    /// Verifies that two file name value objects are considered equal when their name text matches.
     /// </summary>
     [Test]
     public async Task Should_be_equal_when_name_is_the_same()
@@ -39,7 +39,7 @@ internal sealed class RecordStructContractTests
     }
 
     /// <summary>
-    /// 验证两个文件名值对象在名称文本不同时会被视为不相等。
+    /// Verifies that two file name value objects are considered not equal when their name text differs.
     /// </summary>
     [Test]
     public async Task Should_not_be_equal_when_name_is_different()

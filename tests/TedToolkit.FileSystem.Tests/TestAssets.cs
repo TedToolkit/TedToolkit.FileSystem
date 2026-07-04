@@ -13,7 +13,7 @@ internal static class TestAssets
 {
     private static readonly DirectoryInfo AssetRootDirectory = new(Path.Combine(
         Git.RootDirectory.FullName,
-        "asset"));
+        "assets"));
 
     public static readonly DirectoryInfo RootDirectory = AssetRootDirectory;
 

@@ -1,0 +1,489 @@
+// -----------------------------------------------------------------------
+// <copyright file="FilePath.Content.cs" company="TedToolkit">
+// Copyright (c) TedToolkit. All rights reserved.
+// Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System.Text;
+
+namespace TedToolkit.FileSystem;
+
+/// <summary>
+/// Provides content read and write helpers for file paths.
+/// </summary>
+public readonly partial record struct FilePath
+{
+    /// <summary>
+    /// Reads all text from the file using the default encoding.
+    /// </summary>
+    /// <returns>The file contents.</returns>
+    public string ReadAllText()
+    {
+        return File.ReadAllText(FullName);
+    }
+
+    /// <summary>
+    /// Reads all text from the file using the supplied encoding.
+    /// </summary>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <returns>The file contents.</returns>
+    public string ReadAllText(Encoding encoding)
+    {
+        return File.ReadAllText(FullName, encoding);
+    }
+
+    /// <summary>
+    /// Reads all bytes from the file.
+    /// </summary>
+    /// <returns>The file bytes.</returns>
+    public byte[] ReadAllBytes()
+    {
+        return File.ReadAllBytes(FullName);
+    }
+
+    /// <summary>
+    /// Reads all lines from the file using the default encoding.
+    /// </summary>
+    /// <returns>The file lines.</returns>
+    public string[] ReadAllLines()
+    {
+        return File.ReadAllLines(FullName);
+    }
+
+    /// <summary>
+    /// Reads all lines from the file using the supplied encoding.
+    /// </summary>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <returns>The file lines.</returns>
+    public string[] ReadAllLines(Encoding encoding)
+    {
+        return File.ReadAllLines(FullName, encoding);
+    }
+
+    /// <summary>
+    /// Reads the file line by line using the default encoding.
+    /// </summary>
+    /// <returns>The file lines.</returns>
+    public IEnumerable<string> ReadLines()
+    {
+        return File.ReadLines(FullName);
+    }
+
+    /// <summary>
+    /// Reads the file line by line using the supplied encoding.
+    /// </summary>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <returns>The file lines.</returns>
+    public IEnumerable<string> ReadLines(Encoding encoding)
+    {
+        return File.ReadLines(FullName, encoding);
+    }
+
+    /// <summary>
+    /// Writes all text to the file using the default encoding.
+    /// </summary>
+    /// <param name="contents">The text to write.</param>
+    public void WriteAllText(string contents)
+    {
+        File.WriteAllText(FullName, contents);
+    }
+
+    /// <summary>
+    /// Writes all text to the file using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The text to write.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    public void WriteAllText(string contents, Encoding encoding)
+    {
+        File.WriteAllText(FullName, contents, encoding);
+    }
+
+    /// <summary>
+    /// Writes all bytes to the file.
+    /// </summary>
+    /// <param name="bytes">The bytes to write.</param>
+    public void WriteAllBytes(byte[] bytes)
+    {
+        File.WriteAllBytes(FullName, bytes);
+    }
+
+    /// <summary>
+    /// Writes all bytes to the file from a read-only span.
+    /// </summary>
+    /// <param name="bytes">The bytes to write.</param>
+    public void WriteAllBytes(ReadOnlySpan<byte> bytes)
+    {
+        File.WriteAllBytes(FullName, bytes);
+    }
+
+    /// <summary>
+    /// Writes all lines to the file using the default encoding.
+    /// </summary>
+    /// <param name="contents">The lines to write.</param>
+    public void WriteAllLines(IEnumerable<string> contents)
+    {
+        File.WriteAllLines(FullName, contents);
+    }
+
+    /// <summary>
+    /// Writes all lines to the file using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The lines to write.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    public void WriteAllLines(IEnumerable<string> contents, Encoding encoding)
+    {
+        File.WriteAllLines(FullName, contents, encoding);
+    }
+
+    /// <summary>
+    /// Appends all text to the file using the default encoding.
+    /// </summary>
+    /// <param name="contents">The text to append.</param>
+    public void AppendAllText(string contents)
+    {
+        File.AppendAllText(FullName, contents);
+    }
+
+    /// <summary>
+    /// Appends all text to the file using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The text to append.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    public void AppendAllText(string contents, Encoding encoding)
+    {
+        File.AppendAllText(FullName, contents, encoding);
+    }
+
+    /// <summary>
+    /// Appends all text to the file from a read-only span using the default encoding.
+    /// </summary>
+    /// <param name="contents">The text to append.</param>
+    public void AppendAllText(ReadOnlySpan<char> contents)
+    {
+        File.AppendAllText(FullName, contents);
+    }
+
+    /// <summary>
+    /// Appends all text to the file from a read-only span using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The text to append.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    public void AppendAllText(ReadOnlySpan<char> contents, Encoding encoding)
+    {
+        File.AppendAllText(FullName, contents, encoding);
+    }
+
+    /// <summary>
+    /// Appends all lines to the file using the default encoding.
+    /// </summary>
+    /// <param name="contents">The lines to append.</param>
+    public void AppendAllLines(IEnumerable<string> contents)
+    {
+        File.AppendAllLines(FullName, contents);
+    }
+
+    /// <summary>
+    /// Appends all lines to the file using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The lines to append.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    public void AppendAllLines(IEnumerable<string> contents, Encoding encoding)
+    {
+        File.AppendAllLines(FullName, contents, encoding);
+    }
+
+    /// <summary>
+    /// Appends all bytes to the file.
+    /// </summary>
+    /// <param name="bytes">The bytes to append.</param>
+    public void AppendAllBytes(byte[] bytes)
+    {
+        File.AppendAllBytes(FullName, bytes);
+    }
+
+    /// <summary>
+    /// Appends all bytes to the file from a read-only span.
+    /// </summary>
+    /// <param name="bytes">The bytes to append.</param>
+    public void AppendAllBytes(ReadOnlySpan<byte> bytes)
+    {
+        File.AppendAllBytes(FullName, bytes);
+    }
+
+    /// <summary>
+    /// Reads all text from the file asynchronously using the default encoding.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The file contents.</returns>
+    public Task<string> ReadAllTextAsync(CancellationToken cancellationToken = default)
+    {
+        return File.ReadAllTextAsync(FullName, cancellationToken);
+    }
+
+    /// <summary>
+    /// Reads all text from the file asynchronously using the supplied encoding.
+    /// </summary>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The file contents.</returns>
+    public Task<string> ReadAllTextAsync(Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.ReadAllTextAsync(FullName, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Reads all bytes from the file asynchronously.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The file bytes.</returns>
+    public Task<byte[]> ReadAllBytesAsync(CancellationToken cancellationToken = default)
+    {
+        return File.ReadAllBytesAsync(FullName, cancellationToken);
+    }
+
+    /// <summary>
+    /// Reads all lines from the file asynchronously using the default encoding.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The file lines.</returns>
+    public Task<string[]> ReadAllLinesAsync(CancellationToken cancellationToken = default)
+    {
+        return File.ReadAllLinesAsync(FullName, cancellationToken);
+    }
+
+    /// <summary>
+    /// Reads all lines from the file asynchronously using the supplied encoding.
+    /// </summary>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The file lines.</returns>
+    public Task<string[]> ReadAllLinesAsync(Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.ReadAllLinesAsync(FullName, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Reads the file line by line asynchronously using the default encoding.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The file lines.</returns>
+    public IAsyncEnumerable<string> ReadLinesAsync(CancellationToken cancellationToken = default)
+    {
+        return File.ReadLinesAsync(FullName, cancellationToken);
+    }
+
+    /// <summary>
+    /// Reads the file line by line asynchronously using the supplied encoding.
+    /// </summary>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The file lines.</returns>
+    public IAsyncEnumerable<string> ReadLinesAsync(Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.ReadLinesAsync(FullName, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all text to the file asynchronously using the default encoding.
+    /// </summary>
+    /// <param name="contents">The text to write.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the write operation finishes.</returns>
+    public Task WriteAllTextAsync(string contents, CancellationToken cancellationToken = default)
+    {
+        return File.WriteAllTextAsync(FullName, contents, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all text to the file asynchronously from a read-only memory buffer using the default encoding.
+    /// </summary>
+    /// <param name="contents">The text to write.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the write operation finishes.</returns>
+    public Task WriteAllTextAsync(ReadOnlyMemory<char> contents, CancellationToken cancellationToken = default)
+    {
+        return File.WriteAllTextAsync(FullName, contents, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all text to the file asynchronously using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The text to write.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the write operation finishes.</returns>
+    public Task WriteAllTextAsync(string contents, Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.WriteAllTextAsync(FullName, contents, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all text to the file asynchronously from a read-only memory buffer using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The text to write.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the write operation finishes.</returns>
+    public Task WriteAllTextAsync(ReadOnlyMemory<char> contents, Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.WriteAllTextAsync(FullName, contents, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all bytes to the file asynchronously.
+    /// </summary>
+    /// <param name="bytes">The bytes to write.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the write operation finishes.</returns>
+    public Task WriteAllBytesAsync(byte[] bytes, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(bytes);
+        return File.WriteAllBytesAsync(FullName, bytes, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all bytes to the file asynchronously from a read-only memory buffer.
+    /// </summary>
+    /// <param name="bytes">The bytes to write.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the write operation finishes.</returns>
+    public Task WriteAllBytesAsync(ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
+    {
+        return File.WriteAllBytesAsync(FullName, bytes, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all lines to the file asynchronously using the default encoding.
+    /// </summary>
+    /// <param name="contents">The lines to write.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the write operation finishes.</returns>
+    public Task WriteAllLinesAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
+    {
+        return File.WriteAllLinesAsync(FullName, contents, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all lines to the file asynchronously using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The lines to write.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the write operation finishes.</returns>
+    public Task WriteAllLinesAsync(IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.WriteAllLinesAsync(FullName, contents, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Appends all text to the file asynchronously using the default encoding.
+    /// </summary>
+    /// <param name="contents">The text to append.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the append operation finishes.</returns>
+    public Task AppendAllTextAsync(string contents, CancellationToken cancellationToken = default)
+    {
+        return File.AppendAllTextAsync(FullName, contents, cancellationToken);
+    }
+
+    /// <summary>
+    /// Appends all text to the file asynchronously from a read-only memory buffer using the default encoding.
+    /// </summary>
+    /// <param name="contents">The text to append.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the append operation finishes.</returns>
+    public Task AppendAllTextAsync(ReadOnlyMemory<char> contents, CancellationToken cancellationToken = default)
+    {
+        return File.AppendAllTextAsync(FullName, contents, cancellationToken);
+    }
+
+    /// <summary>
+    /// Appends all text to the file asynchronously using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The text to append.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the append operation finishes.</returns>
+    public Task AppendAllTextAsync(string contents, Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.AppendAllTextAsync(FullName, contents, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Appends all text to the file asynchronously from a read-only memory buffer using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The text to append.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the append operation finishes.</returns>
+    public Task AppendAllTextAsync(ReadOnlyMemory<char> contents, Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.AppendAllTextAsync(FullName, contents, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Appends all lines to the file asynchronously using the default encoding.
+    /// </summary>
+    /// <param name="contents">The lines to append.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the append operation finishes.</returns>
+    public Task AppendAllLinesAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
+    {
+        return File.AppendAllLinesAsync(FullName, contents, cancellationToken);
+    }
+
+    /// <summary>
+    /// Appends all lines to the file asynchronously using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The lines to append.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the append operation finishes.</returns>
+    public Task AppendAllLinesAsync(IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
+    {
+        return File.AppendAllLinesAsync(FullName, contents, encoding, cancellationToken);
+    }
+
+    /// <summary>
+    /// Appends all bytes to the file asynchronously.
+    /// </summary>
+    /// <param name="bytes">The bytes to append.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the append operation finishes.</returns>
+    public Task AppendAllBytesAsync(byte[] bytes, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(bytes);
+        return File.AppendAllBytesAsync(FullName, bytes, cancellationToken);
+    }
+
+    /// <summary>
+    /// Appends all bytes to the file asynchronously from a read-only memory buffer.
+    /// </summary>
+    /// <param name="bytes">The bytes to append.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task that completes when the append operation finishes.</returns>
+    public Task AppendAllBytesAsync(ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
+    {
+        return File.AppendAllBytesAsync(FullName, bytes, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes all text to the file from a read-only span using the default encoding.
+    /// </summary>
+    /// <param name="contents">The text to write.</param>
+    public void WriteAllText(ReadOnlySpan<char> contents)
+    {
+        File.WriteAllText(FullName, contents);
+    }
+
+    /// <summary>
+    /// Writes all text to the file from a read-only span using the supplied encoding.
+    /// </summary>
+    /// <param name="contents">The text to write.</param>
+    /// <param name="encoding">The encoding to use.</param>
+    public void WriteAllText(ReadOnlySpan<char> contents, Encoding encoding)
+    {
+        File.WriteAllText(FullName, contents, encoding);
+    }
+}

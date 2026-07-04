@@ -11,7 +11,7 @@ namespace TedToolkit.FileSystem;
 /// Represents a directory path value.
 /// </summary>
 /// <param name="FullName">The full directory path text.</param>
-public readonly record struct DirectoryPath(string FullName)
+public readonly partial record struct DirectoryPath(string FullName)
 {
     /// <summary>
     /// Creates a directory path value object from a directory info instance.
@@ -71,5 +71,14 @@ public readonly record struct DirectoryPath(string FullName)
     public static FilePath operator /(DirectoryPath left, FileName right)
     {
         return left.Combine(right);
+    }
+
+    /// <summary>
+    /// Returns the raw full directory path text.
+    /// </summary>
+    /// <returns>The raw full directory path text.</returns>
+    public override string ToString()
+    {
+        return FullName;
     }
 }
