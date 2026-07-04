@@ -21,7 +21,9 @@ public readonly partial record struct FilePath
 #endif
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Encrypt()
-        => File.Encrypt(FullName);
+        {
+            File.Encrypt(FullName);
+        }
 
     /// <summary>
     /// Decrypts the file.
@@ -32,7 +34,9 @@ public readonly partial record struct FilePath
 #endif
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Decrypt()
-        => File.Decrypt(FullName);
+        {
+            File.Decrypt(FullName);
+        }
 
 #if NET6_0_OR_GREATER
     /// <summary>
@@ -43,7 +47,9 @@ public readonly partial record struct FilePath
     /// <returns>The created symbolic link information.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileSystemInfo CreateSymbolicLink(string pathToTarget)
-        => File.CreateSymbolicLink(FullName, pathToTarget);
+        {
+            return File.CreateSymbolicLink(FullName, pathToTarget);
+        }
 
     /// <summary>
     /// Resolves the symbolic link target for the current file path.
@@ -53,7 +59,9 @@ public readonly partial record struct FilePath
     /// <returns>The resolved link target information.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FileSystemInfo? ResolveLinkTarget(bool returnFinalTarget)
-        => File.ResolveLinkTarget(FullName, returnFinalTarget);
+        {
+            return File.ResolveLinkTarget(FullName, returnFinalTarget);
+        }
 #endif
 #if NET7_0_OR_GREATER
 
@@ -64,13 +72,20 @@ public readonly partial record struct FilePath
     /// The getter wraps <see cref="File.GetUnixFileMode(string)" />.
     /// The setter wraps <see cref="File.SetUnixFileMode(string,System.IO.UnixFileMode)" />.
     /// </remarks>
+    [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
     public UnixFileMode UnixFileMode
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => File.GetUnixFileMode(FullName);
+        get
+        {
+            return File.GetUnixFileMode(FullName);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        set => File.SetUnixFileMode(FullName, value);
+        set
+        {
+            File.SetUnixFileMode(FullName, value);
+        }
     }
 #endif
 }

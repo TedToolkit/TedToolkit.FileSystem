@@ -18,30 +18,35 @@ public static class FileSystemExtensions
     /// <remarks>Constructs <see cref="FileName" /> directly and does not wrap an additional BCL API.</remarks>
     /// <param name="value">The file name text.</param>
     /// <returns>A file name value object.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FileName AsFileName(this string value)
-    {
-        return new(value);
-    }
+        {
+            return new(value);
+        }
 
     /// <summary>
     /// Converts a directory info instance to a directory path value object.
     /// </summary>
-    /// <remarks>Delegates to the implicit <see cref="DirectoryPath" /> conversion, which uses the `DirectoryInfo.FullName` value.</remarks>
+    /// <remarks>Uses the <see cref="FileSystemInfo.FullName" /> value from the supplied <see cref="DirectoryInfo" /> instance.</remarks>
     /// <param name="directoryInfo">The directory info instance to convert.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="directoryInfo" /> is <see langword="null" />.</exception>
     /// <returns>A directory path value object.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath ToPath(this DirectoryInfo directoryInfo)
-    {
-        return directoryInfo;
-    }
+        {
+            return new((directoryInfo ?? throw new ArgumentNullException(nameof(directoryInfo))).FullName);
+        }
 
     /// <summary>
     /// Converts a file info instance to a file path value object.
     /// </summary>
-    /// <remarks>Delegates to the implicit <see cref="FilePath" /> conversion, which uses the `FileInfo.FullName` value.</remarks>
+    /// <remarks>Uses the <see cref="FileSystemInfo.FullName" /> value from the supplied <see cref="FileInfo" /> instance.</remarks>
     /// <param name="fileInfo">The file info instance to convert.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="fileInfo" /> is <see langword="null" />.</exception>
     /// <returns>A file path value object.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath ToPath(this FileInfo fileInfo)
-    {
-        return fileInfo;
-    }
+        {
+            return new((fileInfo ?? throw new ArgumentNullException(nameof(fileInfo))).FullName);
+        }
 }

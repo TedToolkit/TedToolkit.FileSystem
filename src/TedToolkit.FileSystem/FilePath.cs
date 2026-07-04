@@ -18,17 +18,22 @@ public readonly partial record struct FilePath(string FullName)
     /// </summary>
     /// <remarks>Uses the `FileInfo.FullName` value from the supplied <see cref="FileInfo" /> instance.</remarks>
     /// <param name="fileInfo">The file info instance to convert.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="fileInfo" /> is <see langword="null" />.</exception>
     /// <returns>A file path value object that uses the file full name.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath FromFileInfo(FileInfo fileInfo)
-        => new(fileInfo.FullName);
+        {
+            return new((fileInfo ?? throw new ArgumentNullException(nameof(fileInfo))).FullName);
+        }
 
     /// <summary>
     /// Converts a file info instance into a file path value object.
     /// </summary>
-    /// <remarks>Delegates to <see cref="FromFileInfo(FileInfo)" />, which uses the `FileInfo.FullName` value.</remarks>
+    /// <remarks>Uses the <see cref="FileSystemInfo.FullName" /> value from the supplied <see cref="FileInfo" /> instance.</remarks>
     /// <param name="fileInfo">The file info instance to convert.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator FilePath(FileInfo fileInfo)
-        => FromFileInfo(fileInfo);
+        {
+            return new(fileInfo.FullName);
+        }
 }

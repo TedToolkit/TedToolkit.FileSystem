@@ -39,28 +39,21 @@ public readonly partial record struct FilePath
         return destination;
     }
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Moves the file to another file path and optionally overwrites the destination.
     /// </summary>
-    /// <remarks>Moves the file and overwrites the destination when requested.</remarks>
+    /// <remarks>Wraps <see cref="File.Move(string,string,bool)" />.</remarks>
     /// <param name="destination">The destination file path.</param>
     /// <param name="overwrite">A value indicating whether an existing destination should be overwritten.</param>
     /// <returns>The destination file path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public FilePath MoveTo(FilePath destination, bool overwrite)
     {
-#if NET6_0_OR_GREATER
         File.Move(FullName, destination.FullName, overwrite);
-#else
-        if (overwrite && File.Exists(destination.FullName))
-        {
-            File.Delete(destination.FullName);
-        }
-
-        File.Move(FullName, destination.FullName);
-#endif
         return destination;
     }
+#endif
 
     /// <summary>
     /// Deletes the file.
@@ -68,7 +61,9 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="File.Delete(string)" />.</remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Delete()
-        => File.Delete(FullName);
+        {
+            File.Delete(FullName);
+        }
 
     /// <summary>
     /// Replaces the destination file with the current file and optionally creates a backup.

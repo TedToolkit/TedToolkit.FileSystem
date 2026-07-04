@@ -22,10 +22,16 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath CurrentDirectory
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(Directory.GetCurrentDirectory());
+        get
+        {
+            return new(Directory.GetCurrentDirectory());
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        set => Directory.SetCurrentDirectory(value.FullName);
+        set
+        {
+            Directory.SetCurrentDirectory(value.FullName);
+        }
     }
 
     /// <summary>
@@ -35,7 +41,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The logical drives available on the current machine.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath[] GetLogicalDrives()
-        => Directory.GetLogicalDrives().Select(static x => new DirectoryPath(x)).ToArray();
+        {
+            return Directory.GetLogicalDrives().Select(static x => new DirectoryPath(x)).ToArray();
+        }
 
     /// <summary>
     /// Gets the desktop directory for the current user.
@@ -44,7 +52,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath Desktop
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        get
+        {
+            return new(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+        }
     }
 
     /// <summary>
@@ -54,7 +65,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath Documents
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        get
+        {
+            return new(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+        }
     }
 
     /// <summary>
@@ -64,7 +78,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath UserProfile
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => GetFolderPath(Environment.SpecialFolder.UserProfile);
+        get
+        {
+            return new(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+        }
     }
 
     /// <summary>
@@ -74,7 +91,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath ApplicationData
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        get
+        {
+            return new(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+        }
     }
 
     /// <summary>
@@ -84,7 +104,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath LocalApplicationData
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        get
+        {
+            return new(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+        }
     }
 
     /// <summary>
@@ -94,7 +117,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath CommonApplicationData
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        get
+        {
+            return new(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
+        }
     }
 
     /// <summary>
@@ -104,7 +130,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath BaseDirectory
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(AppContext.BaseDirectory);
+        get
+        {
+            return new(AppContext.BaseDirectory);
+        }
     }
 
     /// <summary>
@@ -114,7 +143,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath Temp
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(Path.GetTempPath());
+        get
+        {
+            return new(Path.GetTempPath());
+        }
     }
 
 #if NET8_0_OR_GREATER
@@ -126,7 +158,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The created temporary directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath CreateTempSubdirectory(string prefix)
-        => new(Directory.CreateTempSubdirectory(prefix).FullName);
+        {
+            return new(Directory.CreateTempSubdirectory(prefix).FullName);
+        }
 #endif
 
     /// <summary>
@@ -136,7 +170,10 @@ public readonly partial record struct DirectoryPath
     public static DirectoryPath System
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(Environment.SystemDirectory);
+        get
+        {
+            return new(Environment.SystemDirectory);
+        }
     }
 
     /// <summary>
@@ -147,7 +184,9 @@ public readonly partial record struct DirectoryPath
     /// <returns>The resolved directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath GetFolderPath(Environment.SpecialFolder folder)
-        => new(Environment.GetFolderPath(folder));
+        {
+            return new(Environment.GetFolderPath(folder));
+        }
 
     /// <summary>
     /// Gets the path of the specified special folder using the requested verification option.
@@ -158,5 +197,7 @@ public readonly partial record struct DirectoryPath
     /// <returns>The resolved directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DirectoryPath GetFolderPath(Environment.SpecialFolder folder, Environment.SpecialFolderOption option)
-        => new(Environment.GetFolderPath(folder, option));
+        {
+            return new(Environment.GetFolderPath(folder, option));
+        }
 }

@@ -15,21 +15,27 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets the directory name segment from the current path.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.GetFileName(string)" /> after trimming any trailing directory separator.</remarks>
+    /// <remarks>Wraps <see cref="Path.GetFileName(string)" />.</remarks>
     public string Name
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Path.GetFileName(GetPathWithoutTrailingSeparator());
+        get
+        {
+            return Path.GetFileName(FullName);
+        }
     }
 
     /// <summary>
     /// Gets the parent directory of the current path when one exists.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.GetDirectoryName(string)" /> after trimming any trailing directory separator.</remarks>
+    /// <remarks>Wraps <see cref="Path.GetDirectoryName(string)" />.</remarks>
     public DirectoryPath? Parent
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Path.GetDirectoryName(GetPathWithoutTrailingSeparator()) is { } parent ? new DirectoryPath(parent) : null;
+        get
+        {
+            return Path.GetDirectoryName(FullName) is { } parent ? new DirectoryPath(parent) : default(DirectoryPath?);
+        }
     }
 
     /// <summary>
@@ -39,27 +45,36 @@ public readonly partial record struct DirectoryPath
     public DirectoryPath? Root
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Path.GetPathRoot(FullName) is { } root ? new DirectoryPath(root) : null;
+        get
+        {
+            return Path.GetPathRoot(FullName) is { } root ? new DirectoryPath(root) : default(DirectoryPath?);
+        }
     }
 
     /// <summary>
     /// Gets the extension segment of the current directory path.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.GetExtension(string)" /> after trimming any trailing directory separator.</remarks>
+    /// <remarks>Wraps <see cref="Path.GetExtension(string)" />.</remarks>
     public string Extension
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Path.GetExtension(GetPathWithoutTrailingSeparator());
+        get
+        {
+            return Path.GetExtension(FullName);
+        }
     }
 
     /// <summary>
     /// Gets a value indicating whether the current directory path has an extension segment.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.HasExtension(string)" /> after trimming any trailing directory separator.</remarks>
+    /// <remarks>Wraps <see cref="Path.HasExtension(string)" />.</remarks>
     public bool HasExtension
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Path.HasExtension(GetPathWithoutTrailingSeparator());
+        get
+        {
+            return Path.HasExtension(FullName);
+        }
     }
 
     /// <summary>
@@ -69,25 +84,26 @@ public readonly partial record struct DirectoryPath
     public bool IsPathRooted
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Path.IsPathRooted(FullName);
+        get
+        {
+            return Path.IsPathRooted(FullName);
+        }
     }
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Gets a value indicating whether the current directory path ends in a directory separator.
     /// </summary>
-    /// <remarks>Determines whether the current path ends in a directory separator.</remarks>
+    /// <remarks>Wraps <see cref="Path.EndsInDirectorySeparator(string)" />.</remarks>
     public bool EndsInDirectorySeparator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if NET6_0_OR_GREATER
             return Path.EndsInDirectorySeparator(FullName);
-#else
-            return FullName.Length > 0 && (FullName[FullName.Length - 1] == Path.DirectorySeparatorChar || FullName[FullName.Length - 1] == Path.AltDirectorySeparatorChar);
-#endif
         }
     }
+#endif
 
     /// <summary>
     /// Resolves the current directory path to its full absolute path.
@@ -96,48 +112,48 @@ public readonly partial record struct DirectoryPath
     /// <returns>The resolved absolute directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath GetFullPath()
-        => new(Path.GetFullPath(FullName));
+        {
+            return new(Path.GetFullPath(FullName));
+        }
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Resolves the current directory path to its full absolute path relative to a base directory path.
     /// </summary>
-    /// <remarks>Resolves the current path against the supplied base directory.</remarks>
+    /// <remarks>Wraps <see cref="Path.GetFullPath(string,string)" />.</remarks>
     /// <param name="basePath">The base directory path.</param>
     /// <returns>The resolved absolute directory path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath GetFullPath(DirectoryPath basePath)
-    {
-#if NET6_0_OR_GREATER
-        return new(Path.GetFullPath(FullName, basePath.FullName));
-#else
-        return new(Path.GetFullPath(Path.Combine(basePath.FullName, FullName)));
+        {
+            return new(Path.GetFullPath(FullName, basePath.FullName));
+        }
 #endif
-    }
 
     /// <summary>
     /// Changes the extension segment of the current directory path.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.ChangeExtension(string,string?)" /> after trimming any trailing directory separator.</remarks>
+    /// <remarks>Wraps <see cref="Path.ChangeExtension(string,string?)" />.</remarks>
     /// <param name="extension">The new extension value.</param>
     /// <returns>A directory path with the changed extension segment.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath ChangeExtension(string? extension)
-        => new(Path.ChangeExtension(GetPathWithoutTrailingSeparator(), extension)!);
+        {
+            return new(Path.ChangeExtension(FullName, extension)!);
+        }
 
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Returns the current directory path without any trailing directory separator.
     /// </summary>
-    /// <remarks>Returns the current path without any trailing directory separator.</remarks>
+    /// <remarks>Wraps <see cref="Path.TrimEndingDirectorySeparator(string)" />.</remarks>
     /// <returns>A directory path without a trailing directory separator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public DirectoryPath TrimEndingDirectorySeparator()
-    {
-#if NET6_0_OR_GREATER
-        return new(Path.TrimEndingDirectorySeparator(FullName));
-#else
-        return new(Path.GetPathRoot(FullName) is { } root ? FullName.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Length >= root.Length ? FullName.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) : root : FullName.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+        {
+            return new(Path.TrimEndingDirectorySeparator(FullName));
+        }
 #endif
-    }
 
 #if NET6_0_OR_GREATER || NETSTANDARD2_1
     /// <summary>
@@ -148,10 +164,8 @@ public readonly partial record struct DirectoryPath
     /// <returns>The relative path text from the current directory to the target directory.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string GetRelativePathTo(DirectoryPath target)
-        => Path.GetRelativePath(FullName, target.FullName);
+        {
+            return Path.GetRelativePath(FullName, target.FullName);
+        }
 #endif
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private string GetPathWithoutTrailingSeparator()
-        => TrimEndingDirectorySeparator().FullName;
 }

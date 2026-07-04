@@ -21,7 +21,9 @@ public readonly partial record struct FilePath
     /// <returns>The file contents.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string ReadAllText()
-        => File.ReadAllText(FullName);
+        {
+            return File.ReadAllText(FullName);
+        }
 
     /// <summary>
     /// Reads all text from the file using the supplied encoding.
@@ -31,7 +33,9 @@ public readonly partial record struct FilePath
     /// <returns>The file contents.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string ReadAllText(Encoding encoding)
-        => File.ReadAllText(FullName, encoding);
+        {
+            return File.ReadAllText(FullName, encoding);
+        }
 
     /// <summary>
     /// Reads all bytes from the file.
@@ -40,7 +44,9 @@ public readonly partial record struct FilePath
     /// <returns>The file bytes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public byte[] ReadAllBytes()
-        => File.ReadAllBytes(FullName);
+        {
+            return File.ReadAllBytes(FullName);
+        }
 
     /// <summary>
     /// Reads all lines from the file using the default encoding.
@@ -49,7 +55,9 @@ public readonly partial record struct FilePath
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string[] ReadAllLines()
-        => File.ReadAllLines(FullName);
+        {
+            return File.ReadAllLines(FullName);
+        }
 
     /// <summary>
     /// Reads all lines from the file using the supplied encoding.
@@ -59,7 +67,9 @@ public readonly partial record struct FilePath
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string[] ReadAllLines(Encoding encoding)
-        => File.ReadAllLines(FullName, encoding);
+        {
+            return File.ReadAllLines(FullName, encoding);
+        }
 
     /// <summary>
     /// Reads the file line by line using the default encoding.
@@ -68,7 +78,9 @@ public readonly partial record struct FilePath
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<string> ReadLines()
-        => File.ReadLines(FullName);
+        {
+            return File.ReadLines(FullName);
+        }
 
     /// <summary>
     /// Reads the file line by line using the supplied encoding.
@@ -78,7 +90,9 @@ public readonly partial record struct FilePath
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<string> ReadLines(Encoding encoding)
-        => File.ReadLines(FullName, encoding);
+        {
+            return File.ReadLines(FullName, encoding);
+        }
 
     /// <summary>
     /// Writes all text to the file using the default encoding.
@@ -87,7 +101,9 @@ public readonly partial record struct FilePath
     /// <param name="contents">The text to write.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllText(string contents)
-        => File.WriteAllText(FullName, contents);
+        {
+            File.WriteAllText(FullName, contents);
+        }
 
     /// <summary>
     /// Writes all text to the file using the supplied encoding.
@@ -97,7 +113,9 @@ public readonly partial record struct FilePath
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllText(string contents, Encoding encoding)
-        => File.WriteAllText(FullName, contents, encoding);
+        {
+            File.WriteAllText(FullName, contents, encoding);
+        }
 
     /// <summary>
     /// Writes all bytes to the file.
@@ -106,7 +124,9 @@ public readonly partial record struct FilePath
     /// <param name="bytes">The bytes to write.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllBytes(byte[] bytes)
-        => File.WriteAllBytes(FullName, bytes);
+        {
+            File.WriteAllBytes(FullName, bytes);
+        }
 
     /// <summary>
     /// Writes all lines to the file using the default encoding.
@@ -115,7 +135,9 @@ public readonly partial record struct FilePath
     /// <param name="contents">The lines to write.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllLines(IEnumerable<string> contents)
-        => File.WriteAllLines(FullName, contents);
+        {
+            File.WriteAllLines(FullName, contents);
+        }
 
     /// <summary>
     /// Writes all lines to the file using the supplied encoding.
@@ -125,7 +147,9 @@ public readonly partial record struct FilePath
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllLines(IEnumerable<string> contents, Encoding encoding)
-        => File.WriteAllLines(FullName, contents, encoding);
+        {
+            File.WriteAllLines(FullName, contents, encoding);
+        }
 
     /// <summary>
     /// Appends all text to the file using the default encoding.
@@ -134,7 +158,9 @@ public readonly partial record struct FilePath
     /// <param name="contents">The text to append.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllText(string contents)
-        => File.AppendAllText(FullName, contents);
+        {
+            File.AppendAllText(FullName, contents);
+        }
 
     /// <summary>
     /// Appends all text to the file using the supplied encoding.
@@ -144,7 +170,9 @@ public readonly partial record struct FilePath
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllText(string contents, Encoding encoding)
-        => File.AppendAllText(FullName, contents, encoding);
+        {
+            File.AppendAllText(FullName, contents, encoding);
+        }
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -154,7 +182,9 @@ public readonly partial record struct FilePath
     /// <param name="contents">The text to append.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllText(ReadOnlySpan<char> contents)
-        => File.AppendAllText(FullName, contents);
+        {
+            File.AppendAllText(FullName, contents);
+        }
 
     /// <summary>
     /// Appends all text to the file from a read-only span using the supplied encoding.
@@ -164,7 +194,9 @@ public readonly partial record struct FilePath
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllText(ReadOnlySpan<char> contents, Encoding encoding)
-        => File.AppendAllText(FullName, contents, encoding);
+        {
+            File.AppendAllText(FullName, contents, encoding);
+        }
 #endif
 
     /// <summary>
@@ -174,7 +206,9 @@ public readonly partial record struct FilePath
     /// <param name="contents">The lines to append.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllLines(IEnumerable<string> contents)
-        => File.AppendAllLines(FullName, contents);
+        {
+            File.AppendAllLines(FullName, contents);
+        }
 
     /// <summary>
     /// Appends all lines to the file using the supplied encoding.
@@ -184,7 +218,9 @@ public readonly partial record struct FilePath
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllLines(IEnumerable<string> contents, Encoding encoding)
-        => File.AppendAllLines(FullName, contents, encoding);
+        {
+            File.AppendAllLines(FullName, contents, encoding);
+        }
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -194,7 +230,9 @@ public readonly partial record struct FilePath
     /// <param name="bytes">The bytes to append.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllBytes(byte[] bytes)
-        => File.AppendAllBytes(FullName, bytes);
+        {
+            File.AppendAllBytes(FullName, bytes);
+        }
 
     /// <summary>
     /// Appends all bytes to the file from a read-only span.
@@ -203,7 +241,9 @@ public readonly partial record struct FilePath
     /// <param name="bytes">The bytes to append.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllBytes(ReadOnlySpan<byte> bytes)
-        => File.AppendAllBytes(FullName, bytes);
+        {
+            File.AppendAllBytes(FullName, bytes);
+        }
 
 #endif
 
@@ -216,7 +256,9 @@ public readonly partial record struct FilePath
     /// <returns>The file contents.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<string> ReadAllTextAsync(CancellationToken cancellationToken = default)
-        => File.ReadAllTextAsync(FullName, cancellationToken);
+        {
+            return File.ReadAllTextAsync(FullName, cancellationToken);
+        }
 
     /// <summary>
     /// Reads all text from the file asynchronously using the supplied encoding.
@@ -227,7 +269,9 @@ public readonly partial record struct FilePath
     /// <returns>The file contents.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<string> ReadAllTextAsync(Encoding encoding, CancellationToken cancellationToken = default)
-        => File.ReadAllTextAsync(FullName, encoding, cancellationToken);
+        {
+            return File.ReadAllTextAsync(FullName, encoding, cancellationToken);
+        }
 
     /// <summary>
     /// Reads all bytes from the file asynchronously.
@@ -237,7 +281,9 @@ public readonly partial record struct FilePath
     /// <returns>The file bytes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<byte[]> ReadAllBytesAsync(CancellationToken cancellationToken = default)
-        => File.ReadAllBytesAsync(FullName, cancellationToken);
+        {
+            return File.ReadAllBytesAsync(FullName, cancellationToken);
+        }
 
     /// <summary>
     /// Reads all lines from the file asynchronously using the default encoding.
@@ -247,7 +293,9 @@ public readonly partial record struct FilePath
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<string[]> ReadAllLinesAsync(CancellationToken cancellationToken = default)
-        => File.ReadAllLinesAsync(FullName, cancellationToken);
+        {
+            return File.ReadAllLinesAsync(FullName, cancellationToken);
+        }
 
     /// <summary>
     /// Reads all lines from the file asynchronously using the supplied encoding.
@@ -258,7 +306,9 @@ public readonly partial record struct FilePath
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<string[]> ReadAllLinesAsync(Encoding encoding, CancellationToken cancellationToken = default)
-        => File.ReadAllLinesAsync(FullName, encoding, cancellationToken);
+        {
+            return File.ReadAllLinesAsync(FullName, encoding, cancellationToken);
+        }
 
 #if NET7_0_OR_GREATER
     /// <summary>
@@ -269,7 +319,9 @@ public readonly partial record struct FilePath
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IAsyncEnumerable<string> ReadLinesAsync(CancellationToken cancellationToken = default)
-        => File.ReadLinesAsync(FullName, cancellationToken);
+        {
+            return File.ReadLinesAsync(FullName, cancellationToken);
+        }
 
     /// <summary>
     /// Reads the file line by line asynchronously using the supplied encoding.
@@ -280,7 +332,9 @@ public readonly partial record struct FilePath
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IAsyncEnumerable<string> ReadLinesAsync(Encoding encoding, CancellationToken cancellationToken = default)
-        => File.ReadLinesAsync(FullName, encoding, cancellationToken);
+        {
+            return File.ReadLinesAsync(FullName, encoding, cancellationToken);
+        }
 #endif
 
     /// <summary>
@@ -292,7 +346,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the write operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task WriteAllTextAsync(string contents, CancellationToken cancellationToken = default)
-        => File.WriteAllTextAsync(FullName, contents, cancellationToken);
+        {
+            return File.WriteAllTextAsync(FullName, contents, cancellationToken);
+        }
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -304,7 +360,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the write operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task WriteAllTextAsync(ReadOnlyMemory<char> contents, CancellationToken cancellationToken = default)
-        => File.WriteAllTextAsync(FullName, contents, cancellationToken);
+        {
+            return File.WriteAllTextAsync(FullName, contents, cancellationToken);
+        }
 #endif
 
     /// <summary>
@@ -319,7 +377,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the write operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task WriteAllTextAsync(string contents, Encoding encoding, CancellationToken cancellationToken = default)
-        => File.WriteAllTextAsync(FullName, contents, encoding, cancellationToken);
+        {
+            return File.WriteAllTextAsync(FullName, contents, encoding, cancellationToken);
+        }
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -332,7 +392,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the write operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task WriteAllTextAsync(ReadOnlyMemory<char> contents, Encoding encoding, CancellationToken cancellationToken = default)
-        => File.WriteAllTextAsync(FullName, contents, encoding, cancellationToken);
+        {
+            return File.WriteAllTextAsync(FullName, contents, encoding, cancellationToken);
+        }
 #endif
 
     /// <summary>
@@ -344,7 +406,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the write operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task WriteAllBytesAsync(byte[] bytes, CancellationToken cancellationToken = default)
-        => File.WriteAllBytesAsync(FullName, bytes, cancellationToken);
+        {
+            return File.WriteAllBytesAsync(FullName, bytes, cancellationToken);
+        }
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -354,7 +418,9 @@ public readonly partial record struct FilePath
     /// <param name="bytes">The bytes to write.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllBytes(ReadOnlySpan<byte> bytes)
-        => File.WriteAllBytes(FullName, bytes);
+        {
+            File.WriteAllBytes(FullName, bytes);
+        }
 
     /// <summary>
     /// Writes all bytes to the file asynchronously from a read-only memory buffer.
@@ -365,7 +431,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the write operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task WriteAllBytesAsync(ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
-        => File.WriteAllBytesAsync(FullName, bytes, cancellationToken);
+        {
+            return File.WriteAllBytesAsync(FullName, bytes, cancellationToken);
+        }
 #endif
 
     /// <summary>
@@ -379,7 +447,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the write operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task WriteAllLinesAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
-        => File.WriteAllLinesAsync(FullName, contents, cancellationToken);
+        {
+            return File.WriteAllLinesAsync(FullName, contents, cancellationToken);
+        }
 
     /// <summary>
     /// Writes all lines to the file asynchronously using the supplied encoding.
@@ -393,7 +463,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the write operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task WriteAllLinesAsync(IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
-        => File.WriteAllLinesAsync(FullName, contents, encoding, cancellationToken);
+        {
+            return File.WriteAllLinesAsync(FullName, contents, encoding, cancellationToken);
+        }
 
     /// <summary>
     /// Appends all text to the file asynchronously using the default encoding.
@@ -404,7 +476,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the append operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task AppendAllTextAsync(string contents, CancellationToken cancellationToken = default)
-        => File.AppendAllTextAsync(FullName, contents, cancellationToken);
+        {
+            return File.AppendAllTextAsync(FullName, contents, cancellationToken);
+        }
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -416,7 +490,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the append operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task AppendAllTextAsync(ReadOnlyMemory<char> contents, CancellationToken cancellationToken = default)
-        => File.AppendAllTextAsync(FullName, contents, cancellationToken);
+        {
+            return File.AppendAllTextAsync(FullName, contents, cancellationToken);
+        }
 #endif
 
     /// <summary>
@@ -431,7 +507,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the append operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task AppendAllTextAsync(string contents, Encoding encoding, CancellationToken cancellationToken = default)
-        => File.AppendAllTextAsync(FullName, contents, encoding, cancellationToken);
+        {
+            return File.AppendAllTextAsync(FullName, contents, encoding, cancellationToken);
+        }
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -444,7 +522,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the append operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task AppendAllTextAsync(ReadOnlyMemory<char> contents, Encoding encoding, CancellationToken cancellationToken = default)
-        => File.AppendAllTextAsync(FullName, contents, encoding, cancellationToken);
+        {
+            return File.AppendAllTextAsync(FullName, contents, encoding, cancellationToken);
+        }
 #endif
 
     /// <summary>
@@ -458,7 +538,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the append operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task AppendAllLinesAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
-        => File.AppendAllLinesAsync(FullName, contents, cancellationToken);
+        {
+            return File.AppendAllLinesAsync(FullName, contents, cancellationToken);
+        }
 
     /// <summary>
     /// Appends all lines to the file asynchronously using the supplied encoding.
@@ -472,7 +554,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the append operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task AppendAllLinesAsync(IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
-        => File.AppendAllLinesAsync(FullName, contents, encoding, cancellationToken);
+        {
+            return File.AppendAllLinesAsync(FullName, contents, encoding, cancellationToken);
+        }
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -484,7 +568,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the append operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task AppendAllBytesAsync(byte[] bytes, CancellationToken cancellationToken = default)
-        => File.AppendAllBytesAsync(FullName, bytes, cancellationToken);
+        {
+            return File.AppendAllBytesAsync(FullName, bytes, cancellationToken);
+        }
 
     /// <summary>
     /// Appends all bytes to the file asynchronously from a read-only memory buffer.
@@ -495,7 +581,9 @@ public readonly partial record struct FilePath
     /// <returns>A task that completes when the append operation finishes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task AppendAllBytesAsync(ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
-        => File.AppendAllBytesAsync(FullName, bytes, cancellationToken);
+        {
+            return File.AppendAllBytesAsync(FullName, bytes, cancellationToken);
+        }
 
 #endif
 
@@ -507,7 +595,9 @@ public readonly partial record struct FilePath
     /// <param name="contents">The text to write.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllText(ReadOnlySpan<char> contents)
-        => File.WriteAllText(FullName, contents);
+        {
+            File.WriteAllText(FullName, contents);
+        }
 
     /// <summary>
     /// Writes all text to the file from a read-only span using the supplied encoding.
@@ -517,7 +607,9 @@ public readonly partial record struct FilePath
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllText(ReadOnlySpan<char> contents, Encoding encoding)
-        => File.WriteAllText(FullName, contents, encoding);
+        {
+            File.WriteAllText(FullName, contents, encoding);
+        }
 #endif
 #endif
 }

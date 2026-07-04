@@ -82,6 +82,7 @@ internal sealed class AdditionalFileApiTests
     /// 验证文件路径可以转接覆盖移动与字节追加接口。
     /// </summary>
     [Test]
+#if NET6_0_OR_GREATER
     public async Task Should_support_additional_file_operation_overloads_when_requested()
     {
         var root = TestWorkspace.CreateDirectory();
@@ -108,6 +109,7 @@ internal sealed class AdditionalFileApiTests
             root.Delete(true);
         }
     }
+#endif
 
     /// <summary>
     /// 验证文件路径可以转接 span 与 memory 版本的文本和字节接口。

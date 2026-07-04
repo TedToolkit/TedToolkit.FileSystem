@@ -21,17 +21,22 @@ public readonly partial record struct FilePath
     /// <returns>The created temporary file path.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath GetTempFileName()
-        => new(Path.GetTempFileName());
+        {
+            return new(Path.GetTempFileName());
+        }
 
     /// <summary>
     /// Creates a file path value object from an assembly location.
     /// </summary>
     /// <remarks>Uses the <see cref="Assembly.Location" /> value from the supplied <see cref="Assembly" /> instance.</remarks>
     /// <param name="assembly">The assembly to convert.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="assembly" /> is <see langword="null" />.</exception>
     /// <returns>A file path value object that uses the assembly location.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath FromAssembly(Assembly assembly)
-        => new(assembly.Location);
+        {
+            return new((assembly ?? throw new ArgumentNullException(nameof(assembly))).Location);
+        }
 
     /// <summary>
     /// Creates a file path value object from the entry assembly location when available.
@@ -43,7 +48,9 @@ public readonly partial record struct FilePath
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath? FromEntryAssembly()
-        => Assembly.GetEntryAssembly() is { } assembly ? FromAssembly(assembly) : default(FilePath?);
+        {
+            return Assembly.GetEntryAssembly() is { } assembly ? FromAssembly(assembly) : default(FilePath?);
+        }
 
     /// <summary>
     /// Creates a file path value object from the currently executing assembly location.
@@ -52,7 +59,9 @@ public readonly partial record struct FilePath
     /// <returns>A file path value object that uses the executing assembly location.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath FromExecutingAssembly()
-        => FromAssembly(Assembly.GetExecutingAssembly());
+        {
+            return new(Assembly.GetExecutingAssembly().Location);
+        }
 
     /// <summary>
     /// Creates a file path value object from the calling assembly location.
@@ -61,5 +70,7 @@ public readonly partial record struct FilePath
     /// <returns>A file path value object that uses the calling assembly location.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath FromCallingAssembly()
-        => FromAssembly(Assembly.GetCallingAssembly());
+        {
+            return new(Assembly.GetCallingAssembly().Location);
+        }
 }

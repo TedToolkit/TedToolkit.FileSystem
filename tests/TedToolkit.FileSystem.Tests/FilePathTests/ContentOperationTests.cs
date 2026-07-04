@@ -12,28 +12,6 @@ namespace TedToolkit.FileSystem.Tests.FilePathTests;
 internal sealed class ContentOperationTests
 {
     /// <summary>
-    /// Verifies that parent-directory helpers create missing parent directories before writing.
-    /// </summary>
-    [Test]
-    public async Task Should_create_parent_directory_when_requested()
-    {
-        var root = TestWorkspace.CreateDirectory();
-        var path = new FilePath(Path.Combine(root.FullName, "nested", "child.txt"));
-
-        try
-        {
-            var directory = path.CreateParentDirectory();
-
-            await Assert.That(directory.FullName).IsEqualTo(Path.Combine(root.FullName, "nested"));
-            await Assert.That(Directory.Exists(directory.FullName)).IsTrue();
-        }
-        finally
-        {
-            root.Delete(true);
-        }
-    }
-
-    /// <summary>
     /// Verifies that text, bytes, lines, and async helpers read back the written file contents.
     /// </summary>
     [Test]
