@@ -2,15 +2,31 @@
 
 [![License: LGPL-3.0](https://img.shields.io/badge/License-LGPL--3.0-blue.svg)](COPYING.LESSER)
 
-`TedToolkit.FileSystem` is a .NET repository for a small file system abstraction library built around strongly typed path values and direct forwarding to the .NET Base Class Library.
+`TedToolkit.FileSystem` is a .NET repository for a small file system library built around strongly typed path values and direct forwarding to the .NET Base Class Library.
 
-The repository currently produces one NuGet package:
+The repository currently ships one package:
 
 | Package | Purpose |
 | --- | --- |
 | `TedToolkit.FileSystem` | Strongly typed wrappers for file names, file paths, and directory paths with BCL-shaped APIs. |
 
-For package usage and examples, see [src/TedToolkit.FileSystem/README.md](src/TedToolkit.FileSystem/README.md).
+For package installation, examples, and public API usage, see [src/TedToolkit.FileSystem/README.md](src/TedToolkit.FileSystem/README.md).
+
+## What This Repository Contains
+
+This repository focuses on a thin file system abstraction layer for .NET applications that want clearer path semantics than raw strings without moving away from `System.IO`.
+
+The library centers on three value types:
+
+- `FileName`
+- `FilePath`
+- `DirectoryPath`
+
+The public API is intentionally close to the BCL:
+
+- wrap familiar `Path`, `File`, `Directory`, `FileInfo`, and `DirectoryInfo` members
+- preserve direct forwarding behavior instead of adding custom file system workflows
+- expose target-framework-specific APIs only where the underlying BCL member exists
 
 ## Repository Layout
 
@@ -25,12 +41,12 @@ externals/
   TedToolkit/
 ```
 
-- `src/TedToolkit.FileSystem` contains the library and the package README.
+- `src/TedToolkit.FileSystem` contains the library and the NuGet package README.
 - `tests/TedToolkit.FileSystem.Tests` contains the test project.
 - `Build` contains the repository pipeline entry point.
-- `externals/TedToolkit` is a submodule that supplies shared build props and infrastructure.
+- `externals/TedToolkit` is a submodule that provides shared props and build infrastructure.
 
-## Development Prerequisites
+## Prerequisites
 
 - .NET SDK capable of building the repository target frameworks
 - Git with submodule support
@@ -68,23 +84,35 @@ Run the repository pipeline:
 dotnet run --project Build/Build.csproj
 ```
 
-## Developer Notes
+## Development Notes
 
-- The library is intentionally a forwarding layer over `System.IO` and related BCL APIs.
-- Public APIs are expected to stay close to the underlying .NET shape instead of adding custom file system workflows.
-- Target frameworks are imported from `externals/TedToolkit/props/AlmostAllFrameworks.props`.
-- The project currently targets `net6.0`, `net7.0`, `net8.0`, `net9.0`, `net10.0`, `net472`, `net48`, `netstandard2.0`, and `netstandard2.1`.
-- The package-facing README lives at `src/TedToolkit.FileSystem/README.md` and should stay aligned with the actual public API surface.
+- The library is a forwarding layer, not a higher-level file system framework.
+- Public APIs should stay close to the underlying BCL member shape whenever possible.
+- Wrapper behavior should come from the BCL call itself rather than custom pre-validation or emulation.
+- The package-facing README in `src/TedToolkit.FileSystem/README.md` should stay aligned with the actual public API surface.
 
-## Packaging
+## Target Frameworks
 
-The package project is [src/TedToolkit.FileSystem/TedToolkit.FileSystem.csproj](C:/PartTime/Code/TedToolkit/TedToolkit.FileSystem/src/TedToolkit.FileSystem/TedToolkit.FileSystem.csproj).
+The project currently targets:
 
-When changing the public API, update:
+- `net6.0`
+- `net7.0`
+- `net8.0`
+- `net9.0`
+- `net10.0`
+- `net472`
+- `net48`
+- `netstandard2.0`
+- `netstandard2.1`
 
-- XML documentation on the affected public members
-- the package README in `src/TedToolkit.FileSystem/README.md`
-- tests that describe the intended BCL-facing behavior
+## Release Checklist
+
+Before publishing a package update, verify:
+
+- public API changes are covered by tests
+- XML documentation is updated for affected public members
+- `src/TedToolkit.FileSystem/README.md` reflects the current public API and examples
+- package metadata in [src/TedToolkit.FileSystem/TedToolkit.FileSystem.csproj](C:/PartTime/Code/TedToolkit/TedToolkit.FileSystem/src/TedToolkit.FileSystem/TedToolkit.FileSystem.csproj) still matches the intended release
 
 ## License
 

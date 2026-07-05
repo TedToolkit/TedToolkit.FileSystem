@@ -2,7 +2,7 @@
 
 `TedToolkit.FileSystem` provides small, strongly typed file system value objects for .NET while keeping the API close to `System.IO`.
 
-Instead of passing raw strings everywhere, you can work with:
+Instead of passing raw strings everywhere, you can work with explicit path-focused values:
 
 - `FileName`
 - `FilePath`
@@ -18,10 +18,26 @@ dotnet add package TedToolkit.FileSystem
 
 ## Why Use It
 
-- Use explicit path value types instead of ambiguous `string` parameters.
-- Keep the convenience of `Path`, `File`, and `Directory` style APIs, but attach them to the value you are already working with.
-- Stay lighter than `FileInfo` and `DirectoryInfo` when you mainly want to model and pass around path values.
-- Write file system code in a more fluent, value-oriented style without moving away from familiar BCL concepts.
+- Model file system values explicitly instead of passing ambiguous `string` parameters.
+- Keep familiar `Path`, `File`, and `Directory` shaped operations close to the value you are already working with.
+- Stay lighter than `FileInfo` and `DirectoryInfo` when you mainly want to pass around path values.
+- Adopt stronger file system semantics without introducing a custom abstraction model on top of the BCL.
+
+## Quick Start
+
+```csharp
+using TedToolkit.FileSystem;
+
+var root = DirectoryPath.CurrentDirectory;
+var logs = root / "logs";
+var logFile = logs / "app".AsFileName("log");
+
+logs.Create();
+logFile.WriteAllText("Started");
+
+Console.WriteLine(logFile.FullName);
+Console.WriteLine(logFile.Extension);
+```
 
 ## Core Types
 
@@ -32,10 +48,12 @@ Represents a file name value.
 ```csharp
 using TedToolkit.FileSystem;
 
-FileName logFile = "app".AsFileName(".log");
+FileName report = "report".AsFileName("txt");
 
-Console.WriteLine(logFile.Name);
+Console.WriteLine(report.Name);
 ```
+
+The extension argument follows `Path.ChangeExtension` semantics, so both `"txt"` and `".txt"` are valid.
 
 ### `DirectoryPath`
 
@@ -45,11 +63,11 @@ Represents a directory path and exposes directory-oriented operations.
 using TedToolkit.FileSystem;
 
 var root = DirectoryPath.CurrentDirectory;
-var logs = root / "logs";
+var artifacts = root / "artifacts";
 
-logs.Create();
+artifacts.Create();
 
-foreach (var file in logs.EnumerateFiles("*.log"))
+foreach (var file in artifacts.EnumerateFiles("*.json"))
 {
     Console.WriteLine(file.FullName);
 }
@@ -63,25 +81,25 @@ Represents a file path and exposes file-oriented operations.
 using TedToolkit.FileSystem;
 
 var root = DirectoryPath.CurrentDirectory;
-var file = root / "notes.txt".AsFileName();
+var file = root / "notes".AsFileName("txt");
 
 file.WriteAllText("Hello from TedToolkit.FileSystem");
 
 Console.WriteLine(file.ReadAllText());
+Console.WriteLine(file.Name);
 Console.WriteLine(file.NameWithoutExtension);
-Console.WriteLine(file.Extension);
 Console.WriteLine(file.ParentDirectory);
 ```
 
 ## Common Usage
 
-### Build paths without raw string plumbing
+### Build paths fluently
 
 ```csharp
 using TedToolkit.FileSystem;
 
 var configDirectory = DirectoryPath.ApplicationData / "MyApp";
-var configFile = configDirectory / "settings.json".AsFileName();
+var configFile = configDirectory / "settings".AsFileName("json");
 ```
 
 ### Resolve absolute and relative paths
@@ -94,6 +112,9 @@ var relativeFile = new FilePath(@"data\sample.txt");
 
 var absoluteFile = relativeFile.GetFullPath(root);
 var relativeAgain = absoluteFile.GetRelativePath(root);
+
+Console.WriteLine(absoluteFile.FullName);
+Console.WriteLine(relativeAgain.FullName);
 ```
 
 ### Use BCL-shaped file operations from `FilePath`
@@ -102,29 +123,27 @@ var relativeAgain = absoluteFile.GetRelativePath(root);
 using TedToolkit.FileSystem;
 
 var source = new FilePath("report.txt");
-var destination = source.ChangeExtension(".bak");
+var backup = source.ChangeExtension(".bak");
 
-source.CopyTo(destination, overwrite: true);
+source.CopyTo(backup, overwrite: true);
 ```
 
-### Prefer path-focused values over `FileInfo` and `DirectoryInfo`
+### Convert to `FileInfo` when needed
 
 ```csharp
 using TedToolkit.FileSystem;
 
 var file = new FilePath(@"artifacts\report.json");
 
-Console.WriteLine(file.Name);
-Console.WriteLine(file.NameWithoutExtension);
 Console.WriteLine(file.ToFileInfo().Length);
 ```
 
-## Design Notes
+## Design Principles
 
-- Public APIs are intentionally close to `Path`, `File`, `Directory`, `FileInfo`, and `DirectoryInfo`.
-- The types support a more fluent programming style by letting path values carry their own related operations.
-- The library favors direct forwarding over custom validation or behavior emulation.
-- Some APIs are available only on target frameworks where the underlying BCL member exists.
+- Public APIs stay intentionally close to `Path`, `File`, `Directory`, `FileInfo`, and `DirectoryInfo`.
+- The library favors direct forwarding over custom validation, compatibility emulation, or higher-level workflows.
+- Some members are available only on target frameworks where the wrapped BCL member exists.
+- The goal is stronger typing and fluent composition, not replacing the BCL with a new file system model.
 
 ## Target Frameworks
 
