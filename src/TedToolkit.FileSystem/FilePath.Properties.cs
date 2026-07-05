@@ -160,6 +160,25 @@ public readonly partial record struct FilePath
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the file is read-only.
+    /// </summary>
+    /// <remarks>Gets or sets <see cref="FileInfo.IsReadOnly" /> on a new <see cref="FileInfo" /> created with the current path.</remarks>
+    public bool IsReadOnly
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            return new FileInfo(FullName).IsReadOnly;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set
+        {
+            new FileInfo(FullName).IsReadOnly = value;
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the file creation time in local time.
     /// </summary>
     /// <remarks>

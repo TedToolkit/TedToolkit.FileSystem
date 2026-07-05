@@ -15,7 +15,7 @@ internal sealed class EnumerationTests
     public async Task Should_enumerate_directories_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new() { RecurseSubdirectories = true, };
+        var recursiveOptions = new EnumerationOptions() { RecurseSubdirectories = true, };
 
         await Assert.That(path.EnumerateDirectories().Select(x => x.FullName).Order().ToArray())
             .IsEquivalentTo([
@@ -34,7 +34,7 @@ internal sealed class EnumerationTests
     public async Task Should_get_directories_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new() { RecurseSubdirectories = true, };
+        var recursiveOptions = new EnumerationOptions() { RecurseSubdirectories = true, };
 
         await Assert.That(path.GetDirectories().Select(x => x.FullName).Order().ToArray())
             .IsEquivalentTo([
@@ -53,7 +53,7 @@ internal sealed class EnumerationTests
     public async Task Should_enumerate_files_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new() { RecurseSubdirectories = true, };
+        var recursiveOptions = new EnumerationOptions() { RecurseSubdirectories = true, };
 
         await Assert.That(path.EnumerateFiles().Single())
             .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
@@ -75,7 +75,7 @@ internal sealed class EnumerationTests
     public async Task Should_get_files_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new() { RecurseSubdirectories = true, };
+        var recursiveOptions = new EnumerationOptions() { RecurseSubdirectories = true, };
 
         await Assert.That(path.GetFiles().Single())
             .IsEqualTo(new FilePath(TestAssets.RootFile.FullName));
@@ -97,7 +97,7 @@ internal sealed class EnumerationTests
     public async Task Should_enumerate_file_system_entries_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new() { RecurseSubdirectories = true, };
+        var recursiveOptions = new EnumerationOptions() { RecurseSubdirectories = true, };
 
         await Assert.That(path.EnumerateFileSystemEntries().Order().ToArray())
             .IsEquivalentTo([
@@ -117,7 +117,7 @@ internal sealed class EnumerationTests
     public async Task Should_get_file_system_entries_through_all_public_overloads()
     {
         var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
-        var recursiveOptions = new() { RecurseSubdirectories = true, };
+        var recursiveOptions = new EnumerationOptions() { RecurseSubdirectories = true, };
 
         await Assert.That(path.GetFileSystemEntries().Order().ToArray())
             .IsEquivalentTo([

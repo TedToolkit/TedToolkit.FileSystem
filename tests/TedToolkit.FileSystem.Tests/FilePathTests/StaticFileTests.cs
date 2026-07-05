@@ -64,7 +64,7 @@ internal sealed class StaticFileTests
     [Test]
     public async Task Should_create_file_path_from_entry_assembly_when_available()
     {
-        var expectedAssembly = Assembly.GetEntryAssembly();
+        var expectedAssembly = System.Reflection.Assembly.GetEntryAssembly();
         var path = ReadEntryAssemblyPath();
 
         if (expectedAssembly is null)
@@ -79,7 +79,7 @@ internal sealed class StaticFileTests
     [Test]
     public async Task Should_throw_argument_null_exception_when_creating_file_path_from_null_assembly()
     {
-        Assembly assembly = null!;
+        System.Reflection.Assembly assembly = null!;
 
         await Assert.That(() => FilePath.FromAssembly(assembly))
             .Throws<ArgumentNullException>();

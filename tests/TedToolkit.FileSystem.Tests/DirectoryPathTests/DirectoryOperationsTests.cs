@@ -8,6 +8,7 @@
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Runtime.Versioning;
+
 using TedToolkit.FileSystem;
 
 namespace TedToolkit.FileSystem.Tests.DirectoryPathTests;
@@ -33,8 +34,8 @@ internal sealed class DirectoryOperationsTests
         {
             var createdDirectory = path.Create();
 
-            await Assert.That(path.Exists).IsTrue().ConfigureAwait(false);
-            await Assert.That(createdDirectory.FullName).IsEqualTo(path.FullName).ConfigureAwait(false);
+            await Assert.That(path.Exists).IsTrue();
+            await Assert.That(createdDirectory.FullName).IsEqualTo(path.FullName);
         }
         finally
         {
@@ -49,7 +50,7 @@ internal sealed class DirectoryOperationsTests
 
         path.Delete();
 
-        await Assert.That(path.Exists).IsFalse().ConfigureAwait(false);
+        await Assert.That(path.Exists).IsFalse();
     }
 
     [Test]
@@ -60,7 +61,7 @@ internal sealed class DirectoryOperationsTests
 
         path.Delete(recursive: true);
 
-        await Assert.That(path.Exists).IsFalse().ConfigureAwait(false);
+        await Assert.That(path.Exists).IsFalse();
     }
 
     [Test]
@@ -73,8 +74,8 @@ internal sealed class DirectoryOperationsTests
         {
             source.MoveTo(destination);
 
-            await Assert.That(source.Exists).IsFalse().ConfigureAwait(false);
-            await Assert.That(destination.Exists).IsTrue().ConfigureAwait(false);
+            await Assert.That(source.Exists).IsFalse();
+            await Assert.That(destination.Exists).IsTrue();
         }
         finally
         {
@@ -93,7 +94,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.CreationTime = expectedTime;
 
-            await Assert.That(path.CreationTime).IsEqualTo(Directory.GetCreationTime(path.FullName)).ConfigureAwait(false);
+            await Assert.That(path.CreationTime).IsEqualTo(Directory.GetCreationTime(path.FullName));
         }
         finally
         {
@@ -111,7 +112,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.LastWriteTime = expectedTime;
 
-            await Assert.That(path.LastWriteTime).IsEqualTo(Directory.GetLastWriteTime(path.FullName)).ConfigureAwait(false);
+            await Assert.That(path.LastWriteTime).IsEqualTo(Directory.GetLastWriteTime(path.FullName));
         }
         finally
         {
@@ -129,7 +130,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.LastAccessTime = expectedTime;
 
-            await Assert.That(path.LastAccessTime).IsEqualTo(Directory.GetLastAccessTime(path.FullName)).ConfigureAwait(false);
+            await Assert.That(path.LastAccessTime).IsEqualTo(Directory.GetLastAccessTime(path.FullName));
         }
         finally
         {
@@ -147,7 +148,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.CreationTimeUtc = expectedTime;
 
-            await Assert.That(path.CreationTimeUtc).IsEqualTo(Directory.GetCreationTimeUtc(path.FullName)).ConfigureAwait(false);
+            await Assert.That(path.CreationTimeUtc).IsEqualTo(Directory.GetCreationTimeUtc(path.FullName));
         }
         finally
         {
@@ -165,7 +166,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.LastWriteTimeUtc = expectedTime;
 
-            await Assert.That(path.LastWriteTimeUtc).IsEqualTo(Directory.GetLastWriteTimeUtc(path.FullName)).ConfigureAwait(false);
+            await Assert.That(path.LastWriteTimeUtc).IsEqualTo(Directory.GetLastWriteTimeUtc(path.FullName));
         }
         finally
         {
@@ -183,7 +184,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.LastAccessTimeUtc = expectedTime;
 
-            await Assert.That(path.LastAccessTimeUtc).IsEqualTo(Directory.GetLastAccessTimeUtc(path.FullName)).ConfigureAwait(false);
+            await Assert.That(path.LastAccessTimeUtc).IsEqualTo(Directory.GetLastAccessTimeUtc(path.FullName));
         }
         finally
         {
@@ -200,7 +201,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.Attributes = FileAttributes.ReadOnly;
 
-            await Assert.That(path.Attributes).IsEqualTo(File.GetAttributes(path.FullName)).ConfigureAwait(false);
+            await Assert.That(path.Attributes).IsEqualTo(File.GetAttributes(path.FullName));
         }
         finally
         {
@@ -217,16 +218,34 @@ internal sealed class DirectoryOperationsTests
         {
             if (OperatingSystem.IsWindows())
             {
-                await Assert.That(() => CreateDirectoryViaReflection(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute))
+                await Assert.That(() =>
+                    {
+                        try
+                        {
+                            var method = typeof(DirectoryPath).GetMethod(
+                                nameof(DirectoryPath.Create),
+                                [
+                                    typeof(UnixFileMode),
+                                ]);
+                            method!.Invoke(path, [
+                                UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute,
+                            ]);
+                        }
+                        catch (TargetInvocationException exception) when (exception.InnerException is not null)
+                        {
+                            ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+                        }
+                    })
                     .Throws<PlatformNotSupportedException>()
-                    .ConfigureAwait(false);
+                    ;
                 return;
             }
 
-            var createdDirectory = CreateDirectory(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+            var createdDirectory = path.Create(
+                UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
 
-            await Assert.That(createdDirectory).IsEqualTo(path).ConfigureAwait(false);
-            await Assert.That(path.Exists).IsTrue().ConfigureAwait(false);
+            await Assert.That(createdDirectory).IsEqualTo(path);
+            await Assert.That(path.Exists).IsTrue();
         }
         finally
         {
@@ -251,20 +270,21 @@ internal sealed class DirectoryOperationsTests
                 var createdLink = link.CreateSymbolicLink(target);
                 linkWasCreated = true;
 
-                await Assert.That(createdLink).IsEqualTo(link).ConfigureAwait(false);
-                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: false)).IsEqualTo(target).ConfigureAwait(false);
-                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: true)).IsEqualTo(target).ConfigureAwait(false);
+                await Assert.That(createdLink).IsEqualTo(link);
+                await Assert.That(link.LinkTarget).IsEqualTo(target.FullName);
+                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: false)).IsEqualTo(target);
+                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: true)).IsEqualTo(target);
             }
             catch (UnauthorizedAccessException)
             {
-                await Assert.That(OperatingSystem.IsWindows()).IsTrue().ConfigureAwait(false);
+                await Assert.That(OperatingSystem.IsWindows()).IsTrue();
             }
             catch (IOException)
             {
-                await Assert.That(OperatingSystem.IsWindows()).IsTrue().ConfigureAwait(false);
+                await Assert.That(OperatingSystem.IsWindows()).IsTrue();
             }
 
-            await Assert.That(linkWasCreated || OperatingSystem.IsWindows()).IsTrue().ConfigureAwait(false);
+            await Assert.That(linkWasCreated || OperatingSystem.IsWindows()).IsTrue();
         }
         finally
         {
@@ -282,7 +302,7 @@ internal sealed class DirectoryOperationsTests
         {
             path.SetCurrentDirectory();
 
-            await Assert.That(Environment.CurrentDirectory).IsEqualTo(path.FullName).ConfigureAwait(false);
+            await Assert.That(Environment.CurrentDirectory).IsEqualTo(path.FullName);
         }
         finally
         {
@@ -295,7 +315,7 @@ internal sealed class DirectoryOperationsTests
     {
         var path = new DirectoryPath(TestAssets.NestedDirectory.FullName);
 
-        await Assert.That(path.ToString()).IsEqualTo(path.FullName).ConfigureAwait(false);
+        await Assert.That(path.ToString()).IsEqualTo(path.FullName);
     }
 
     [Test]
@@ -305,7 +325,7 @@ internal sealed class DirectoryOperationsTests
 
         await Assert.That(() => DirectoryPath.FromDirectoryInfo(directoryInfo))
             .Throws<ArgumentNullException>()
-            .ConfigureAwait(false);
+            ;
     }
 
     [Test]
@@ -315,26 +335,7 @@ internal sealed class DirectoryOperationsTests
 
         await Assert.That(() => (DirectoryPath)directoryInfo)
             .Throws<ArgumentNullException>()
-            .ConfigureAwait(false);
-    }
-
-    [SupportedOSPlatform("linux")]
-    [SupportedOSPlatform("macos")]
-    private static DirectoryPath CreateDirectory(DirectoryPath path, UnixFileMode unixFileMode)
-    {
-        return path.Create(unixFileMode);
-    }
-
-    private static void CreateDirectoryViaReflection(DirectoryPath path, UnixFileMode unixFileMode)
-    {
-        try
-        {
-            typeof(DirectoryPath).GetMethod(nameof(DirectoryPath.Create), [typeof(UnixFileMode)])!.Invoke(path, [unixFileMode]);
-        }
-        catch (TargetInvocationException exception) when (exception.InnerException is not null)
-        {
-            ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
-        }
+            ;
     }
 
     private static DirectoryPath CreateTemporaryDirectoryPath()
@@ -351,10 +352,12 @@ internal sealed class DirectoryOperationsTests
 
     private static void DeleteDirectoryIfExists(string directoryPath)
     {
-        if (Directory.Exists(directoryPath))
+        if (!Directory.Exists(directoryPath))
         {
-            File.SetAttributes(directoryPath, FileAttributes.Normal);
-            Directory.Delete(directoryPath, true);
+            return;
         }
+
+        File.SetAttributes(directoryPath, FileAttributes.Normal);
+        Directory.Delete(directoryPath, true);
     }
 }

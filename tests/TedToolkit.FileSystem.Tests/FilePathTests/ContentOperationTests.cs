@@ -36,16 +36,20 @@ internal sealed class ContentOperationTests
             await Assert.That(ReadAllBytes(in path)).IsEquivalentTo("abc"u8.ToArray());
 
             await path.WriteAllTextAsync("async", CancellationToken.None).ConfigureAwait(false);
-            await Assert.That(await path.ReadAllTextAsync(CancellationToken.None).ConfigureAwait(false)).IsEqualTo("async");
+            var asyncText = await path.ReadAllTextAsync(CancellationToken.None).ConfigureAwait(false);
+            await Assert.That(asyncText).IsEqualTo("async");
 
             await path.AppendAllTextAsync(" text", Encoding.UTF8, CancellationToken.None).ConfigureAwait(false);
-            await Assert.That(await path.ReadAllTextAsync(Encoding.UTF8, CancellationToken.None).ConfigureAwait(false)).IsEqualTo("async text");
+            var appendedAsyncText = await path.ReadAllTextAsync(Encoding.UTF8, CancellationToken.None).ConfigureAwait(false);
+            await Assert.That(appendedAsyncText).IsEqualTo("async text");
 
             await path.WriteAllLinesAsync(lines, Encoding.UTF8, CancellationToken.None).ConfigureAwait(false);
-            await Assert.That(await path.ReadAllLinesAsync(Encoding.UTF8, CancellationToken.None).ConfigureAwait(false)).IsEquivalentTo(lines);
+            var asyncLines = await path.ReadAllLinesAsync(Encoding.UTF8, CancellationToken.None).ConfigureAwait(false);
+            await Assert.That(asyncLines).IsEquivalentTo(lines);
 
             await path.WriteAllBytesAsync("xyz"u8.ToArray(), CancellationToken.None).ConfigureAwait(false);
-            await Assert.That(await path.ReadAllBytesAsync(CancellationToken.None).ConfigureAwait(false)).IsEquivalentTo("xyz"u8.ToArray());
+            var asyncBytes = await path.ReadAllBytesAsync(CancellationToken.None).ConfigureAwait(false);
+            await Assert.That(asyncBytes).IsEquivalentTo("xyz"u8.ToArray());
         }
         finally
         {
@@ -80,12 +84,14 @@ internal sealed class ContentOperationTests
             {
             }
 
-            await using (var writer = path.CreateText())
+            var writer = path.CreateText();
+            await using (writer.ConfigureAwait(false))
             {
                 await writer.WriteAsync("created".AsMemory()).ConfigureAwait(false);
             }
 
-            await using (var writer = path.AppendText())
+            writer = path.AppendText();
+            await using (writer.ConfigureAwait(false))
             {
                 await writer.WriteAsync("+append".AsMemory()).ConfigureAwait(false);
             }

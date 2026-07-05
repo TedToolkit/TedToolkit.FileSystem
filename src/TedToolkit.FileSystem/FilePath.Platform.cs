@@ -40,6 +40,22 @@ public readonly partial record struct FilePath
 
 #if NET6_0_OR_GREATER
     /// <summary>
+    /// Gets the symbolic link target path when the current file path points to a symbolic link.
+    /// </summary>
+    /// <remarks>
+    /// Reads <see cref="FileSystemInfo.LinkTarget" /> from a new <see cref="FileInfo" />
+    /// created with the current path.
+    /// </remarks>
+    public string? LinkTarget
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            return new FileInfo(FullName).LinkTarget;
+        }
+    }
+
+    /// <summary>
     /// Creates a symbolic link at the current file path.
     /// </summary>
     /// <remarks>Wraps <see cref="File.CreateSymbolicLink(string,string)" />.</remarks>

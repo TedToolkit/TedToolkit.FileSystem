@@ -34,8 +34,11 @@ internal sealed class PlatformOperationTests
                 linkWasCreated = true;
 
                 await Assert.That(createdLink.FullName).IsEqualTo(link.FullName);
-                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: false)?.FullName).IsEqualTo(target.FullName);
-                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: true)?.FullName).IsEqualTo(target.FullName);
+                await Assert.That(link.LinkTarget).IsEqualTo(target.FullName);
+                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: false)?.FullName)
+                    .IsEqualTo(target.FullName);
+                await Assert.That(link.ResolveLinkTarget(returnFinalTarget: true)?.FullName)
+                    .IsEqualTo(target.FullName);
             }
             catch (UnauthorizedAccessException)
             {
@@ -74,9 +77,9 @@ internal sealed class PlatformOperationTests
                 return;
             }
 
-            SetUnixFileModeViaReflection(in path, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+            path.UnixFileMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
 
-            await Assert.That(GetUnixFileModeViaReflection(in path))
+            await Assert.That(path.UnixFileMode)
                 .IsEqualTo(File.GetUnixFileMode(file.FullName));
         }
         finally
@@ -131,7 +134,10 @@ internal sealed class PlatformOperationTests
     {
         try
         {
-            return (UnixFileMode)typeof(FilePath).GetProperty(nameof(FilePath.UnixFileMode), BindingFlags.Instance | BindingFlags.Public)!.GetValue(path)!;
+            var property = typeof(FilePath).GetProperty(
+                "UnixFileMode",
+                BindingFlags.Instance | BindingFlags.Public);
+            return (UnixFileMode)property!.GetValue(path)!;
         }
         catch (TargetInvocationException exception) when (exception.InnerException is not null)
         {
@@ -155,18 +161,6 @@ internal sealed class PlatformOperationTests
         try
         {
             target.GetType().GetMethod(memberName, BindingFlags.Instance | BindingFlags.Public)!.Invoke(target, null);
-        }
-        catch (TargetInvocationException exception) when (exception.InnerException is not null)
-        {
-            ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
-        }
-    }
-
-    private static void SetUnixFileModeViaReflection(in FilePath path, UnixFileMode unixFileMode)
-    {
-        try
-        {
-            typeof(FilePath).GetProperty(nameof(FilePath.UnixFileMode), BindingFlags.Instance | BindingFlags.Public)!.SetValue(path, unixFileMode);
         }
         catch (TargetInvocationException exception) when (exception.InnerException is not null)
         {

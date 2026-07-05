@@ -207,6 +207,22 @@ public readonly partial record struct DirectoryPath
 
 #if NET6_0_OR_GREATER
     /// <summary>
+    /// Gets the symbolic link target path when the current directory path points to a symbolic link.
+    /// </summary>
+    /// <remarks>
+    /// Reads <see cref="FileSystemInfo.LinkTarget" /> from a new <see cref="DirectoryInfo" />
+    /// created with the current path.
+    /// </remarks>
+    public string? LinkTarget
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            return new DirectoryInfo(FullName).LinkTarget;
+        }
+    }
+
+    /// <summary>
     /// Creates a symbolic link at the current directory path that points to the target directory path.
     /// </summary>
     /// <remarks>Wraps <see cref="Directory.CreateSymbolicLink(string,string)" />.</remarks>

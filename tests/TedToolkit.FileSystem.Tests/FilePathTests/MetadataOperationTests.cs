@@ -23,11 +23,13 @@ internal sealed class MetadataOperationTests
 
         try
         {
+            path.IsReadOnly = true;
             path.CreationTime = creationTime;
             path.LastWriteTime = lastWriteTime;
             path.LastAccessTime = lastAccessTime;
             path.Attributes = FileAttributes.ReadOnly;
 
+            await Assert.That(path.IsReadOnly).IsTrue();
             await Assert.That(path.CreationTime).IsEqualTo(creationTime);
             await Assert.That(path.LastWriteTime).IsEqualTo(lastWriteTime);
             await Assert.That(path.LastAccessTime).IsEqualTo(lastAccessTime);
