@@ -17,7 +17,7 @@ internal sealed class ConversionTests
     {
         var path = new FilePath(TestAssets.NestedFile.FullName);
 
-        await Assert.That(path.FileName).IsEqualTo(new FileName("nested-file.txt"));
+        await Assert.That(path.FileName).IsEqualTo("nested-file.txt");
         await Assert.That(path.ToFileInfo().FullName).IsEqualTo(TestAssets.NestedFile.FullName);
         await Assert.That(path.GetFullPath().FullName).IsEqualTo(Path.GetFullPath(TestAssets.NestedFile.FullName));
         await Assert.That(path.ChangeExtension(".md").FullName).IsEqualTo(Path.ChangeExtension(TestAssets.NestedFile.FullName, ".md"));
