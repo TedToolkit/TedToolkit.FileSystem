@@ -30,7 +30,7 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="Directory.GetCreationTime(string)" />.
-    /// The setter wraps <see cref="Directory.SetCreationTime(string,System.DateTime)" />.
+    /// The setter wraps <see cref="Directory.SetCreationTime(string,DateTime)" />.
     /// </remarks>
     public DateTime CreationTime
     {
@@ -52,7 +52,7 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="Directory.GetLastWriteTime(string)" />.
-    /// The setter wraps <see cref="Directory.SetLastWriteTime(string,System.DateTime)" />.
+    /// The setter wraps <see cref="Directory.SetLastWriteTime(string,DateTime)" />.
     /// </remarks>
     public DateTime LastWriteTime
     {
@@ -74,7 +74,7 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="Directory.GetLastAccessTime(string)" />.
-    /// The setter wraps <see cref="Directory.SetLastAccessTime(string,System.DateTime)" />.
+    /// The setter wraps <see cref="Directory.SetLastAccessTime(string,DateTime)" />.
     /// </remarks>
     public DateTime LastAccessTime
     {
@@ -96,7 +96,7 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="Directory.GetCreationTimeUtc(string)" />.
-    /// The setter wraps <see cref="Directory.SetCreationTimeUtc(string,System.DateTime)" />.
+    /// The setter wraps <see cref="Directory.SetCreationTimeUtc(string,DateTime)" />.
     /// </remarks>
     public DateTime CreationTimeUtc
     {
@@ -118,7 +118,7 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="Directory.GetLastWriteTimeUtc(string)" />.
-    /// The setter wraps <see cref="Directory.SetLastWriteTimeUtc(string,System.DateTime)" />.
+    /// The setter wraps <see cref="Directory.SetLastWriteTimeUtc(string,DateTime)" />.
     /// </remarks>
     public DateTime LastWriteTimeUtc
     {
@@ -140,7 +140,7 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="Directory.GetLastAccessTimeUtc(string)" />.
-    /// The setter wraps <see cref="Directory.SetLastAccessTimeUtc(string,System.DateTime)" />.
+    /// The setter wraps <see cref="Directory.SetLastAccessTimeUtc(string,DateTime)" />.
     /// </remarks>
     public DateTime LastAccessTimeUtc
     {
@@ -162,7 +162,7 @@ public readonly partial record struct DirectoryPath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetAttributes(string)" />.
-    /// The setter wraps <see cref="File.SetAttributes(string,System.IO.FileAttributes)" />.
+    /// The setter wraps <see cref="File.SetAttributes(string,FileAttributes)" />.
     /// </remarks>
     public FileAttributes Attributes
     {
@@ -194,7 +194,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Creates the directory using the specified Unix file mode when the platform supports it.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.CreateDirectory(string,System.IO.UnixFileMode)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.CreateDirectory(string,UnixFileMode)" />.</remarks>
     /// <param name="unixCreateMode">The Unix file mode to apply.</param>
     /// <returns>The created directory path.</returns>
     [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]

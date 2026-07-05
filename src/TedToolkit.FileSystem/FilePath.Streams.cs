@@ -38,7 +38,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Creates or overwrites the file and returns a writable stream that uses the specified buffer size and options.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.Create(string,int,System.IO.FileOptions)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.Create(string,int,FileOptions)" />.</remarks>
     /// <param name="bufferSize">The buffer size.</param>
     /// <param name="options">The file options.</param>
     /// <returns>A writable file stream.</returns>
@@ -51,7 +51,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file with the supplied mode.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.Open(string,System.IO.FileMode)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.Open(string,FileMode)" />.</remarks>
     /// <param name="mode">The file mode.</param>
     /// <returns>The opened file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -63,7 +63,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file with the supplied mode and access.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.Open(string,System.IO.FileMode,System.IO.FileAccess)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.Open(string,FileMode,FileAccess)" />.</remarks>
     /// <param name="mode">The file mode.</param>
     /// <param name="access">The file access mode.</param>
     /// <returns>The opened file stream.</returns>
@@ -76,7 +76,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file with the supplied mode, access, and share options.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.Open(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.Open(string,FileMode,FileAccess,FileShare)" />.</remarks>
     /// <param name="mode">The file mode.</param>
     /// <param name="access">The file access mode.</param>
     /// <param name="share">The file share mode.</param>
@@ -91,7 +91,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Opens the file using the supplied file stream options.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.Open(string,System.IO.FileStreamOptions)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.Open(string,FileStreamOptions)" />.</remarks>
     /// <param name="options">The file stream options.</param>
     /// <returns>The opened file stream.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

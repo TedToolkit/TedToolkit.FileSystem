@@ -86,7 +86,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetUnixFileMode(string)" />.
-    /// The setter wraps <see cref="File.SetUnixFileMode(string,System.IO.UnixFileMode)" />.
+    /// The setter wraps <see cref="File.SetUnixFileMode(string,UnixFileMode)" />.
     /// </remarks>
     [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
     public UnixFileMode UnixFileMode

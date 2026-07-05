@@ -121,4 +121,32 @@ internal sealed class RecordStructContractTests
 
         await Assert.That(childFile.FullName).IsEqualTo(Path.Combine(TestAssets.NestedDirectory.FullName, "nested-file.txt"));
     }
+
+    /// <summary>
+    /// Verifies that combining a directory path with another directory path uses the right full name as a path segment.
+    /// </summary>
+    [Test]
+    public async Task Should_create_child_directory_when_combined_with_directory_path()
+    {
+        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
+        var childPath = new DirectoryPath(Path.Combine("nested", "child"));
+
+        var combinedPath = path / childPath;
+
+        await Assert.That(combinedPath.FullName).IsEqualTo(Path.Combine(TestAssets.RootDirectory.FullName, childPath.FullName));
+    }
+
+    /// <summary>
+    /// Verifies that combining a directory path with a file path uses the right full name as a path segment.
+    /// </summary>
+    [Test]
+    public async Task Should_create_child_file_when_combined_with_file_path()
+    {
+        var path = new DirectoryPath(TestAssets.RootDirectory.FullName);
+        var childPath = new FilePath(Path.Combine("nested", "nested-file.txt"));
+
+        var combinedPath = path / childPath;
+
+        await Assert.That(combinedPath.FullName).IsEqualTo(Path.Combine(TestAssets.RootDirectory.FullName, childPath.FullName));
+    }
 }

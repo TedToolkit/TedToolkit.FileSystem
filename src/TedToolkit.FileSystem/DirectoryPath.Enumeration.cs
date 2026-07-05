@@ -38,7 +38,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Enumerates child directories matching a search pattern and search option.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.EnumerateDirectories(string,string,System.IO.SearchOption)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.EnumerateDirectories(string,string,SearchOption)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="searchOption">The search option.</param>
     /// <returns>The matching child directory paths.</returns>
@@ -53,7 +53,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Enumerates child directories matching a search pattern and enumeration options.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.EnumerateDirectories(string,string,System.IO.EnumerationOptions)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.EnumerateDirectories(string,string,EnumerationOptions)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="enumerationOptions">The enumeration options.</param>
     /// <returns>The matching child directory paths.</returns>
@@ -91,7 +91,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets child directories matching a search pattern and search option as an array.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.GetDirectories(string,string,System.IO.SearchOption)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.GetDirectories(string,string,SearchOption)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="searchOption">The search option.</param>
     /// <returns>The matching child directory paths.</returns>
@@ -106,7 +106,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets child directories matching a search pattern and enumeration options as an array.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.GetDirectories(string,string,System.IO.EnumerationOptions)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.GetDirectories(string,string,EnumerationOptions)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="enumerationOptions">The enumeration options.</param>
     /// <returns>The matching child directory paths.</returns>
@@ -144,7 +144,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Enumerates child files matching a search pattern and search option.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.EnumerateFiles(string,string,System.IO.SearchOption)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.EnumerateFiles(string,string,SearchOption)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="searchOption">The search option.</param>
     /// <returns>The matching child file paths.</returns>
@@ -158,7 +158,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Enumerates child files matching a search pattern and enumeration options.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.EnumerateFiles(string,string,System.IO.EnumerationOptions)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.EnumerateFiles(string,string,EnumerationOptions)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="enumerationOptions">The enumeration options.</param>
     /// <returns>The matching child file paths.</returns>
@@ -196,7 +196,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets child files matching a search pattern and search option as an array.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.GetFiles(string,string,System.IO.SearchOption)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.GetFiles(string,string,SearchOption)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="searchOption">The search option.</param>
     /// <returns>The matching child file paths.</returns>
@@ -210,7 +210,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets child files matching a search pattern and enumeration options as an array.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.GetFiles(string,string,System.IO.EnumerationOptions)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.GetFiles(string,string,EnumerationOptions)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="enumerationOptions">The enumeration options.</param>
     /// <returns>The matching child file paths.</returns>
@@ -248,7 +248,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Enumerates child file system entries matching a search pattern and search option.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.EnumerateFileSystemEntries(string,string,System.IO.SearchOption)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.EnumerateFileSystemEntries(string,string,SearchOption)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="searchOption">The search option.</param>
     /// <returns>The matching child file system entry paths.</returns>
@@ -262,7 +262,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Enumerates child file system entries matching a search pattern and enumeration options.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.EnumerateFileSystemEntries(string,string,System.IO.EnumerationOptions)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.EnumerateFileSystemEntries(string,string,EnumerationOptions)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="enumerationOptions">The enumeration options.</param>
     /// <returns>The matching child file system entry paths.</returns>
@@ -299,7 +299,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets child file system entries matching a search pattern and search option as an array.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.GetFileSystemEntries(string,string,System.IO.SearchOption)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.GetFileSystemEntries(string,string,SearchOption)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="searchOption">The search option.</param>
     /// <returns>The matching child file system entry paths.</returns>
@@ -313,7 +313,7 @@ public readonly partial record struct DirectoryPath
     /// <summary>
     /// Gets child file system entries matching a search pattern and enumeration options as an array.
     /// </summary>
-    /// <remarks>Wraps <see cref="Directory.GetFileSystemEntries(string,string,System.IO.EnumerationOptions)" />.</remarks>
+    /// <remarks>Wraps <see cref="Directory.GetFileSystemEntries(string,string,EnumerationOptions)" />.</remarks>
     /// <param name="searchPattern">The search pattern.</param>
     /// <param name="enumerationOptions">The enumeration options.</param>
     /// <returns>The matching child file system entry paths.</returns>

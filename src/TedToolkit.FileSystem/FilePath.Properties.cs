@@ -183,7 +183,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetCreationTime(string)" />.
-    /// The setter wraps <see cref="File.SetCreationTime(string,System.DateTime)" />.
+    /// The setter wraps <see cref="File.SetCreationTime(string,DateTime)" />.
     /// </remarks>
     public DateTime CreationTime
     {
@@ -205,7 +205,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetCreationTimeUtc(string)" />.
-    /// The setter wraps <see cref="File.SetCreationTimeUtc(string,System.DateTime)" />.
+    /// The setter wraps <see cref="File.SetCreationTimeUtc(string,DateTime)" />.
     /// </remarks>
     public DateTime CreationTimeUtc
     {
@@ -227,7 +227,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetLastWriteTime(string)" />.
-    /// The setter wraps <see cref="File.SetLastWriteTime(string,System.DateTime)" />.
+    /// The setter wraps <see cref="File.SetLastWriteTime(string,DateTime)" />.
     /// </remarks>
     public DateTime LastWriteTime
     {
@@ -249,7 +249,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetLastWriteTimeUtc(string)" />.
-    /// The setter wraps <see cref="File.SetLastWriteTimeUtc(string,System.DateTime)" />.
+    /// The setter wraps <see cref="File.SetLastWriteTimeUtc(string,DateTime)" />.
     /// </remarks>
     public DateTime LastWriteTimeUtc
     {
@@ -271,7 +271,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetLastAccessTime(string)" />.
-    /// The setter wraps <see cref="File.SetLastAccessTime(string,System.DateTime)" />.
+    /// The setter wraps <see cref="File.SetLastAccessTime(string,DateTime)" />.
     /// </remarks>
     public DateTime LastAccessTime
     {
@@ -293,7 +293,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetLastAccessTimeUtc(string)" />.
-    /// The setter wraps <see cref="File.SetLastAccessTimeUtc(string,System.DateTime)" />.
+    /// The setter wraps <see cref="File.SetLastAccessTimeUtc(string,DateTime)" />.
     /// </remarks>
     public DateTime LastAccessTimeUtc
     {
@@ -315,7 +315,7 @@ public readonly partial record struct FilePath
     /// </summary>
     /// <remarks>
     /// The getter wraps <see cref="File.GetAttributes(string)" />.
-    /// The setter wraps <see cref="File.SetAttributes(string,System.IO.FileAttributes)" />.
+    /// The setter wraps <see cref="File.SetAttributes(string,FileAttributes)" />.
     /// </remarks>
     public FileAttributes Attributes
     {

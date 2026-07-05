@@ -86,10 +86,30 @@ public readonly partial record struct DirectoryPath(string FullName)
     }
 
     /// <summary>
-    /// Returns the raw full directory path text.
+    /// Combines a directory path with another directory path.
     /// </summary>
-    /// <remarks>Returns the stored <c>FullName</c> value directly without calling an additional BCL API.</remarks>
-    /// <returns>The raw full directory path text.</returns>
+    /// <remarks>Wraps <see cref="Path.Combine(string,string)" />.</remarks>
+    /// <param name="left">The parent directory path.</param>
+    /// <param name="right">The child directory path text.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static DirectoryPath operator /(DirectoryPath left, DirectoryPath right)
+    {
+        return new(Path.Combine(left.FullName, right.FullName));
+    }
+
+    /// <summary>
+    /// Combines a directory path with a file path.
+    /// </summary>
+    /// <remarks>Wraps <see cref="Path.Combine(string,string)" />.</remarks>
+    /// <param name="left">The parent directory path.</param>
+    /// <param name="right">The child file path text.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static FilePath operator /(DirectoryPath left, FilePath right)
+    {
+        return new(Path.Combine(left.FullName, right.FullName));
+    }
+
+    /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string ToString()
     {

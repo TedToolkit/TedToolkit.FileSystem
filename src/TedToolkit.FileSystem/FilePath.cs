@@ -36,4 +36,11 @@ public readonly partial record struct FilePath(string FullName)
     {
         return FromFileInfo(fileInfo);
     }
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override string ToString()
+    {
+        return FullName;
+    }
 }

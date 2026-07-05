@@ -28,7 +28,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Reads all text from the file using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.ReadAllText(string,System.Text.Encoding)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.ReadAllText(string,Encoding)" />.</remarks>
     /// <param name="encoding">The encoding to use.</param>
     /// <returns>The file contents.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -62,7 +62,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Reads all lines from the file using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.ReadAllLines(string,System.Text.Encoding)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.ReadAllLines(string,Encoding)" />.</remarks>
     /// <param name="encoding">The encoding to use.</param>
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -85,7 +85,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Reads the file line by line using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.ReadLines(string,System.Text.Encoding)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.ReadLines(string,Encoding)" />.</remarks>
     /// <param name="encoding">The encoding to use.</param>
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -108,7 +108,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Writes all text to the file using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.WriteAllText(string,string,System.Text.Encoding)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.WriteAllText(string,string,Encoding)" />.</remarks>
     /// <param name="contents">The text to write.</param>
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,7 +131,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Writes all lines to the file using the default encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.WriteAllLines(string,System.Collections.Generic.IEnumerable{string})" />.</remarks>
+    /// <remarks>Wraps <see cref="File.WriteAllLines(string,IEnumerable{string})" />.</remarks>
     /// <param name="contents">The lines to write.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteAllLines(IEnumerable<string> contents)
@@ -142,7 +142,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Writes all lines to the file using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.WriteAllLines(string,System.Collections.Generic.IEnumerable{string},System.Text.Encoding)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.WriteAllLines(string,IEnumerable{string},Encoding)" />.</remarks>
     /// <param name="contents">The lines to write.</param>
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -165,7 +165,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Appends all text to the file using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.AppendAllText(string,string,System.Text.Encoding)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.AppendAllText(string,string,Encoding)" />.</remarks>
     /// <param name="contents">The text to append.</param>
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -204,7 +204,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Appends all lines to the file using the default encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.AppendAllLines(string,System.Collections.Generic.IEnumerable{string})" />.</remarks>
+    /// <remarks>Wraps <see cref="File.AppendAllLines(string,IEnumerable{string})" />.</remarks>
     /// <param name="contents">The lines to append.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendAllLines(IEnumerable<string> contents)
@@ -215,7 +215,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Appends all lines to the file using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.AppendAllLines(string,System.Collections.Generic.IEnumerable{string},System.Text.Encoding)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.AppendAllLines(string,IEnumerable{string},Encoding)" />.</remarks>
     /// <param name="contents">The lines to append.</param>
     /// <param name="encoding">The encoding to use.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -254,7 +254,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Reads all text from the file asynchronously using the default encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.ReadAllTextAsync(string,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.ReadAllTextAsync(string,CancellationToken)" />.</remarks>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The file contents.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -268,7 +268,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Reads all text from the file asynchronously using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.ReadAllTextAsync(string,System.Text.Encoding,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.ReadAllTextAsync(string,Encoding,CancellationToken)" />.</remarks>
     /// <param name="encoding">The encoding to use.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The file contents.</returns>
@@ -283,7 +283,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Reads all bytes from the file asynchronously.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.ReadAllBytesAsync(string,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.ReadAllBytesAsync(string,CancellationToken)" />.</remarks>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The file bytes.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -297,7 +297,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Reads all lines from the file asynchronously using the default encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.ReadAllLinesAsync(string,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.ReadAllLinesAsync(string,CancellationToken)" />.</remarks>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The file lines.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -311,7 +311,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Reads all lines from the file asynchronously using the supplied encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.ReadAllLinesAsync(string,System.Text.Encoding,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.ReadAllLinesAsync(string,Encoding,CancellationToken)" />.</remarks>
     /// <param name="encoding">The encoding to use.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The file lines.</returns>
@@ -355,7 +355,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Writes all text to the file asynchronously using the default encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.WriteAllTextAsync(string,string,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.WriteAllTextAsync(string,string,CancellationToken)" />.</remarks>
     /// <param name="contents">The text to write.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that completes when the write operation finishes.</returns>
@@ -386,7 +386,7 @@ public readonly partial record struct FilePath
     /// Writes all text to the file asynchronously using the supplied encoding.
     /// </summary>
     /// <remarks>
-    /// Wraps <see cref="File.WriteAllTextAsync(string,string,System.Text.Encoding,System.Threading.CancellationToken)" />.
+    /// Wraps <see cref="File.WriteAllTextAsync(string,string,Encoding,CancellationToken)" />.
     /// </remarks>
     /// <param name="contents">The text to write.</param>
     /// <param name="encoding">The encoding to use.</param>
@@ -420,7 +420,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Writes all bytes to the file asynchronously.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.WriteAllBytesAsync(string,byte[],System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.WriteAllBytesAsync(string,byte[],CancellationToken)" />.</remarks>
     /// <param name="bytes">The bytes to write.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that completes when the write operation finishes.</returns>
@@ -499,7 +499,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Appends all text to the file asynchronously using the default encoding.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.AppendAllTextAsync(string,string,System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.AppendAllTextAsync(string,string,CancellationToken)" />.</remarks>
     /// <param name="contents">The text to append.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that completes when the append operation finishes.</returns>
@@ -530,7 +530,7 @@ public readonly partial record struct FilePath
     /// Appends all text to the file asynchronously using the supplied encoding.
     /// </summary>
     /// <remarks>
-    /// Wraps <see cref="File.AppendAllTextAsync(string,string,System.Text.Encoding,System.Threading.CancellationToken)" />.
+    /// Wraps <see cref="File.AppendAllTextAsync(string,string,Encoding,CancellationToken)" />.
     /// </remarks>
     /// <param name="contents">The text to append.</param>
     /// <param name="encoding">The encoding to use.</param>
@@ -600,7 +600,7 @@ public readonly partial record struct FilePath
     /// <summary>
     /// Appends all bytes to the file asynchronously.
     /// </summary>
-    /// <remarks>Wraps <see cref="File.AppendAllBytesAsync(string,byte[],System.Threading.CancellationToken)" />.</remarks>
+    /// <remarks>Wraps <see cref="File.AppendAllBytesAsync(string,byte[],CancellationToken)" />.</remarks>
     /// <param name="bytes">The bytes to append.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that completes when the append operation finishes.</returns>
