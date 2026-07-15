@@ -1,0 +1,23 @@
+<Project>
+  <Target Name="TedToolkitProjectPathsResolveGitRoot"
+          BeforeTargets="CoreCompile">
+    <Exec Command="git -C &quot;$(MSBuildProjectDirectory)&quot; rev-parse --show-toplevel"
+          ConsoleToMSBuild="true"
+          IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_TedToolkitFileSystemGitDirectory" />
+    </Exec>
+
+    <PropertyGroup>
+      <TedToolkitFileSystemProjectFile>$(MSBuildProjectFullPath)</TedToolkitFileSystemProjectFile>
+      <TedToolkitFileSystemGitDirectory>$([System.String]::Copy('$(_TedToolkitFileSystemGitDirectory)').Trim())</TedToolkitFileSystemGitDirectory>
+      <TedToolkitFileSystemPaths>@(TedToolkitFileSystemPath->'%(Identity)~%(Kind)~%(Name)', '|')</TedToolkitFileSystemPaths>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <CompilerVisibleProperty Include="RootNamespace" />
+      <CompilerVisibleProperty Include="TedToolkitFileSystemProjectFile" />
+      <CompilerVisibleProperty Include="TedToolkitFileSystemGitDirectory" />
+      <CompilerVisibleProperty Include="TedToolkitFileSystemPaths" />
+    </ItemGroup>
+  </Target>
+</Project>

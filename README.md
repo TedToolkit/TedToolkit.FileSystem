@@ -4,11 +4,12 @@
 
 `TedToolkit.FileSystem` is a .NET repository for a small file system library built around strongly typed path values and direct forwarding to the .NET Base Class Library.
 
-The repository currently ships one package:
+The repository ships these packages:
 
 | Package | Purpose |
 | --- | --- |
 | `TedToolkit.FileSystem` | Strongly typed wrappers for file names, file paths, and directory paths with BCL-shaped APIs. |
+| `TedToolkit.FileSystem.ProjectPaths` | Generates strongly typed paths for explicitly selected files and directories in a Git work tree. |
 
 For package installation, examples, and public API usage, see [src/TedToolkit.FileSystem/README.md](src/TedToolkit.FileSystem/README.md).
 
@@ -33,8 +34,10 @@ The public API is intentionally close to the BCL:
 ```text
 src/
   TedToolkit.FileSystem/
+  TedToolkit.FileSystem.ProjectPaths/
 tests/
   TedToolkit.FileSystem.Tests/
+  TedToolkit.FileSystem.ProjectPaths.Tests/
 Build/
   Build.csproj
 externals/
@@ -42,6 +45,7 @@ externals/
 ```
 
 - `src/TedToolkit.FileSystem` contains the library and the NuGet package README.
+- `src/TedToolkit.FileSystem.ProjectPaths` contains the Git-rooted project-path generator.
 - `tests/TedToolkit.FileSystem.Tests` contains the test project.
 - `Build` contains the repository pipeline entry point.
 - `externals/TedToolkit` is a submodule that provides shared props and build infrastructure.
