@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+    <PackageReference Include="TUnit" />
+    <ProjectReference Include="..\..\src\TedToolkit.FileSystem\TedToolkit.FileSystem.csproj" />
+    <ProjectReference Include="..\..\src\TedToolkit.FileSystem.ProjectPaths\TedToolkit.FileSystem.ProjectPaths.csproj" />
+  </ItemGroup>
+
+</Project>

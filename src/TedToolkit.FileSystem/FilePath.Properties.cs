@@ -39,15 +39,15 @@ public readonly partial record struct FilePath
     }
 
     /// <summary>
-    /// Gets the file name value object for the current path.
+    /// Gets the file name portion of the path.
     /// </summary>
-    /// <remarks>Wraps <see cref="Path.GetFileName(string)" /> and constructs a <see cref="FileName" /> value.</remarks>
-    public FileName FileName
+    /// <remarks>Wraps <see cref="Path.GetFileName(string)" />.</remarks>
+    public string FileName
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-            return new(Path.GetFileName(FullName));
+            return Path.GetFileName(FullName);
         }
     }
 
