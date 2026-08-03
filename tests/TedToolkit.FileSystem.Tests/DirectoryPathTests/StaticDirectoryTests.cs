@@ -152,4 +152,72 @@ internal sealed class StaticDirectoryTests
     {
         await Assert.That(DirectoryPath.BaseDirectory).IsEqualTo(new DirectoryPath(AppContext.BaseDirectory));
     }
+
+    /// <summary>
+    /// Verifies that a non-empty process environment variable is returned as a directory path.
+    /// </summary>
+    [Test]
+    public async Task Should_return_directory_path_when_environment_variable_contains_value()
+    {
+        var variable = $"TEDTOOLKIT_FILESYSTEM_{Guid.NewGuid():N}";
+        var expectedPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+
+        try
+        {
+            Environment.SetEnvironmentVariable(variable, expectedPath);
+
+            var path = DirectoryPath.GetEnvironmentVariable(variable);
+
+            await Assert.That(path).IsEqualTo(new DirectoryPath(expectedPath));
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(variable, null);
+        }
+    }
+
+    /// <summary>
+    /// Verifies that a missing process environment variable does not produce a directory path.
+    /// </summary>
+    [Test]
+    public async Task Should_return_null_when_environment_variable_is_missing()
+    {
+        var variable = $"TEDTOOLKIT_FILESYSTEM_{Guid.NewGuid():N}";
+
+        var path = DirectoryPath.GetEnvironmentVariable(variable);
+
+        await Assert.That(path).IsNull();
+    }
+
+    /// <summary>
+    /// Verifies that an empty process environment variable does not produce a directory path.
+    /// </summary>
+    [Test]
+    public async Task Should_return_null_when_environment_variable_is_empty()
+    {
+        var variable = $"TEDTOOLKIT_FILESYSTEM_{Guid.NewGuid():N}";
+
+        try
+        {
+            Environment.SetEnvironmentVariable(variable, "");
+
+            var path = DirectoryPath.GetEnvironmentVariable(variable);
+
+            await Assert.That(path).IsNull();
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(variable, null);
+        }
+    }
+
+    /// <summary>
+    /// Verifies that variable-name validation remains delegated to the environment API.
+    /// </summary>
+    [Test]
+    public async Task Should_throw_argument_null_exception_when_environment_variable_name_is_null()
+    {
+        await Assert.That(() => DirectoryPath.GetEnvironmentVariable(null!))
+            .Throws<ArgumentNullException>();
+    }
 }

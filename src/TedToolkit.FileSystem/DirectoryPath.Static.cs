@@ -177,6 +177,29 @@ public readonly partial record struct DirectoryPath
     }
 
     /// <summary>
+    /// Gets a directory path from the specified current-process environment variable.
+    /// </summary>
+    /// <remarks>Wraps <see cref="Environment.GetEnvironmentVariable(string)" />.</remarks>
+    /// <param name="variable">The name of the environment variable.</param>
+    /// <returns>
+    /// The directory path stored in <paramref name="variable" />, or <see langword="null" /> when the variable is
+    /// not found or its value is empty.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="variable" /> is <see langword="null" />.</exception>
+    /// <example>
+    /// <code>
+    /// DirectoryPath? cacheDirectory = DirectoryPath.GetEnvironmentVariable("APP_CACHE_DIRECTORY");
+    /// </code>
+    /// </example>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static DirectoryPath? GetEnvironmentVariable(string variable)
+    {
+        return Environment.GetEnvironmentVariable(variable) is { Length: > 0, } value
+            ? new DirectoryPath(value)
+            : default(DirectoryPath?);
+    }
+
+    /// <summary>
     /// Gets the path of the specified special folder.
     /// </summary>
     /// <remarks>Wraps <see cref="Environment.GetFolderPath(Environment.SpecialFolder)" />.</remarks>

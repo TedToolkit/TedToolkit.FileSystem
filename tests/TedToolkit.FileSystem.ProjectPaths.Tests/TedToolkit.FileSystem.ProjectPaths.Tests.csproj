@@ -13,4 +13,10 @@
     <ProjectReference Include="..\..\src\TedToolkit.FileSystem.ProjectPaths\TedToolkit.FileSystem.ProjectPaths.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\src\TedToolkit.FileSystem.ProjectPaths\buildTransitive\TedToolkit.FileSystem.ProjectPaths.targets"
+          Link="TedToolkit.FileSystem.ProjectPaths.targets"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
