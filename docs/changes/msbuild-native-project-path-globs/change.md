@@ -3,12 +3,12 @@
 <!-- change-format: 3 -->
 <!-- workflow-profile: controlled -->
 <!-- change-kind: behavior-change -->
-<!-- change-status: in-progress -->
+<!-- change-status: candidate-ready -->
 <!-- delivery-shape: single -->
 
 - Priority: P2
 <!-- approval-source: user message 2026-09-11 confirming native MSBuild expansion and requesting implementation -->
-<!-- candidate-binding: none -->
+<!-- candidate-binding: commit:14e0d3324cfdca1451b91fcc204b92c0516c032d -->
 
 <!-- section: goal-rationale -->
 ## Goal and rationale
@@ -119,9 +119,10 @@ All acceptance cases and the affected solution build pass on one candidate. The 
 ## Verification result
 
 - Implementation baseline: `d8bee38d1aded2c61dc50117ac7443b597058fda`.
-- AC-01 through AC-04 and conditional generator regressions: `dotnet run --project tests/TedToolkit.FileSystem.ProjectPaths.Tests/TedToolkit.FileSystem.ProjectPaths.Tests.csproj -c Release` discovered 8 tests; 8 passed, 0 failed, 0 skipped on Windows with .NET 10.0.12.
+- Review-remediation baseline: `0a0a1eaf148c8ce38ee7042cab1c924b88257552`.
+- AC-01 through AC-04 and conditional generator regressions: `dotnet run --project tests/TedToolkit.FileSystem.ProjectPaths.Tests/TedToolkit.FileSystem.ProjectPaths.Tests.csproj -c Release` discovered 11 tests; 11 passed, 0 failed, 0 skipped on Windows with .NET 10.0.12.
 - AC-03 now constrains the generated file and directory members through explicit `FilePath` and `DirectoryPath` assignments in the integration consumer.
 - Structural package verification: `dotnet build TedToolkit.FileSystem.slnx -c Release` completed with 0 warnings and 0 errors and produced `TedToolkit.FileSystem.ProjectPaths.2.0.0.nupkg`.
 - The packaged README contains the native MSBuild ownership rule, evaluated-item wording, aligned usage examples, and the 1.x-to-2.0 migration.
-- Candidate review of `e0e4baea44130460b453b88674612d82a726cfe8` found that the current `StartsWith("..")` containment check accepts distinct drive and UNC roots and rejects valid in-root first segments such as `..cache`; correct the containment predicate and add regression proof before rebinding a candidate.
+- The blocker found while reviewing `e0e4baea44130460b453b88674612d82a726cfe8` is resolved by canonical directory-boundary comparison, with regression proof for a valid `..cache` directory and rejected distinct-drive and UNC paths.
 - Scope deviation: None.
