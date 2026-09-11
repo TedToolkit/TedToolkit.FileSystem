@@ -3,7 +3,7 @@
 <!-- change-format: 3 -->
 <!-- workflow-profile: controlled -->
 <!-- change-kind: behavior-change -->
-<!-- change-status: candidate-ready -->
+<!-- change-status: implemented -->
 <!-- delivery-shape: single -->
 
 - Priority: P2
@@ -125,4 +125,5 @@ All acceptance cases and the affected solution build pass on one candidate. The 
 - Structural package verification: `dotnet build TedToolkit.FileSystem.slnx -c Release` completed with 0 warnings and 0 errors and produced `TedToolkit.FileSystem.ProjectPaths.2.0.0.nupkg`.
 - The packaged README contains the native MSBuild ownership rule, evaluated-item wording, aligned usage examples, and the 1.x-to-2.0 migration.
 - The blocker found while reviewing `e0e4baea44130460b453b88674612d82a726cfe8` is resolved by canonical directory-boundary comparison, with regression proof for a valid `..cache` directory and rejected distinct-drive and UNC paths.
+- Independent candidate review of `14e0d3324cfdca1451b91fcc204b92c0516c032d` concluded Ready to merge with no blocking or important findings; candidate-bound tests, Release build, and package-content verification passed.
 - Scope deviation: None.
