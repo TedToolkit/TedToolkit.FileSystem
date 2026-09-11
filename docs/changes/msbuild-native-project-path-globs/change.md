@@ -8,7 +8,7 @@
 
 - Priority: P2
 <!-- approval-source: user message 2026-09-11 confirming native MSBuild expansion and requesting implementation -->
-<!-- candidate-binding: workspace:d8bee38d1aded2c61dc50117ac7443b597058fda:sha256:fd04a99263df91d572e4de190f87f9e7c8f275dacdf4b01cda468db9a39c51c2 -->
+<!-- candidate-binding: commit:e0e4baea44130460b453b88674612d82a726cfe8 -->
 
 <!-- section: goal-rationale -->
 ## Goal and rationale
