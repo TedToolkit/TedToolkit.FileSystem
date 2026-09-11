@@ -3,12 +3,12 @@
 <!-- change-format: 3 -->
 <!-- workflow-profile: controlled -->
 <!-- change-kind: behavior-change -->
-<!-- change-status: candidate-ready -->
+<!-- change-status: in-progress -->
 <!-- delivery-shape: single -->
 
 - Priority: P2
 <!-- approval-source: user message 2026-09-11 confirming native MSBuild expansion and requesting implementation -->
-<!-- candidate-binding: commit:e0e4baea44130460b453b88674612d82a726cfe8 -->
+<!-- candidate-binding: none -->
 
 <!-- section: goal-rationale -->
 ## Goal and rationale
@@ -123,4 +123,5 @@ All acceptance cases and the affected solution build pass on one candidate. The 
 - AC-03 now constrains the generated file and directory members through explicit `FilePath` and `DirectoryPath` assignments in the integration consumer.
 - Structural package verification: `dotnet build TedToolkit.FileSystem.slnx -c Release` completed with 0 warnings and 0 errors and produced `TedToolkit.FileSystem.ProjectPaths.2.0.0.nupkg`.
 - The packaged README contains the native MSBuild ownership rule, evaluated-item wording, aligned usage examples, and the 1.x-to-2.0 migration.
+- Candidate review of `e0e4baea44130460b453b88674612d82a726cfe8` found that the current `StartsWith("..")` containment check accepts distinct drive and UNC roots and rejects valid in-root first segments such as `..cache`; correct the containment predicate and add regression proof before rebinding a candidate.
 - Scope deviation: None.
