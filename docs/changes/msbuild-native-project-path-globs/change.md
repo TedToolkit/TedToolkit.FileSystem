@@ -3,7 +3,7 @@
 <!-- change-format: 3 -->
 <!-- workflow-profile: controlled -->
 <!-- change-kind: behavior-change -->
-<!-- change-status: implemented -->
+<!-- change-status: completed -->
 <!-- delivery-shape: single -->
 
 - Priority: P2
@@ -126,4 +126,5 @@ All acceptance cases and the affected solution build pass on one candidate. The 
 - The packaged README contains the native MSBuild ownership rule, evaluated-item wording, aligned usage examples, and the 1.x-to-2.0 migration.
 - The blocker found while reviewing `e0e4baea44130460b453b88674612d82a726cfe8` is resolved by canonical directory-boundary comparison, with regression proof for a valid `..cache` directory and rejected distinct-drive and UNC paths.
 - Independent candidate review of `14e0d3324cfdca1451b91fcc204b92c0516c032d` concluded Ready to merge with no blocking or important findings; candidate-bound tests, Release build, and package-content verification passed.
+- Completion: durable behavior and migration guidance is captured in the packaged README; no operational handoff is required; lifecycle-only commits after the bound candidate do not alter implementation, tests, package inputs, or the approved contract.
 - Scope deviation: None.
