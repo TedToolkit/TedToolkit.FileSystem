@@ -119,12 +119,16 @@ internal sealed class ProjectPathsMsBuildIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that a Git-backed consumer receives generator properties before compilation.
+    /// Verifies that a Git-backed consumer in a Unicode path receives generator properties before compilation.
     /// </summary>
     [Test]
-    public async Task Should_generate_project_paths_when_consumer_is_inside_git_work_tree()
+    public async Task Should_generate_project_paths_when_git_work_tree_path_contains_unicode_characters()
     {
-        var repositoryDirectory = Path.Combine(Path.GetTempPath(), "TedToolkit.FileSystem.ProjectPaths.Tests", Guid.NewGuid().ToString("N"));
+        var repositoryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            "TedToolkit.FileSystem.ProjectPaths.Tests",
+            "Unicode-路径",
+            Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(repositoryDirectory);
 
         try

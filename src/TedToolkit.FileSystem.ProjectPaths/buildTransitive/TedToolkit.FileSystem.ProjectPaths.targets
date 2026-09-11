@@ -10,6 +10,7 @@
           BeforeTargets="GenerateMSBuildEditorConfigFileShouldRun">
     <Exec Command="git -C &quot;$(MSBuildProjectDirectory)&quot; rev-parse --show-toplevel"
           ConsoleToMSBuild="true"
+          UseUtf8Encoding="Always"
           IgnoreExitCode="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="_TedToolkitFileSystemGitDirectory" />
     </Exec>
