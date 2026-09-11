@@ -18,10 +18,12 @@ internal sealed class ProjectPathsMsBuildIntegrationTests
         var applicationDirectory = Path.Combine(repositoryDirectory, "src", "App");
         var excludedDirectory = Path.Combine(repositoryDirectory, "excluded");
         var assetsDirectory = Path.Combine(repositoryDirectory, "assets");
+        var twoDotDirectory = Path.Combine(repositoryDirectory, "..cache");
         Directory.CreateDirectory(consumerDirectory);
         Directory.CreateDirectory(applicationDirectory);
         Directory.CreateDirectory(excludedDirectory);
         Directory.CreateDirectory(assetsDirectory);
+        Directory.CreateDirectory(twoDotDirectory);
 
         try
         {
@@ -40,6 +42,7 @@ internal sealed class ProjectPathsMsBuildIntegrationTests
             await File.WriteAllTextAsync(Path.Combine(applicationDirectory, "App.csproj"), "<Project />");
             await File.WriteAllTextAsync(Path.Combine(excludedDirectory, "Excluded.csproj"), "<Project />");
             await File.WriteAllTextAsync(Path.Combine(consumerDirectory, "local.txt"), string.Empty);
+            await File.WriteAllTextAsync(Path.Combine(twoDotDirectory, "inside.txt"), string.Empty);
             await File.WriteAllTextAsync(outsideFile, string.Empty);
             await File.WriteAllTextAsync(
                 Path.Combine(repositoryDirectory, "Directory.Build.props"),
@@ -53,6 +56,7 @@ internal sealed class ProjectPathsMsBuildIntegrationTests
                     <TedToolkitFileSystemPath Update="$(MSBuildThisFileDirectory)src\App\App.csproj"
                                               Name="ApplicationProject" />
                     <TedToolkitFileSystemPath Include="$(MSBuildThisFileDirectory)assets" Kind="Directory" />
+                    <TedToolkitFileSystemPath Include="$(MSBuildThisFileDirectory)..cache\*.txt" Kind="File" />
                     <TedToolkitFileSystemPath Include="$(MSBuildThisFileDirectory)..\outside.txt" Kind="File" />
                   </ItemGroup>
                 </Project>
@@ -86,6 +90,7 @@ internal sealed class ProjectPathsMsBuildIntegrationTests
                 _ = ProjectPaths.src.App.ApplicationProject;
                 TedToolkit.FileSystem.FilePath localFile = ProjectPaths.src.Consumer.local_txt;
                 TedToolkit.FileSystem.DirectoryPath assetsDirectory = ProjectPaths.assets.Directory;
+                TedToolkit.FileSystem.FilePath twoDotDirectoryFile = ProjectPaths.cache.inside_txt;
                 """);
 
             var buildResult = await RunProcess(

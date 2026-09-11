@@ -12,6 +12,49 @@ namespace TedToolkit.FileSystem.ProjectPaths.Tests;
 internal sealed class ProjectPathsGeneratorTests
 {
     /// <summary>
+    /// Verifies that a directory name beginning with two dots is not mistaken for parent traversal.
+    /// </summary>
+    [Test]
+    public async Task Should_accept_path_below_in_root_directory_beginning_with_two_dots()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "repository");
+        var path = Path.Combine(root, "..cache", "inside.txt");
+
+        await Assert.That(EvaluateDirectoryContainment(root, path)).IsTrue();
+    }
+
+    /// <summary>
+    /// Verifies that paths on another Windows drive cannot cross the Git work tree boundary.
+    /// </summary>
+    [Test]
+    public async Task Should_reject_path_on_another_windows_drive()
+    {
+        if (!OperatingSystem.IsWindows())
+            return;
+
+        var root = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "repository"));
+        var rootDrive = char.ToUpperInvariant(Path.GetPathRoot(root)![0]);
+        var otherDrive = rootDrive == 'Z' ? 'Y' : 'Z';
+        var path = $"{otherDrive}:\\outside.txt";
+
+        await Assert.That(EvaluateDirectoryContainment(root, path)).IsFalse();
+    }
+
+    /// <summary>
+    /// Verifies that a UNC authority cannot cross the Git work tree boundary.
+    /// </summary>
+    [Test]
+    public async Task Should_reject_path_on_unc_authority()
+    {
+        if (!OperatingSystem.IsWindows())
+            return;
+
+        var root = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "repository"));
+
+        await Assert.That(EvaluateDirectoryContainment(root, @"\\server\share\outside.txt")).IsFalse();
+    }
+
+    /// <summary>
     /// Verifies that explicitly selected files generate only their required access chain and safe member name.
     /// </summary>
     [Test]
@@ -199,6 +242,14 @@ internal sealed class ProjectPathsGeneratorTests
             runResult.GeneratedTrees.Select(static tree => tree.GetText().ToString()).ToImmutableArray(),
             runResult.Diagnostics,
             outputCompilation.GetDiagnostics());
+    }
+
+    private static bool EvaluateDirectoryContainment(string root, string path)
+    {
+        var method = typeof(ProjectPathsGenerator).GetMethod(
+            "IsWithinDirectory",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+        return (bool)method.Invoke(null, new object[] { root, path })!;
     }
 
     private static IEnumerable<MetadataReference> GetFrameworkReferences()

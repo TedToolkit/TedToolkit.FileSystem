@@ -75,10 +75,10 @@ public sealed class ProjectPathsGenerator : IIncrementalGenerator
         if (!isDirectory && !isFile)
             return;
 
-        var relativePath = GetRelativePath(gitDirectory, absolutePath);
-        if (relativePath.StartsWith("..", System.StringComparison.Ordinal))
+        if (!IsWithinDirectory(gitDirectory, absolutePath))
             return;
 
+        var relativePath = GetRelativePath(gitDirectory, absolutePath);
         var segments = relativePath.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, System.StringSplitOptions.RemoveEmptyEntries);
         var directory = root;
         var lastDirectorySegment = isDirectory ? segments.Length : segments.Length - 1;
@@ -95,6 +95,17 @@ public sealed class ProjectPathsGenerator : IIncrementalGenerator
         var pathUri = new System.Uri(path);
         return System.Uri.UnescapeDataString(rootUri.MakeRelativeUri(pathUri).ToString())
             .Replace('/', Path.DirectorySeparatorChar);
+    }
+
+    private static bool IsWithinDirectory(string root, string path)
+    {
+        var normalizedRoot = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        var normalizedPath = Path.GetFullPath(path);
+        var comparison = Path.DirectorySeparatorChar == '\\'
+            ? System.StringComparison.OrdinalIgnoreCase
+            : System.StringComparison.Ordinal;
+        return normalizedPath.Equals(normalizedRoot, comparison)
+            || normalizedPath.StartsWith(AppendDirectorySeparator(normalizedRoot), comparison);
     }
 
     private static string AppendDirectorySeparator(string path)
