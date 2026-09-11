@@ -45,10 +45,10 @@ internal sealed class ProjectPathsGeneratorTests
     }
 
     /// <summary>
-    /// Verifies that a recursive file pattern includes matching files at every descendant level.
+    /// Verifies that concrete selected files generate members at every represented descendant level.
     /// </summary>
     [Test]
-    public async Task Should_generate_files_in_descendant_directories_when_include_uses_double_asterisk()
+    public async Task Should_generate_concrete_files_in_descendant_directories()
     {
         var gitDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         var projectFile = Path.Combine(gitDirectory, "src", "App", "App.csproj");
@@ -63,7 +63,7 @@ internal sealed class ProjectPathsGeneratorTests
 
         try
         {
-            var result = Generate(gitDirectory, projectFile, "src/App/**/*.json~File~");
+            var result = Generate(gitDirectory, projectFile, "src/App/appsettings.json~File~|src/App/Settings/feature.json~File~");
             var source = result.GeneratedSources.Single();
 
             await Assert.That(source.Contains("appsettings_json")).IsTrue();
@@ -79,10 +79,10 @@ internal sealed class ProjectPathsGeneratorTests
     }
 
     /// <summary>
-    /// Verifies that a single-asterisk file pattern does not include files in child directories.
+    /// Verifies that unselected files in child directories are not generated.
     /// </summary>
     [Test]
-    public async Task Should_exclude_descendant_files_when_include_uses_single_asterisk()
+    public async Task Should_exclude_unselected_files_in_descendant_directories()
     {
         var gitDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         var projectFile = Path.Combine(gitDirectory, "src", "App", "App.csproj");
@@ -95,7 +95,7 @@ internal sealed class ProjectPathsGeneratorTests
 
         try
         {
-            var result = Generate(gitDirectory, projectFile, "src/App/*.json~File~");
+            var result = Generate(gitDirectory, projectFile, "src/App/appsettings.json~File~");
             var source = result.GeneratedSources.Single();
 
             await Assert.That(source.Contains("appsettings_json")).IsTrue();
@@ -151,7 +151,7 @@ internal sealed class ProjectPathsGeneratorTests
 
         try
         {
-            var result = Generate(gitDirectory, projectFile, "src/App/*.json~File~");
+            var result = Generate(gitDirectory, projectFile, "src/App/one.file.json~File~|src/App/one-file.json~File~");
 
             await Assert.That(result.GeneratorDiagnostics.Any(static diagnostic => diagnostic.Id == "TTFS002")).IsTrue();
         }
