@@ -12,6 +12,49 @@ namespace TedToolkit.FileSystem.ProjectPaths.Tests;
 internal sealed class ProjectPathsGeneratorTests
 {
     /// <summary>
+    /// Verifies that a directory name beginning with two dots is not mistaken for parent traversal.
+    /// </summary>
+    [Test]
+    public async Task Should_accept_path_below_in_root_directory_beginning_with_two_dots()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "repository");
+        var path = Path.Combine(root, "..cache", "inside.txt");
+
+        await Assert.That(EvaluateDirectoryContainment(root, path)).IsTrue();
+    }
+
+    /// <summary>
+    /// Verifies that paths on another Windows drive cannot cross the Git work tree boundary.
+    /// </summary>
+    [Test]
+    public async Task Should_reject_path_on_another_windows_drive()
+    {
+        if (!OperatingSystem.IsWindows())
+            return;
+
+        var root = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "repository"));
+        var rootDrive = char.ToUpperInvariant(Path.GetPathRoot(root)![0]);
+        var otherDrive = rootDrive == 'Z' ? 'Y' : 'Z';
+        var path = $"{otherDrive}:\\outside.txt";
+
+        await Assert.That(EvaluateDirectoryContainment(root, path)).IsFalse();
+    }
+
+    /// <summary>
+    /// Verifies that a UNC authority cannot cross the Git work tree boundary.
+    /// </summary>
+    [Test]
+    public async Task Should_reject_path_on_unc_authority()
+    {
+        if (!OperatingSystem.IsWindows())
+            return;
+
+        var root = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "repository"));
+
+        await Assert.That(EvaluateDirectoryContainment(root, @"\\server\share\outside.txt")).IsFalse();
+    }
+
+    /// <summary>
     /// Verifies that explicitly selected files generate only their required access chain and safe member name.
     /// </summary>
     [Test]
@@ -45,10 +88,10 @@ internal sealed class ProjectPathsGeneratorTests
     }
 
     /// <summary>
-    /// Verifies that a recursive file pattern includes matching files at every descendant level.
+    /// Verifies that concrete selected files generate members at every represented descendant level.
     /// </summary>
     [Test]
-    public async Task Should_generate_files_in_descendant_directories_when_include_uses_double_asterisk()
+    public async Task Should_generate_concrete_files_in_descendant_directories()
     {
         var gitDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         var projectFile = Path.Combine(gitDirectory, "src", "App", "App.csproj");
@@ -63,7 +106,7 @@ internal sealed class ProjectPathsGeneratorTests
 
         try
         {
-            var result = Generate(gitDirectory, projectFile, "src/App/**/*.json~File~");
+            var result = Generate(gitDirectory, projectFile, "src/App/appsettings.json~File~|src/App/Settings/feature.json~File~");
             var source = result.GeneratedSources.Single();
 
             await Assert.That(source.Contains("appsettings_json")).IsTrue();
@@ -79,10 +122,10 @@ internal sealed class ProjectPathsGeneratorTests
     }
 
     /// <summary>
-    /// Verifies that a single-asterisk file pattern does not include files in child directories.
+    /// Verifies that unselected files in child directories are not generated.
     /// </summary>
     [Test]
-    public async Task Should_exclude_descendant_files_when_include_uses_single_asterisk()
+    public async Task Should_exclude_unselected_files_in_descendant_directories()
     {
         var gitDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         var projectFile = Path.Combine(gitDirectory, "src", "App", "App.csproj");
@@ -95,7 +138,7 @@ internal sealed class ProjectPathsGeneratorTests
 
         try
         {
-            var result = Generate(gitDirectory, projectFile, "src/App/*.json~File~");
+            var result = Generate(gitDirectory, projectFile, "src/App/appsettings.json~File~");
             var source = result.GeneratedSources.Single();
 
             await Assert.That(source.Contains("appsettings_json")).IsTrue();
@@ -151,7 +194,7 @@ internal sealed class ProjectPathsGeneratorTests
 
         try
         {
-            var result = Generate(gitDirectory, projectFile, "src/App/*.json~File~");
+            var result = Generate(gitDirectory, projectFile, "src/App/one.file.json~File~|src/App/one-file.json~File~");
 
             await Assert.That(result.GeneratorDiagnostics.Any(static diagnostic => diagnostic.Id == "TTFS002")).IsTrue();
         }
@@ -199,6 +242,14 @@ internal sealed class ProjectPathsGeneratorTests
             runResult.GeneratedTrees.Select(static tree => tree.GetText().ToString()).ToImmutableArray(),
             runResult.Diagnostics,
             outputCompilation.GetDiagnostics());
+    }
+
+    private static bool EvaluateDirectoryContainment(string root, string path)
+    {
+        var method = typeof(ProjectPathsGenerator).GetMethod(
+            "IsWithinDirectory",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+        return (bool)method.Invoke(null, new object[] { root, path })!;
     }
 
     private static IEnumerable<MetadataReference> GetFrameworkReferences()

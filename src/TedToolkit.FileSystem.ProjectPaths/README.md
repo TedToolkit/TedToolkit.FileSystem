@@ -7,10 +7,10 @@ It provides compile-time path access without hard-coding paths throughout an app
 ```csharp
 var repository = ProjectPaths.Git;
 var project = ProjectPaths.Project;
-var settings = ProjectPaths.src.App.appsettings_Development_json;
+var appProject = ProjectPaths.src.App.App_csproj;
 ```
 
-Only paths declared in the project file are generated. Selecting a directory never implicitly generates its children.
+Only paths selected by evaluated `TedToolkitFileSystemPath` items are generated. Selecting a directory never implicitly generates its children.
 
 ## Requirements
 
@@ -28,27 +28,28 @@ Add the package to the project that needs the generated paths:
 
 ## Select paths
 
-Add one `TedToolkitFileSystemPath` item for every file, directory, or pattern that should become available through `ProjectPaths`. Paths are relative to the Git work tree root, not to the project file.
+Add `TedToolkitFileSystemPath` items for the files and directories that should become available through `ProjectPaths`. These are standard MSBuild items: relative paths are resolved from the project directory, and MSBuild expands `Include`, `Exclude`, `Update`, `*`, `?`, and `**` before the source generator runs.
+
+For repository-wide selections, place the items in the repository root `Directory.Build.props` and anchor them with `$(MSBuildThisFileDirectory)`:
 
 ```xml
 <ItemGroup>
-  <!-- Generates ProjectPaths.src.App.Assets.Directory only. -->
-  <TedToolkitFileSystemPath Include="src/App/Assets" Kind="Directory" />
+  <!-- Includes every solution file in the repository root. -->
+  <TedToolkitFileSystemPath Include="$(MSBuildThisFileDirectory)*.slnx" Kind="File" />
 
-  <!-- Generates only matching JSON files and their required parent access chain. -->
-  <TedToolkitFileSystemPath Include="src/App/*.json" Kind="File" />
+  <!-- Includes every project file except projects below generated output directories. -->
+  <TedToolkitFileSystemPath Include="$(MSBuildThisFileDirectory)**/*.csproj"
+                            Exclude="$(MSBuildThisFileDirectory)**/bin/**/*;$(MSBuildThisFileDirectory)**/obj/**/*"
+                            Kind="File" />
 
-  <!-- Includes JSON files in App and every child directory. -->
-  <TedToolkitFileSystemPath Include="src/App/**/*.json" Kind="File" />
-
-  <!-- Generates one specific file. -->
-  <TedToolkitFileSystemPath Include="src/App/appsettings.Development.json" Kind="File" />
+  <!-- Generates one directory without implicitly selecting its contents. -->
+  <TedToolkitFileSystemPath Include="$(MSBuildThisFileDirectory)src/App/Assets" Kind="Directory" />
 </ItemGroup>
 ```
 
 `Kind` accepts `File`, `Directory`, or `Any`; it defaults to `Any`. Use `File` or `Directory` when the expected path type is known.
 
-`Include` supports these glob tokens:
+MSBuild expands file globs into concrete items before generation:
 
 | Token | Matches |
 | --- | --- |
@@ -56,7 +57,9 @@ Add one `TedToolkitFileSystemPath` item for every file, directory, or pattern th
 | `?` | One character within one path segment. |
 | `**` | Zero or more directory segments. `src/App/**/*.json` matches both `src/App/appsettings.json` and `src/App/Settings/feature.json`. |
 
-Patterns select only entries whose `Kind` matches. A selected directory generates its `Directory` property, but never generates its files or child directories unless they are selected by another item.
+Directory items must name a concrete directory; directory glob expansion is not provided. A selected directory generates its `Directory` property, but never generates its files or child directories unless files are selected by another item.
+
+The generator consumes only the concrete paths selected by MSBuild. It does not scan the repository or implement a second glob matcher.
 
 `Name` is optional and applies only to files. Use it to override a generated file member name when a file name would be unclear or conflicts with another file member:
 
@@ -65,6 +68,29 @@ Patterns select only entries whose `Kind` matches. A selected directory generate
                           Kind="File"
                           Name="DevelopmentSettings" />
 ```
+
+When a file came from a glob, use standard MSBuild `Update` to set its name:
+
+```xml
+<TedToolkitFileSystemPath Update="$(MSBuildThisFileDirectory)src/App/appsettings.Development.json"
+                          Name="DevelopmentSettings" />
+```
+
+## Migrating from 1.x
+
+Version 1.x treated item values as Git-work-tree-relative patterns and required wildcard escaping. Version 2.0 uses native MSBuild item semantics.
+
+Move repository-wide declarations to the root `Directory.Build.props` and replace escaped patterns:
+
+```xml
+<!-- 1.x -->
+<TedToolkitFileSystemPath Include="$([MSBuild]::Escape('\*.slnx'))" Kind="File" />
+
+<!-- 2.0 -->
+<TedToolkitFileSystemPath Include="$(MSBuildThisFileDirectory)*.slnx" Kind="File" />
+```
+
+Apply the same prefix to recursive patterns and exact repository-root paths. Consumers that cannot migrate immediately can remain on the latest 1.x package.
 
 ## Generated API
 
@@ -88,7 +114,7 @@ For the preceding configuration, usage looks like this:
 
 ```csharp
 var assetsDirectory = ProjectPaths.src.App.Assets.Directory;
-var settingsFile = ProjectPaths.src.App.appsettings_Development_json;
+var appProject = ProjectPaths.src.App.App_csproj;
 ```
 
 The generated `ProjectPaths` class is placed in the project's `RootNamespace`. Import that namespace before using it from another namespace:
@@ -96,7 +122,7 @@ The generated `ProjectPaths` class is placed in the project's `RootNamespace`. I
 ```csharp
 using MyProject;
 
-var configuration = ProjectPaths.src.App.appsettings_Development_json;
+var appProject = ProjectPaths.src.App.App_csproj;
 ```
 
 Generated XML documentation contains the corresponding full path, so the path is visible in IntelliSense.

@@ -17,7 +17,7 @@
     <PropertyGroup>
       <TedToolkitFileSystemProjectFile>$(MSBuildProjectFullPath)</TedToolkitFileSystemProjectFile>
       <TedToolkitFileSystemGitDirectory>$([System.String]::Copy('$(_TedToolkitFileSystemGitDirectory)').Trim())</TedToolkitFileSystemGitDirectory>
-      <TedToolkitFileSystemPaths>@(TedToolkitFileSystemPath->'%(Identity)~%(Kind)~%(Name)', '|')</TedToolkitFileSystemPaths>
+      <TedToolkitFileSystemPaths>@(TedToolkitFileSystemPath->'%(FullPath)~%(Kind)~%(Name)', '|')</TedToolkitFileSystemPaths>
     </PropertyGroup>
   </Target>
 </Project>
