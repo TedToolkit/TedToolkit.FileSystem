@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="Localizations/Localization*.json" />
     <PackageReference Include="TedToolkit.Localizations" />
     <PackageReference Include="Polyfill" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
     <Compile Include="$(PkgPolyfill)/contentFiles/cs/$(TargetFramework)/CallerArgumentExpressionAttribute.cs"

@@ -13,7 +13,7 @@ using TedToolkit.Localizations;
 
 namespace TedToolkit.FileSystem.Tests.FileSystemGuardExtensionsTests;
 
-[NotInParallel("FileSystemGuardCulture")]
+[NotInParallel]
 internal sealed class LocalizedMessagesTests
 {
     /// <summary>
@@ -22,6 +22,8 @@ internal sealed class LocalizedMessagesTests
     [Test]
     [Arguments("en-US", "File parameter")]
     [Arguments("zh-CN", "文件参数")]
+    [Arguments("zh", "文件参数")]
+    [Arguments("", "File parameter")]
     [Arguments("zh-SG", "文件参数")]
     [Arguments("fr-FR", "File parameter")]
     [Arguments("not_a_culture", "File parameter")]
@@ -94,6 +96,40 @@ internal sealed class LocalizedMessagesTests
         }
         finally
         {
+            LocalizationSettings.Culture = originalCulture;
+        }
+    }
+
+    /// <summary>
+    /// Verifies that guard translations use the shared override dictionary and named placeholders.
+    /// </summary>
+    [Test]
+    public async Task Should_honor_shared_translation_overrides()
+    {
+        using var fixture = new FileSystemGuardFixture();
+        const string key = "FileSystemGuards.FileNotFound";
+        var originalCulture = LocalizationSettings.Culture;
+        var hadOriginal = LocalizationSettings.LocalizedStrings.TryGetValue(key, out var originalText);
+        try
+        {
+            LocalizationSettings.Culture = "en-US";
+            LocalizationSettings.LocalizedStrings[key] = "Custom missing file: {{ParameterName}} => {{Path}}";
+            var inputFile = fixture.MissingFile;
+            var exception = await Assert.That(() => inputFile.ThrowIfNotExists()).Throws<FileNotFoundException>();
+            await Assert.That(exception!.Message).Contains($"Custom missing file: inputFile => {inputFile.FullName}");
+            await Assert.That(exception.FileName).IsEqualTo(inputFile.FullName);
+        }
+        finally
+        {
+            if (hadOriginal)
+            {
+                LocalizationSettings.LocalizedStrings[key] = originalText!;
+            }
+            else
+            {
+                LocalizationSettings.LocalizedStrings.Remove(key);
+            }
+
             LocalizationSettings.Culture = originalCulture;
         }
     }

@@ -206,8 +206,13 @@ The collection overloads accept only `IReadOnlyCollection<FilePath>` and `IReadO
 and read Count without enumerating or checking individual paths. They do not extend arbitrary objects,
 strings, generic collections, or lazy sequences.
 
-Messages follow `TedToolkit.Localizations.LocalizationSettings.Culture`. Chinese cultures use Chinese
-resources; unsupported or invalid cultures fall back to English. Resource helpers remain internal.
+Translations use `TedToolkit.Localizations` end to end: JSON files registered as `AdditionalFiles`
+generate the strongly typed `Localization.FileSystemGuards` API. Named placeholders are interpolated
+by that generated API, without an independent resource manager or satellite resource assemblies.
+Messages follow `LocalizationSettings.Culture`, with Chinese translations for `zh`, `zh-CN`, and
+`zh-SG`; other cultures use the default English translation. In the default-language branch,
+`LocalizationSettings.LocalizedStrings` can override keys such as `FileSystemGuards.FileNotFound`.
+Guard operations reuse the existing typed `Exists`, `GetFullPath`, and enumeration members.
 Only the compiler attributes needed for caller-expression capture and nullable flow are imported on
 older targets; the Polyfill package adds no general extension methods or runtime dependency.
 Existence checks follow `File.Exists` and `Directory.Exists` semantics and are not permission checks.

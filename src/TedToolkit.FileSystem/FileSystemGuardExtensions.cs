@@ -53,7 +53,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="filePath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses File.Exists; failure diagnostics resolve the stored text with Path.GetFullPath.</remarks>
+    /// <remarks>Uses FilePath.Exists (File.Exists); failure diagnostics use FilePath.GetFullPath (Path.GetFullPath).</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="FileNotFoundException">File.Exists reports that the path is not an existing file.</exception>
@@ -61,15 +61,15 @@ public static class FileSystemGuardExtensions
         this FilePath filePath,
         [CallerArgumentExpression(nameof(filePath))] string? paramName = null)
     {
-        var fullName = GetRequiredPath(filePath, paramName);
-        if (File.Exists(fullName))
+        var path = GetRequiredPath(filePath, paramName);
+        if (path.Exists)
         {
             return;
         }
 
-        var absolutePath = Path.GetFullPath(fullName);
+        var absolutePath = path.GetFullPath().FullName;
         throw new FileNotFoundException(
-            FileSystemGuardMessages.Format("FileNotFound", paramName, absolutePath), absolutePath);
+            Localization.FileSystemGuards.FileNotFound(paramName ?? "", absolutePath), absolutePath);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="filePath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses File.Exists and Directory.Exists on every supported target framework. This is not a permissions check.</remarks>
+    /// <remarks>Uses FilePath.Exists and DirectoryPath.Exists (File.Exists and Directory.Exists) on every supported target framework. This is not a permissions check.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="IOException">An existing file or directory occupies the path.</exception>
@@ -85,14 +85,14 @@ public static class FileSystemGuardExtensions
         this FilePath filePath,
         [CallerArgumentExpression(nameof(filePath))] string? paramName = null)
     {
-        var fullName = GetRequiredPath(filePath, paramName);
-        if (!File.Exists(fullName) && !Directory.Exists(fullName))
+        var path = GetRequiredPath(filePath, paramName);
+        if (!path.Exists && !new DirectoryPath(path.FullName).Exists)
         {
             return;
         }
 
-        throw new IOException(FileSystemGuardMessages.Format(
-            "PathAlreadyExists", paramName, Path.GetFullPath(fullName)));
+        throw new IOException(Localization.FileSystemGuards.PathAlreadyExists(
+            paramName ?? "", path.GetFullPath().FullName));
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="filePath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses File.Exists; failure diagnostics resolve the stored text with Path.GetFullPath.</remarks>
+    /// <remarks>Uses FilePath.Exists (File.Exists); failure diagnostics use FilePath.GetFullPath (Path.GetFullPath).</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="FileNotFoundException">File.Exists reports that the path is not an existing file.</exception>
@@ -137,15 +137,15 @@ public static class FileSystemGuardExtensions
         [NotNull] this FilePath? filePath,
         [CallerArgumentExpression(nameof(filePath))] string? paramName = null)
     {
-        var fullName = GetRequiredPath(filePath, paramName);
-        if (File.Exists(fullName))
+        var path = GetRequiredPath(filePath, paramName);
+        if (path.Exists)
         {
             return;
         }
 
-        var absolutePath = Path.GetFullPath(fullName);
+        var absolutePath = path.GetFullPath().FullName;
         throw new FileNotFoundException(
-            FileSystemGuardMessages.Format("FileNotFound", paramName, absolutePath), absolutePath);
+            Localization.FileSystemGuards.FileNotFound(paramName ?? "", absolutePath), absolutePath);
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="filePath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses File.Exists and Directory.Exists on every supported target framework. This is not a permissions check.</remarks>
+    /// <remarks>Uses FilePath.Exists and DirectoryPath.Exists (File.Exists and Directory.Exists) on every supported target framework. This is not a permissions check.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="IOException">An existing file or directory occupies the path.</exception>
@@ -161,14 +161,14 @@ public static class FileSystemGuardExtensions
         [NotNull] this FilePath? filePath,
         [CallerArgumentExpression(nameof(filePath))] string? paramName = null)
     {
-        var fullName = GetRequiredPath(filePath, paramName);
-        if (!File.Exists(fullName) && !Directory.Exists(fullName))
+        var path = GetRequiredPath(filePath, paramName);
+        if (!path.Exists && !new DirectoryPath(path.FullName).Exists)
         {
             return;
         }
 
-        throw new IOException(FileSystemGuardMessages.Format(
-            "PathAlreadyExists", paramName, Path.GetFullPath(fullName)));
+        throw new IOException(Localization.FileSystemGuards.PathAlreadyExists(
+            paramName ?? "", path.GetFullPath().FullName));
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="directoryPath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses Directory.Exists; failure diagnostics resolve the stored text with Path.GetFullPath.</remarks>
+    /// <remarks>Uses DirectoryPath.Exists (Directory.Exists); failure diagnostics use DirectoryPath.GetFullPath (Path.GetFullPath).</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="DirectoryNotFoundException">Directory.Exists reports that the path is not an existing directory.</exception>
@@ -221,7 +221,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="directoryPath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses File.Exists and Directory.Exists on every supported target framework. This is not a permissions check.</remarks>
+    /// <remarks>Uses FilePath.Exists and DirectoryPath.Exists (File.Exists and Directory.Exists) on every supported target framework. This is not a permissions check.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="IOException">An existing file or directory occupies the path.</exception>
@@ -229,14 +229,14 @@ public static class FileSystemGuardExtensions
         this DirectoryPath directoryPath,
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null)
     {
-        var fullName = GetRequiredPath(directoryPath, paramName);
-        if (!File.Exists(fullName) && !Directory.Exists(fullName))
+        var path = GetRequiredPath(directoryPath, paramName);
+        if (!new FilePath(path.FullName).Exists && !path.Exists)
         {
             return;
         }
 
-        throw new IOException(FileSystemGuardMessages.Format(
-            "PathAlreadyExists", paramName, Path.GetFullPath(fullName)));
+        throw new IOException(Localization.FileSystemGuards.PathAlreadyExists(
+            paramName ?? "", path.GetFullPath().FullName));
     }
 
     /// <summary>
@@ -273,7 +273,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="directoryPath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses Directory.Exists; failure diagnostics resolve the stored text with Path.GetFullPath.</remarks>
+    /// <remarks>Uses DirectoryPath.Exists (Directory.Exists); failure diagnostics use DirectoryPath.GetFullPath (Path.GetFullPath).</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="DirectoryNotFoundException">Directory.Exists reports that the path is not an existing directory.</exception>
@@ -289,7 +289,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="directoryPath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses File.Exists and Directory.Exists on every supported target framework. This is not a permissions check.</remarks>
+    /// <remarks>Uses FilePath.Exists and DirectoryPath.Exists (File.Exists and Directory.Exists) on every supported target framework. This is not a permissions check.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="IOException">An existing file or directory occupies the path.</exception>
@@ -297,14 +297,14 @@ public static class FileSystemGuardExtensions
         [NotNull] this DirectoryPath? directoryPath,
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null)
     {
-        var fullName = GetRequiredPath(directoryPath, paramName);
-        if (!File.Exists(fullName) && !Directory.Exists(fullName))
+        var path = GetRequiredPath(directoryPath, paramName);
+        if (!new FilePath(path.FullName).Exists && !path.Exists)
         {
             return;
         }
 
-        throw new IOException(FileSystemGuardMessages.Format(
-            "PathAlreadyExists", paramName, Path.GetFullPath(fullName)));
+        throw new IOException(Localization.FileSystemGuards.PathAlreadyExists(
+            paramName ?? "", path.GetFullPath().FullName));
     }
 
     /// <summary>
@@ -315,7 +315,7 @@ public static class FileSystemGuardExtensions
     /// <param name="searchOption">The search scope; the default checks only the current directory.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
     /// <param name="searchPatternParamName">The automatically captured search-pattern expression.</param>
-    /// <remarks>Uses Directory.EnumerateFiles(string, string, SearchOption). Enumeration stops at the first match and no result array is allocated. Directory validation precedes pattern validation. A zero-byte file is still a file; an empty child directory is still a directory.</remarks>
+    /// <remarks>Uses DirectoryPath.EnumerateFiles (Directory.EnumerateFiles). Enumeration stops at the first match and no result array is allocated. Directory validation precedes pattern validation. A zero-byte file is still a file; an empty child directory is still a directory.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text or search pattern is blank, or the BCL rejects the pattern.</exception>
     /// <exception cref="DirectoryNotFoundException">The directory does not exist.</exception>
@@ -330,15 +330,15 @@ public static class FileSystemGuardExtensions
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null,
         [CallerArgumentExpression(nameof(searchPattern))] string? searchPatternParamName = null)
     {
-        var fullName = GetExistingDirectory(directoryPath, paramName);
+        var path = GetExistingDirectory(directoryPath, paramName);
         CheckPattern(searchPattern, searchPatternParamName);
-        if (Directory.EnumerateFiles(fullName, searchPattern, searchOption).Any())
+        if (path.EnumerateFiles(searchPattern, searchOption).Any())
         {
             return;
         }
 
-        throw new InvalidOperationException(FileSystemGuardMessages.Format(
-            "NoMatchingFiles", paramName, Path.GetFullPath(fullName), searchPattern, searchOption.ToString()));
+        throw new InvalidOperationException(Localization.FileSystemGuards.NoMatchingFiles(
+            paramName ?? "", path.GetFullPath().FullName, searchPattern, searchOption.ToString()));
     }
 
     /// <summary>
@@ -349,7 +349,7 @@ public static class FileSystemGuardExtensions
     /// <param name="searchOption">The search scope; the default checks only the current directory.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
     /// <param name="searchPatternParamName">The automatically captured search-pattern expression.</param>
-    /// <remarks>Uses Directory.EnumerateDirectories(string, string, SearchOption). Enumeration stops at the first match and no result array is allocated. Directory validation precedes pattern validation. A zero-byte file is still a file; an empty child directory is still a directory.</remarks>
+    /// <remarks>Uses DirectoryPath.EnumerateDirectories (Directory.EnumerateDirectories). Enumeration stops at the first match and no result array is allocated. Directory validation precedes pattern validation. A zero-byte file is still a file; an empty child directory is still a directory.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text or search pattern is blank, or the BCL rejects the pattern.</exception>
     /// <exception cref="DirectoryNotFoundException">The directory does not exist.</exception>
@@ -364,15 +364,15 @@ public static class FileSystemGuardExtensions
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null,
         [CallerArgumentExpression(nameof(searchPattern))] string? searchPatternParamName = null)
     {
-        var fullName = GetExistingDirectory(directoryPath, paramName);
+        var path = GetExistingDirectory(directoryPath, paramName);
         CheckPattern(searchPattern, searchPatternParamName);
-        if (Directory.EnumerateDirectories(fullName, searchPattern, searchOption).Any())
+        if (path.EnumerateDirectories(searchPattern, searchOption).Any())
         {
             return;
         }
 
-        throw new InvalidOperationException(FileSystemGuardMessages.Format(
-            "NoMatchingFolders", paramName, Path.GetFullPath(fullName), searchPattern, searchOption.ToString()));
+        throw new InvalidOperationException(Localization.FileSystemGuards.NoMatchingFolders(
+            paramName ?? "", path.GetFullPath().FullName, searchPattern, searchOption.ToString()));
     }
 
     /// <summary>
@@ -380,7 +380,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="directoryPath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses Directory.EnumerateFileSystemEntries(string) for the current directory only. An empty child directory counts as an entry.</remarks>
+    /// <remarks>Uses DirectoryPath.EnumerateFileSystemEntries (Directory.EnumerateFileSystemEntries) for the current directory only. An empty child directory counts as an entry.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="DirectoryNotFoundException">The directory does not exist.</exception>
@@ -391,14 +391,14 @@ public static class FileSystemGuardExtensions
         this DirectoryPath directoryPath,
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null)
     {
-        var fullName = GetExistingDirectory(directoryPath, paramName);
-        if (Directory.EnumerateFileSystemEntries(fullName).Any())
+        var path = GetExistingDirectory(directoryPath, paramName);
+        if (path.EnumerateFileSystemEntries().Any())
         {
             return;
         }
 
-        throw new InvalidOperationException(FileSystemGuardMessages.Format(
-            "NoEntries", paramName, Path.GetFullPath(fullName)));
+        throw new InvalidOperationException(Localization.FileSystemGuards.NoEntries(
+            paramName ?? "", path.GetFullPath().FullName));
     }
 
     /// <summary>
@@ -409,7 +409,7 @@ public static class FileSystemGuardExtensions
     /// <param name="searchOption">The search scope; the default checks only the current directory.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
     /// <param name="searchPatternParamName">The automatically captured search-pattern expression.</param>
-    /// <remarks>Uses Directory.EnumerateFiles(string, string, SearchOption). Enumeration stops at the first match and no result array is allocated. Directory validation precedes pattern validation. A zero-byte file is still a file; an empty child directory is still a directory.</remarks>
+    /// <remarks>Uses DirectoryPath.EnumerateFiles (Directory.EnumerateFiles). Enumeration stops at the first match and no result array is allocated. Directory validation precedes pattern validation. A zero-byte file is still a file; an empty child directory is still a directory.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text or search pattern is blank, or the BCL rejects the pattern.</exception>
     /// <exception cref="DirectoryNotFoundException">The directory does not exist.</exception>
@@ -424,15 +424,15 @@ public static class FileSystemGuardExtensions
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null,
         [CallerArgumentExpression(nameof(searchPattern))] string? searchPatternParamName = null)
     {
-        var fullName = GetExistingDirectory(directoryPath, paramName);
+        var path = GetExistingDirectory(directoryPath, paramName);
         CheckPattern(searchPattern, searchPatternParamName);
-        if (Directory.EnumerateFiles(fullName, searchPattern, searchOption).Any())
+        if (path.EnumerateFiles(searchPattern, searchOption).Any())
         {
             return;
         }
 
-        throw new InvalidOperationException(FileSystemGuardMessages.Format(
-            "NoMatchingFiles", paramName, Path.GetFullPath(fullName), searchPattern, searchOption.ToString()));
+        throw new InvalidOperationException(Localization.FileSystemGuards.NoMatchingFiles(
+            paramName ?? "", path.GetFullPath().FullName, searchPattern, searchOption.ToString()));
     }
 
     /// <summary>
@@ -443,7 +443,7 @@ public static class FileSystemGuardExtensions
     /// <param name="searchOption">The search scope; the default checks only the current directory.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
     /// <param name="searchPatternParamName">The automatically captured search-pattern expression.</param>
-    /// <remarks>Uses Directory.EnumerateDirectories(string, string, SearchOption). Enumeration stops at the first match and no result array is allocated. Directory validation precedes pattern validation. A zero-byte file is still a file; an empty child directory is still a directory.</remarks>
+    /// <remarks>Uses DirectoryPath.EnumerateDirectories (Directory.EnumerateDirectories). Enumeration stops at the first match and no result array is allocated. Directory validation precedes pattern validation. A zero-byte file is still a file; an empty child directory is still a directory.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text or search pattern is blank, or the BCL rejects the pattern.</exception>
     /// <exception cref="DirectoryNotFoundException">The directory does not exist.</exception>
@@ -458,15 +458,15 @@ public static class FileSystemGuardExtensions
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null,
         [CallerArgumentExpression(nameof(searchPattern))] string? searchPatternParamName = null)
     {
-        var fullName = GetExistingDirectory(directoryPath, paramName);
+        var path = GetExistingDirectory(directoryPath, paramName);
         CheckPattern(searchPattern, searchPatternParamName);
-        if (Directory.EnumerateDirectories(fullName, searchPattern, searchOption).Any())
+        if (path.EnumerateDirectories(searchPattern, searchOption).Any())
         {
             return;
         }
 
-        throw new InvalidOperationException(FileSystemGuardMessages.Format(
-            "NoMatchingFolders", paramName, Path.GetFullPath(fullName), searchPattern, searchOption.ToString()));
+        throw new InvalidOperationException(Localization.FileSystemGuards.NoMatchingFolders(
+            paramName ?? "", path.GetFullPath().FullName, searchPattern, searchOption.ToString()));
     }
 
     /// <summary>
@@ -474,7 +474,7 @@ public static class FileSystemGuardExtensions
     /// </summary>
     /// <param name="directoryPath">The path value to check.</param>
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
-    /// <remarks>Uses Directory.EnumerateFileSystemEntries(string) for the current directory only. An empty child directory counts as an entry.</remarks>
+    /// <remarks>Uses DirectoryPath.EnumerateFileSystemEntries (Directory.EnumerateFileSystemEntries) for the current directory only. An empty child directory counts as an entry.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
     /// <exception cref="DirectoryNotFoundException">The directory does not exist.</exception>
@@ -485,14 +485,14 @@ public static class FileSystemGuardExtensions
         [NotNull] this DirectoryPath? directoryPath,
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null)
     {
-        var fullName = GetExistingDirectory(directoryPath, paramName);
-        if (Directory.EnumerateFileSystemEntries(fullName).Any())
+        var path = GetExistingDirectory(directoryPath, paramName);
+        if (path.EnumerateFileSystemEntries().Any())
         {
             return;
         }
 
-        throw new InvalidOperationException(FileSystemGuardMessages.Format(
-            "NoEntries", paramName, Path.GetFullPath(fullName)));
+        throw new InvalidOperationException(Localization.FileSystemGuards.NoEntries(
+            paramName ?? "", path.GetFullPath().FullName));
     }
 
     /// <summary>
@@ -549,30 +549,30 @@ public static class FileSystemGuardExtensions
         return text;
     }
 
-    private static string GetRequiredPath([NotNull] FilePath? filePath, string? paramName)
+    private static FilePath GetRequiredPath([NotNull] FilePath? filePath, string? paramName)
     {
         var text = GetPathText(filePath, paramName);
         CheckNonBlankText(text, paramName);
-        return text;
+        return filePath.Value;
     }
 
-    private static string GetRequiredPath([NotNull] DirectoryPath? directoryPath, string? paramName)
+    private static DirectoryPath GetRequiredPath([NotNull] DirectoryPath? directoryPath, string? paramName)
     {
         var text = GetPathText(directoryPath, paramName);
         CheckNonBlankText(text, paramName);
-        return text;
+        return directoryPath.Value;
     }
 
-    private static string GetExistingDirectory([NotNull] DirectoryPath? directoryPath, string? paramName)
+    private static DirectoryPath GetExistingDirectory([NotNull] DirectoryPath? directoryPath, string? paramName)
     {
-        var fullName = GetRequiredPath(directoryPath, paramName);
-        if (Directory.Exists(fullName))
+        var path = GetRequiredPath(directoryPath, paramName);
+        if (path.Exists)
         {
-            return fullName;
+            return path;
         }
 
-        throw new DirectoryNotFoundException(FileSystemGuardMessages.Format(
-            "FolderNotFound", paramName, Path.GetFullPath(fullName)));
+        throw new DirectoryNotFoundException(Localization.FileSystemGuards.FolderNotFound(
+            paramName ?? "", path.GetFullPath().FullName));
     }
 
     private static void CheckNotNullText([NotNull] string? text, string? paramName)
@@ -593,7 +593,7 @@ public static class FileSystemGuardExtensions
             return;
         }
 
-        throw new ArgumentException(FileSystemGuardMessages.Format("BlankPath", paramName), paramName);
+        throw new ArgumentException(Localization.FileSystemGuards.BlankPath(paramName ?? ""), paramName);
     }
 
     private static void CheckPattern([NotNull] string? searchPattern, string? paramName)
@@ -604,7 +604,7 @@ public static class FileSystemGuardExtensions
             return;
         }
 
-        throw new ArgumentException(FileSystemGuardMessages.Format("BlankPattern", paramName), paramName);
+        throw new ArgumentException(Localization.FileSystemGuards.BlankPattern(paramName ?? ""), paramName);
     }
 
     private static void CheckCollection<T>([NotNull] IReadOnlyCollection<T>? items, string? paramName)
@@ -619,12 +619,12 @@ public static class FileSystemGuardExtensions
             return;
         }
 
-        throw new ArgumentException(FileSystemGuardMessages.Format("NoItems", paramName), paramName);
+        throw new ArgumentException(Localization.FileSystemGuards.NoItems(paramName ?? ""), paramName);
     }
 
     [DoesNotReturn]
     private static void ThrowNull(string? paramName)
     {
-        throw new ArgumentNullException(paramName, FileSystemGuardMessages.Format("NullReference", paramName));
+        throw new ArgumentNullException(paramName, Localization.FileSystemGuards.NullReference(paramName ?? ""));
     }
 }

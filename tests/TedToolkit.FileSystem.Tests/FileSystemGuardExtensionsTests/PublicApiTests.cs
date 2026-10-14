@@ -31,13 +31,13 @@ internal sealed class PublicApiTests
     }
 
     /// <summary>
-    /// Verifies that localized resource helpers do not add public filesystem API types.
+    /// Verifies that translation generation replaces the independent resource implementation.
     /// </summary>
     [Test]
-    public async Task Should_keep_resource_helpers_out_of_exported_filesystem_api()
+    public async Task Should_remove_independent_resource_helpers()
     {
         var helper = typeof(FileSystemGuardExtensions).Assembly.GetType("TedToolkit.FileSystem.FileSystemGuardMessages");
-        await Assert.That(helper).IsNotNull();
-        await Assert.That(helper!.IsNotPublic).IsTrue();
+        await Assert.That(helper).IsNull();
+        await Assert.That(typeof(FileSystemGuardExtensions).Assembly.GetManifestResourceNames()).IsEmpty();
     }
 }
