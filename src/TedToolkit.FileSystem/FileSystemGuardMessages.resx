@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="NullReference" xml:space="preserve"><value>File system parameter '{0}' cannot be null.</value></data>
+  <data name="FileNotFound" xml:space="preserve"><value>File parameter '{0}' refers to a file that does not exist: '{1}'.</value></data>
+  <data name="FolderNotFound" xml:space="preserve"><value>Directory parameter '{0}' refers to a directory that does not exist: '{1}'.</value></data>
+  <data name="PathAlreadyExists" xml:space="preserve"><value>File system parameter '{0}' refers to an occupied path: '{1}'.</value></data>
+  <data name="NoMatchingFiles" xml:space="preserve"><value>Directory parameter '{0}' ('{1}') contains no files matching '{2}' in search scope '{3}'.</value></data>
+  <data name="NoEntries" xml:space="preserve"><value>Directory parameter '{0}' ('{1}') contains no files or subfolders.</value></data>
+  <data name="NoItems" xml:space="preserve"><value>File system collection parameter '{0}' contains no items.</value></data>
+  <data name="BlankPattern" xml:space="preserve"><value>File search pattern parameter '{0}' cannot be empty or whitespace.</value></data>
+  <data name="NoMatchingFolders" xml:space="preserve"><value>Directory parameter '{0}' ('{1}') contains no subdirectories matching '{2}' in search scope '{3}'.</value></data>
+  <data name="BlankPath" xml:space="preserve"><value>File system path parameter '{0}' cannot be empty or whitespace.</value></data>
+</root>

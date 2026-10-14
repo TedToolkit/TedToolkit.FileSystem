@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="NullReference" xml:space="preserve"><value>文件系统参数“{0}”不能为 null。</value></data>
+  <data name="FileNotFound" xml:space="preserve"><value>文件参数“{0}”指定的文件不存在：“{1}”。</value></data>
+  <data name="FolderNotFound" xml:space="preserve"><value>目录参数“{0}”指定的目录不存在：“{1}”。</value></data>
+  <data name="PathAlreadyExists" xml:space="preserve"><value>文件系统参数“{0}”指定的路径已被占用：“{1}”。</value></data>
+  <data name="NoMatchingFiles" xml:space="preserve"><value>目录参数“{0}”（“{1}”）在检索范围“{3}”内未找到匹配“{2}”的文件。</value></data>
+  <data name="NoEntries" xml:space="preserve"><value>目录参数“{0}”（“{1}”）既没有文件，也没有子目录。</value></data>
+  <data name="NoItems" xml:space="preserve"><value>文件系统集合参数“{0}”不包含任何元素。</value></data>
+  <data name="BlankPattern" xml:space="preserve"><value>文件检索模式参数“{0}”不能是空字符串或全为空白。</value></data>
+  <data name="NoMatchingFolders" xml:space="preserve"><value>目录参数“{0}”（“{1}”）在检索范围“{3}”内未找到匹配“{2}”的子目录。</value></data>
+  <data name="BlankPath" xml:space="preserve"><value>文件系统路径参数“{0}”不能是空字符串或全为空白。</value></data>
+</root>

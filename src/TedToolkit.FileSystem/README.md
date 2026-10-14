@@ -162,3 +162,53 @@ Console.WriteLine(file.ToFileInfo().Length);
 ## License
 
 Licensed under LGPL-3.0.
+
+
+## Explicit precondition checks
+
+Guard extensions are scoped to `FilePath`, `DirectoryPath`, their nullable forms, and their concrete result collections.
+They capture the caller expression automatically and return `void` after successful validation.
+
+```csharp
+using TedToolkit.FileSystem;
+using TedToolkit.Localizations;
+
+LocalizationSettings.Culture = "zh-CN";
+var inputDirectory = new DirectoryPath("inputs");
+inputDirectory.ThrowIfNotExists();
+inputDirectory.ThrowIfContainsNoFiles("*.json");
+inputDirectory.ThrowIfContainsNoFiles("*.json", SearchOption.AllDirectories);
+
+var files = inputDirectory.GetFiles("*.json");
+files.ThrowIfNullOrHasNoItems();
+```
+
+| Extension | Failure condition |
+| --- | --- |
+| `ThrowIfNull()` | A nullable path has no value, or its stored path text is null, including default value objects |
+| `ThrowIfNullOrWhiteSpace()` | The path is null, or its stored text is null, empty, or whitespace |
+| `ThrowIfNotExists()` | Invalid path text, or no existing entry of the required kind |
+| `ThrowIfExists()` | Invalid path text, or an existing file or directory occupies the path |
+| `ThrowIfContainsNoFiles(searchPattern, searchOption)` | No matching files in the requested scope |
+| `ThrowIfContainsNoFolders(searchPattern, searchOption)` | No matching subdirectories in the requested scope |
+| `ThrowIfContainsNoEntries()` | Neither files nor child directories in the current directory |
+| `ThrowIfNullOrHasNoItems()` | A filesystem result collection is null or its Count is zero |
+
+Patterns use the existing native BCL wildcard rules from `Directory.EnumerateFiles` and
+`Directory.EnumerateDirectories`, with `"*"` and `SearchOption.TopDirectoryOnly` as defaults.
+Use `SearchOption.AllDirectories` for recursion. Enumeration stops at the first matching entry and
+does not allocate a result array. A zero-byte file counts as a file; an empty child directory counts as an entry.
+
+Path validation precedes directory existence, search-pattern validation, and content inspection.
+Diagnostic names can be overridden with `paramName`; search-pattern names are captured separately.
+Missing-entry diagnostics include the resolved absolute path, without changing the stored path value.
+The collection overloads accept only `IReadOnlyCollection<FilePath>` and `IReadOnlyCollection<DirectoryPath>`
+and read Count without enumerating or checking individual paths. They do not extend arbitrary objects,
+strings, generic collections, or lazy sequences.
+
+Messages follow `TedToolkit.Localizations.LocalizationSettings.Culture`. Chinese cultures use Chinese
+resources; unsupported or invalid cultures fall back to English. Resource helpers remain internal.
+Only the compiler attributes needed for caller-expression capture and nullable flow are imported on
+older targets; the Polyfill package adds no general extension methods or runtime dependency.
+Existence checks follow `File.Exists` and `Directory.Exists` semantics and are not permission checks.
+Checks observe the current filesystem state and do not reserve a path for later I/O.
