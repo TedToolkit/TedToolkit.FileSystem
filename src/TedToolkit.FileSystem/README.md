@@ -217,3 +217,9 @@ Only the compiler attributes needed for caller-expression capture and nullable f
 older targets; the Polyfill package adds no general extension methods or runtime dependency.
 Existence checks follow `File.Exists` and `Directory.Exists` semantics and are not permission checks.
 Checks observe the current filesystem state and do not reserve a path for later I/O.
+
+The memory-only null, whitespace, and collection guards use `AggressiveInlining`, as do their
+short validation helpers. Argument-failure message interpolation and exception allocation live in
+private `NoInlining` methods annotated with `DoesNotReturn`. Filesystem I/O guards use the runtime's
+normal inlining policy. These hints preserve the checks; their performance depends on the runtime
+and call site.

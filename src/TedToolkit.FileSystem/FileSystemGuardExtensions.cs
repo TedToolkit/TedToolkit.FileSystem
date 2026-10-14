@@ -26,6 +26,7 @@ public static class FileSystemGuardExtensions
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
     /// <remarks>Checks path text only; no file system query is performed.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNull(
         this FilePath filePath,
         [CallerArgumentExpression(nameof(filePath))] string? paramName = null)
@@ -41,6 +42,7 @@ public static class FileSystemGuardExtensions
     /// <remarks>Checks path text only, using string.IsNullOrWhiteSpace; no file system query is performed.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNullOrWhiteSpace(
         this FilePath filePath,
         [CallerArgumentExpression(nameof(filePath))] string? paramName = null)
@@ -102,11 +104,12 @@ public static class FileSystemGuardExtensions
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
     /// <remarks>Checks path text only; no file system query is performed.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNull(
         [NotNull] this FilePath? filePath,
         [CallerArgumentExpression(nameof(filePath))] string? paramName = null)
     {
-        CheckNotNullText(GetPathText(filePath, paramName), paramName);
+        GetPathText(filePath, paramName);
     }
 
     /// <summary>
@@ -117,6 +120,7 @@ public static class FileSystemGuardExtensions
     /// <remarks>Checks path text only, using string.IsNullOrWhiteSpace; no file system query is performed.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNullOrWhiteSpace(
         [NotNull] this FilePath? filePath,
         [CallerArgumentExpression(nameof(filePath))] string? paramName = null)
@@ -178,6 +182,7 @@ public static class FileSystemGuardExtensions
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
     /// <remarks>Checks path text only; no file system query is performed.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNull(
         this DirectoryPath directoryPath,
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null)
@@ -193,6 +198,7 @@ public static class FileSystemGuardExtensions
     /// <remarks>Checks path text only, using string.IsNullOrWhiteSpace; no file system query is performed.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNullOrWhiteSpace(
         this DirectoryPath directoryPath,
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null)
@@ -246,11 +252,12 @@ public static class FileSystemGuardExtensions
     /// <param name="paramName">The automatically captured caller expression, or an explicit diagnostic name.</param>
     /// <remarks>Checks path text only; no file system query is performed.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNull(
         [NotNull] this DirectoryPath? directoryPath,
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null)
     {
-        CheckNotNullText(GetPathText(directoryPath, paramName), paramName);
+        GetPathText(directoryPath, paramName);
     }
 
     /// <summary>
@@ -261,6 +268,7 @@ public static class FileSystemGuardExtensions
     /// <remarks>Checks path text only, using string.IsNullOrWhiteSpace; no file system query is performed.</remarks>
     /// <exception cref="ArgumentNullException">The nullable path or its stored path text is null.</exception>
     /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNullOrWhiteSpace(
         [NotNull] this DirectoryPath? directoryPath,
         [CallerArgumentExpression(nameof(directoryPath))] string? paramName = null)
@@ -503,6 +511,7 @@ public static class FileSystemGuardExtensions
     /// <remarks>Reads IReadOnlyCollection.Count only; does not enumerate items or check their paths.</remarks>
     /// <exception cref="ArgumentNullException">The collection is null.</exception>
     /// <exception cref="ArgumentException">The collection has no items.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNullOrHasNoItems(
         [NotNull] this IReadOnlyCollection<FilePath>? files,
         [CallerArgumentExpression(nameof(files))] string? paramName = null)
@@ -518,6 +527,7 @@ public static class FileSystemGuardExtensions
     /// <remarks>Reads IReadOnlyCollection.Count only; does not enumerate items or check their paths.</remarks>
     /// <exception cref="ArgumentNullException">The collection is null.</exception>
     /// <exception cref="ArgumentException">The collection has no items.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNullOrHasNoItems(
         [NotNull] this IReadOnlyCollection<DirectoryPath>? directories,
         [CallerArgumentExpression(nameof(directories))] string? paramName = null)
@@ -525,6 +535,7 @@ public static class FileSystemGuardExtensions
         CheckCollection(directories, paramName);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetPathText([NotNull] FilePath? filePath, string? paramName)
     {
         if (!filePath.HasValue)
@@ -537,6 +548,7 @@ public static class FileSystemGuardExtensions
         return text;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetPathText([NotNull] DirectoryPath? directoryPath, string? paramName)
     {
         if (!directoryPath.HasValue)
@@ -549,6 +561,7 @@ public static class FileSystemGuardExtensions
         return text;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static FilePath GetRequiredPath([NotNull] FilePath? filePath, string? paramName)
     {
         var text = GetPathText(filePath, paramName);
@@ -556,6 +569,7 @@ public static class FileSystemGuardExtensions
         return filePath.Value;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static DirectoryPath GetRequiredPath([NotNull] DirectoryPath? directoryPath, string? paramName)
     {
         var text = GetPathText(directoryPath, paramName);
@@ -575,6 +589,7 @@ public static class FileSystemGuardExtensions
             paramName ?? "", path.GetFullPath().FullName));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void CheckNotNullText([NotNull] string? text, string? paramName)
     {
         if (text is not null)
@@ -585,17 +600,18 @@ public static class FileSystemGuardExtensions
         ThrowNull(paramName);
     }
 
-    private static void CheckNonBlankText([NotNull] string? text, string? paramName)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void CheckNonBlankText(string text, string? paramName)
     {
-        CheckNotNullText(text, paramName);
         if (!string.IsNullOrWhiteSpace(text))
         {
             return;
         }
 
-        throw new ArgumentException(Localization.FileSystemGuards.BlankPath(paramName ?? ""), paramName);
+        ThrowBlankPath(paramName);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void CheckPattern([NotNull] string? searchPattern, string? paramName)
     {
         CheckNotNullText(searchPattern, paramName);
@@ -604,9 +620,10 @@ public static class FileSystemGuardExtensions
             return;
         }
 
-        throw new ArgumentException(Localization.FileSystemGuards.BlankPattern(paramName ?? ""), paramName);
+        ThrowBlankPattern(paramName);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void CheckCollection<T>([NotNull] IReadOnlyCollection<T>? items, string? paramName)
     {
         if (items is null)
@@ -619,12 +636,39 @@ public static class FileSystemGuardExtensions
             return;
         }
 
-        throw new ArgumentException(Localization.FileSystemGuards.NoItems(paramName ?? ""), paramName);
+        ThrowNoItems(paramName);
     }
 
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     private static void ThrowNull(string? paramName)
     {
         throw new ArgumentNullException(paramName, Localization.FileSystemGuards.NullReference(paramName ?? ""));
+    }
+
+    /// <summary>
+    /// Throws a localized blank-path failure outside inlined validation.
+    /// </summary>
+    /// <param name="paramName">The captured or explicitly supplied parameter name.</param>
+    /// <exception cref="ArgumentException">The stored path text is empty or whitespace.</exception>
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void ThrowBlankPath(string? paramName)
+    {
+        throw new ArgumentException(Localization.FileSystemGuards.BlankPath(paramName ?? ""), paramName);
+    }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void ThrowBlankPattern(string? paramName)
+    {
+        throw new ArgumentException(Localization.FileSystemGuards.BlankPattern(paramName ?? ""), paramName);
+    }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void ThrowNoItems(string? paramName)
+    {
+        throw new ArgumentException(Localization.FileSystemGuards.NoItems(paramName ?? ""), paramName);
     }
 }
