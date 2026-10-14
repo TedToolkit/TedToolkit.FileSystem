@@ -162,3 +162,64 @@ Console.WriteLine(file.ToFileInfo().Length);
 ## License
 
 Licensed under LGPL-3.0.
+
+
+## Explicit precondition checks
+
+Guard extensions are scoped to `FilePath`, `DirectoryPath`, their nullable forms, and their concrete result collections.
+They capture the caller expression automatically and return `void` after successful validation.
+
+```csharp
+using TedToolkit.FileSystem;
+using TedToolkit.Localizations;
+
+LocalizationSettings.Culture = "zh-CN";
+var inputDirectory = new DirectoryPath("inputs");
+inputDirectory.ThrowIfNotExists();
+inputDirectory.ThrowIfContainsNoFiles("*.json");
+inputDirectory.ThrowIfContainsNoFiles("*.json", SearchOption.AllDirectories);
+
+var files = inputDirectory.GetFiles("*.json");
+files.ThrowIfNullOrHasNoItems();
+```
+
+| Extension | Failure condition |
+| --- | --- |
+| `ThrowIfNull()` | A nullable path has no value, or its stored path text is null, including default value objects |
+| `ThrowIfNullOrWhiteSpace()` | The path is null, or its stored text is null, empty, or whitespace |
+| `ThrowIfNotExists()` | Invalid path text, or no existing entry of the required kind |
+| `ThrowIfExists()` | Invalid path text, or an existing file or directory occupies the path |
+| `ThrowIfContainsNoFiles(searchPattern, searchOption)` | No matching files in the requested scope |
+| `ThrowIfContainsNoFolders(searchPattern, searchOption)` | No matching subdirectories in the requested scope |
+| `ThrowIfContainsNoEntries()` | Neither files nor child directories in the current directory |
+| `ThrowIfNullOrHasNoItems()` | A filesystem result collection is null or its Count is zero |
+
+Patterns use the existing native BCL wildcard rules from `Directory.EnumerateFiles` and
+`Directory.EnumerateDirectories`, with `"*"` and `SearchOption.TopDirectoryOnly` as defaults.
+Use `SearchOption.AllDirectories` for recursion. Enumeration stops at the first matching entry and
+does not allocate a result array. A zero-byte file counts as a file; an empty child directory counts as an entry.
+
+Path validation precedes directory existence, search-pattern validation, and content inspection.
+Diagnostic names can be overridden with `paramName`; search-pattern names are captured separately.
+Missing-entry diagnostics include the resolved absolute path, without changing the stored path value.
+The collection overloads accept only `IReadOnlyCollection<FilePath>` and `IReadOnlyCollection<DirectoryPath>`
+and read Count without enumerating or checking individual paths. They do not extend arbitrary objects,
+strings, generic collections, or lazy sequences.
+
+Translations use `TedToolkit.Localizations` end to end: JSON files registered as `AdditionalFiles`
+generate the strongly typed `Localization.FileSystemGuards` API. Named placeholders are interpolated
+by that generated API, without an independent resource manager or satellite resource assemblies.
+Messages follow `LocalizationSettings.Culture`, with Chinese translations for `zh`, `zh-CN`, and
+`zh-SG`; other cultures use the default English translation. In the default-language branch,
+`LocalizationSettings.LocalizedStrings` can override keys such as `FileSystemGuards.FileNotFound`.
+Guard operations reuse the existing typed `Exists`, `GetFullPath`, and enumeration members.
+Only the compiler attributes needed for caller-expression capture and nullable flow are imported on
+older targets; the Polyfill package adds no general extension methods or runtime dependency.
+Existence checks follow `File.Exists` and `Directory.Exists` semantics and are not permission checks.
+Checks observe the current filesystem state and do not reserve a path for later I/O.
+
+The memory-only null, whitespace, and collection guards use `AggressiveInlining`, as do their
+short validation helpers. Argument-failure message interpolation and exception allocation live in
+private `NoInlining` methods annotated with `DoesNotReturn`. Filesystem I/O guards use the runtime's
+normal inlining policy. These hints preserve the checks; their performance depends on the runtime
+and call site.

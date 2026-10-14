@@ -1,0 +1,14 @@
+{
+  "FileSystemGuards": {
+    "NullReference": "File system parameter '{{ParameterName}}' cannot be null.",
+    "FileNotFound": "File parameter '{{ParameterName}}' refers to a file that does not exist: '{{Path}}'.",
+    "FolderNotFound": "Directory parameter '{{ParameterName}}' refers to a directory that does not exist: '{{Path}}'.",
+    "PathAlreadyExists": "File system parameter '{{ParameterName}}' refers to an occupied path: '{{Path}}'.",
+    "NoMatchingFiles": "Directory parameter '{{ParameterName}}' ('{{Path}}') contains no files matching '{{SearchPattern}}' in search scope '{{SearchScope}}'.",
+    "NoEntries": "Directory parameter '{{ParameterName}}' ('{{Path}}') contains no files or subfolders.",
+    "NoItems": "File system collection parameter '{{ParameterName}}' contains no items.",
+    "BlankPattern": "File search pattern parameter '{{ParameterName}}' cannot be empty or whitespace.",
+    "NoMatchingFolders": "Directory parameter '{{ParameterName}}' ('{{Path}}') contains no subdirectories matching '{{SearchPattern}}' in search scope '{{SearchScope}}'.",
+    "BlankPath": "File system path parameter '{{ParameterName}}' cannot be empty or whitespace."
+  }
+}

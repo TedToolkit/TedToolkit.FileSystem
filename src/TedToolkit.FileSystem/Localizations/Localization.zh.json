@@ -1,0 +1,14 @@
+{
+  "FileSystemGuards": {
+    "NullReference": "文件系统参数“{{ParameterName}}”不能为 null。",
+    "FileNotFound": "文件参数“{{ParameterName}}”指定的文件不存在：“{{Path}}”。",
+    "FolderNotFound": "目录参数“{{ParameterName}}”指定的目录不存在：“{{Path}}”。",
+    "PathAlreadyExists": "文件系统参数“{{ParameterName}}”指定的路径已被占用：“{{Path}}”。",
+    "NoMatchingFiles": "目录参数“{{ParameterName}}”（“{{Path}}”）在检索范围“{{SearchScope}}”内未找到匹配“{{SearchPattern}}”的文件。",
+    "NoEntries": "目录参数“{{ParameterName}}”（“{{Path}}”）既没有文件，也没有子目录。",
+    "NoItems": "文件系统集合参数“{{ParameterName}}”不包含任何元素。",
+    "BlankPattern": "文件检索模式参数“{{ParameterName}}”不能是空字符串或全为空白。",
+    "NoMatchingFolders": "目录参数“{{ParameterName}}”（“{{Path}}”）在检索范围“{{SearchScope}}”内未找到匹配“{{SearchPattern}}”的子目录。",
+    "BlankPath": "文件系统路径参数“{{ParameterName}}”不能是空字符串或全为空白。"
+  }
+}
