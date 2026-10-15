@@ -12,10 +12,12 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/TedToolkit.FileSystem.Analyzer/TedToolkit.FileSystem.Analyzer.csproj" />
     <Project Path="src/TedToolkit.FileSystem/TedToolkit.FileSystem.csproj" />
     <Project Path="src/TedToolkit.FileSystem.ProjectPaths/TedToolkit.FileSystem.ProjectPaths.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/TedToolkit.FileSystem.Analyzer.Tests/TedToolkit.FileSystem.Analyzer.Tests.csproj" />
     <Project Path="tests/TedToolkit.FileSystem.Tests/TedToolkit.FileSystem.Tests.csproj" />
     <Project Path="tests/TedToolkit.FileSystem.ProjectPaths.Tests/TedToolkit.FileSystem.ProjectPaths.Tests.csproj" />
   </Folder>

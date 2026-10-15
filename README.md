@@ -11,6 +11,10 @@ The repository ships these packages:
 | `TedToolkit.FileSystem` | Strongly typed wrappers for file names, file paths, and directory paths with BCL-shaped APIs. |
 | `TedToolkit.FileSystem.ProjectPaths` | Generates strongly typed paths for explicitly selected files and directories in a Git work tree. |
 
+## File System Analyzer
+
+The `TedToolkit.FileSystem` package includes a C# analyzer that automatically reports error `TTFS003` for direct references to `System.IO.Directory`, `System.IO.File`, `System.IO.Path`, `System.IO.FileInfo`, and `System.IO.DirectoryInfo`. Use `DirectoryPath` for directories and `FilePath` for files instead. Type declarations, aliases, constructors, method groups, and member access are checked. Generated code is excluded.
+
 For package installation, examples, and public API usage, see [src/TedToolkit.FileSystem/README.md](src/TedToolkit.FileSystem/README.md).
 
 ## What This Repository Contains
@@ -34,9 +38,11 @@ The public API is intentionally close to the BCL:
 ```text
 src/
   TedToolkit.FileSystem/
+  TedToolkit.FileSystem.Analyzer/
   TedToolkit.FileSystem.ProjectPaths/
 tests/
   TedToolkit.FileSystem.Tests/
+  TedToolkit.FileSystem.Analyzer.Tests/
   TedToolkit.FileSystem.ProjectPaths.Tests/
 Build/
   Build.csproj
@@ -45,8 +51,10 @@ externals/
 ```
 
 - `src/TedToolkit.FileSystem` contains the library and the NuGet package README.
+- `src/TedToolkit.FileSystem.Analyzer` contains the C# analyzer bundled with the main package.
 - `src/TedToolkit.FileSystem.ProjectPaths` contains the Git-rooted project-path generator.
 - `tests/TedToolkit.FileSystem.Tests` contains the test project.
+- `tests/TedToolkit.FileSystem.Analyzer.Tests` contains the analyzer's semantic diagnostics tests.
 - `Build` contains the repository pipeline entry point.
 - `externals/TedToolkit` is a submodule that provides shared props and build infrastructure.
 
@@ -76,10 +84,12 @@ Build the solution:
 dotnet build TedToolkit.FileSystem.slnx -c Release
 ```
 
-Run the test project:
+Run the test projects:
 
 ```shell
 dotnet run --project tests/TedToolkit.FileSystem.Tests/TedToolkit.FileSystem.Tests.csproj -c Release
+dotnet run --project tests/TedToolkit.FileSystem.Analyzer.Tests/TedToolkit.FileSystem.Analyzer.Tests.csproj -c Release
+dotnet run --project tests/TedToolkit.FileSystem.ProjectPaths.Tests/TedToolkit.FileSystem.ProjectPaths.Tests.csproj -c Release
 ```
 
 Run the repository pipeline:

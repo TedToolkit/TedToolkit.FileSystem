@@ -16,6 +16,16 @@ The library is designed as a thin forwarding layer. Most members map directly to
 dotnet add package TedToolkit.FileSystem
 ```
 
+The package automatically enables a C# analyzer. Error `TTFS003` reports direct references to the following BCL types:
+
+| BCL types | Replacement |
+| --- | --- |
+| `System.IO.Directory`, `System.IO.DirectoryInfo` | `DirectoryPath` |
+| `System.IO.File`, `System.IO.FileInfo` | `FilePath` |
+| `System.IO.Path` | `DirectoryPath` for directories or `FilePath` for files |
+
+The rule covers type declarations, aliases, constructors, method groups, and member access, including inherited members accessed through `FileInfo` or `DirectoryInfo`. Generated code is excluded. Other `System.IO` types and unrelated types with the same names are allowed. At an interop boundary that requires a BCL type, suppress `TTFS003` locally with `#pragma warning disable TTFS003` and restore it after the affected code.
+
 ## Why Use It
 
 - Model file system values explicitly instead of passing ambiguous `string` parameters.
