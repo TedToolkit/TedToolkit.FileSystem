@@ -22,6 +22,7 @@ var pipeline = new TedPipeline(
         TestFiles =
         [
             Projects.TedToolkit_FileSystem_Tests,
+            Projects.TedToolkit_FileSystem_Analyzer_Tests,
         ],
     },
     new FileInfo(Path.Combine(Projects.Build.Directory!.FullName, "appsettings.json")));

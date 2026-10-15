@@ -11,6 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TedToolkit.FileSystem.Analyzer\TedToolkit.FileSystem.Analyzer.csproj"
+                      ReferenceOutputAssembly="false" PrivateAssets="all" />
     <AdditionalFiles Include="Localizations/Localization*.json" />
     <PackageReference Include="TedToolkit.Localizations" />
     <PackageReference Include="Polyfill" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
@@ -20,6 +22,13 @@
              Condition="Exists('$(PkgPolyfill)/contentFiles/cs/$(TargetFramework)/Nullable/NotNullAttribute.cs')" />
     <Compile Include="$(PkgPolyfill)/contentFiles/cs/$(TargetFramework)/Nullable/DoesNotReturnAttribute.cs"
              Condition="Exists('$(PkgPolyfill)/contentFiles/cs/$(TargetFramework)/Nullable/DoesNotReturnAttribute.cs')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\TedToolkit.FileSystem.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.FileSystem.Analyzer.dll"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs"
+          Visible="false" />
   </ItemGroup>
 
 </Project>
