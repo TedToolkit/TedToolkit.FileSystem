@@ -92,8 +92,6 @@ dotnet run --project tests/TedToolkit.FileSystem.Analyzer.Tests/TedToolkit.FileS
 dotnet run --project tests/TedToolkit.FileSystem.ProjectPaths.Tests/TedToolkit.FileSystem.ProjectPaths.Tests.csproj -c Release
 ```
 
-The analyzer test project includes clean package and consumer checks for both default build outputs and SDK `--artifacts-path` outputs.
-
 Run the repository pipeline:
 
 ```shell

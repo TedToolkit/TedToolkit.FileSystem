@@ -8,11 +8,10 @@
     <Title>TedToolkit.FileSystem</Title>
     <Description>A small .NET library for normalized file system path value objects.</Description>
     <NoWarn>$(NoWarn);CA1724;RCS1231;CA2225</NoWarn>
-    <_FileSystemAnalyzerProject>..\TedToolkit.FileSystem.Analyzer\TedToolkit.FileSystem.Analyzer.csproj</_FileSystemAnalyzerProject>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(_FileSystemAnalyzerProject)"
+    <ProjectReference Include="..\TedToolkit.FileSystem.Analyzer\TedToolkit.FileSystem.Analyzer.csproj"
                       ReferenceOutputAssembly="false" PrivateAssets="all" />
     <AdditionalFiles Include="Localizations/Localization*.json" />
     <PackageReference Include="TedToolkit.Localizations" />
@@ -25,13 +24,11 @@
              Condition="Exists('$(PkgPolyfill)/contentFiles/cs/$(TargetFramework)/Nullable/DoesNotReturnAttribute.cs')" />
   </ItemGroup>
 
-  <Target Name="IncludeFileSystemAnalyzerInPackage" BeforeTargets="_GetPackageFiles">
-    <MSBuild Projects="$(_FileSystemAnalyzerProject)" Targets="GetTargetPath" RemoveProperties="TargetFramework">
-      <Output TaskParameter="TargetOutputs" ItemName="_FileSystemAnalyzerPackageOutput" />
-    </MSBuild>
-    <ItemGroup>
-      <None Include="@(_FileSystemAnalyzerPackageOutput)" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    </ItemGroup>
-  </Target>
+  <ItemGroup>
+    <None Include="..\TedToolkit.FileSystem.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.FileSystem.Analyzer.dll"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs"
+          Visible="false" />
+  </ItemGroup>
 
 </Project>
