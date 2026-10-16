@@ -32,6 +32,10 @@ public readonly partial record struct FilePath
     /// <param name="assembly">The assembly to convert.</param>
     /// <exception cref="ArgumentNullException"><paramref name="assembly" /> is <see langword="null" />.</exception>
     /// <returns>A file path value object that uses the assembly location.</returns>
+#if NET6_0_OR_GREATER
+    [System.Diagnostics.CodeAnalysis.RequiresAssemblyFiles(
+        "Assembly file paths are unavailable in single-file and Native AOT applications.")]
+#endif
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FilePath FromAssembly(Assembly assembly)
     {
@@ -44,6 +48,10 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Assembly.GetEntryAssembly()" /> and uses <see cref="Assembly.Location" /> when a value is returned.</remarks>
     public static FilePath? EntryAssembly
     {
+#if NET6_0_OR_GREATER
+        [System.Diagnostics.CodeAnalysis.RequiresAssemblyFiles(
+            "Assembly file paths are unavailable in single-file and Native AOT applications.")]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
@@ -57,6 +65,10 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Assembly.GetExecutingAssembly()" /> and uses <see cref="Assembly.Location" />.</remarks>
     public static FilePath ExecutingAssembly
     {
+#if NET6_0_OR_GREATER
+        [System.Diagnostics.CodeAnalysis.RequiresAssemblyFiles(
+            "Assembly file paths are unavailable in single-file and Native AOT applications.")]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
@@ -70,6 +82,10 @@ public readonly partial record struct FilePath
     /// <remarks>Wraps <see cref="Assembly.GetCallingAssembly()" /> and uses <see cref="Assembly.Location" />.</remarks>
     public static FilePath CallingAssembly
     {
+#if NET6_0_OR_GREATER
+        [System.Diagnostics.CodeAnalysis.RequiresAssemblyFiles(
+            "Assembly file paths are unavailable in single-file and Native AOT applications.")]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {

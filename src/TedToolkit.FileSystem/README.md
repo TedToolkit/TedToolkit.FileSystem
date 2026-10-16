@@ -10,6 +10,12 @@ Instead of passing raw strings everywhere, you can work with explicit path-focus
 
 The library is designed as a thin forwarding layer. Most members map directly to a corresponding BCL API.
 
+## Native AOT
+
+The .NET 8 and later runtime assets declare Native AOT compatibility and enable AOT, trimming, and single-file analysis.
+
+`FilePath.FromAssembly`, `FilePath.EntryAssembly`, `FilePath.ExecutingAssembly`, and `FilePath.CallingAssembly` require a separately stored assembly file. These APIs remain available for ordinary applications, but carry `RequiresAssemblyFiles` annotations on .NET 6 and later so single-file and Native AOT consumers receive a diagnostic when calling them. For an application directory or executable path, use `AppContext.BaseDirectory` or `Environment.ProcessPath` according to the intended semantics.
+
 ## Install
 
 ```shell
