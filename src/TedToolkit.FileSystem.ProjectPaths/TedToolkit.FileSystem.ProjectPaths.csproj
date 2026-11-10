@@ -28,4 +28,9 @@
           PackagePath="buildTransitive" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="../../.agents/skills/generate-typed-project-paths/**/*"
+          Pack="true" PackagePath="skills/generate-typed-project-paths/" />
+  </ItemGroup>
 </Project>
