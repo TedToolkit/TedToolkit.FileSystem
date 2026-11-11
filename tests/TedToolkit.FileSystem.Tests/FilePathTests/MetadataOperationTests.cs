@@ -10,7 +10,7 @@ namespace TedToolkit.FileSystem.Tests.FilePathTests;
 internal sealed class MetadataOperationTests
 {
     /// <summary>
-    /// Verifies that metadata properties can be updated through writable setters.
+    /// Verifies that metadata setters preserve the behavior of the underlying file system.
     /// </summary>
     [Test]
     public async Task Should_update_file_metadata_when_properties_are_set()
@@ -24,13 +24,17 @@ internal sealed class MetadataOperationTests
         try
         {
             path.IsReadOnly = true;
+            File.SetCreationTime(file.FullName, creationTime);
+            var effectiveCreationTime = File.GetCreationTime(file.FullName);
+            File.SetCreationTime(file.FullName, creationTime.AddDays(1));
             path.CreationTime = creationTime;
+            await Assert.That(path.CreationTime).IsEqualTo(effectiveCreationTime);
+
             path.LastWriteTime = lastWriteTime;
             path.LastAccessTime = lastAccessTime;
             path.Attributes = FileAttributes.ReadOnly;
 
             await Assert.That(path.IsReadOnly).IsTrue();
-            await Assert.That(path.CreationTime).IsEqualTo(creationTime);
             await Assert.That(path.LastWriteTime).IsEqualTo(lastWriteTime);
             await Assert.That(path.LastAccessTime).IsEqualTo(lastAccessTime);
             await Assert.That(path.Attributes).IsEqualTo(FileAttributes.ReadOnly);
