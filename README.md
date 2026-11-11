@@ -100,6 +100,7 @@ The project currently targets:
 - `net8.0`
 - `net9.0`
 - `net10.0`
+- `net11.0`
 - `net472`
 - `net48`
 - `netstandard2.0`
