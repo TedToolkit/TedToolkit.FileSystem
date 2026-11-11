@@ -95,7 +95,7 @@ dotnet run --project tests/TedToolkit.FileSystem.ProjectPaths.Tests/TedToolkit.F
 Run the repository pipeline:
 
 ```shell
-dotnet run --project Build/Build.csproj
+dotnet build TedToolkit.FileSystem.slnx -c Release
 ```
 
 ## Development Notes
