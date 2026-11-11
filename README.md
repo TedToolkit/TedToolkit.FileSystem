@@ -44,10 +44,6 @@ tests/
   TedToolkit.FileSystem.Tests/
   TedToolkit.FileSystem.Analyzer.Tests/
   TedToolkit.FileSystem.ProjectPaths.Tests/
-Build/
-  Build.csproj
-externals/
-  TedToolkit/
 ```
 
 - `src/TedToolkit.FileSystem` contains the library and the NuGet package README.
@@ -55,25 +51,19 @@ externals/
 - `src/TedToolkit.FileSystem.ProjectPaths` contains the Git-rooted project-path generator.
 - `tests/TedToolkit.FileSystem.Tests` contains the test project.
 - `tests/TedToolkit.FileSystem.Analyzer.Tests` contains the analyzer's semantic diagnostics tests.
-- `Build` contains the repository pipeline entry point.
-- `externals/TedToolkit` is a submodule that provides shared props and build infrastructure.
+
+MSBuild restores the shared configuration from the version of `TedToolkit.Build.Sdk` pinned in `global.json`.
 
 ## Prerequisites
 
 - .NET SDK capable of building the repository target frameworks
-- Git with submodule support
+- Git
 
-Clone with submodules:
+Clone the repository:
 
 ```shell
-git clone --recursive <repository-url>
+git clone <repository-url>
 cd TedToolkit.FileSystem
-```
-
-If the repository is already cloned without submodules:
-
-```shell
-git submodule update --init --recursive
 ```
 
 ## Build And Test
@@ -92,11 +82,7 @@ dotnet run --project tests/TedToolkit.FileSystem.Analyzer.Tests/TedToolkit.FileS
 dotnet run --project tests/TedToolkit.FileSystem.ProjectPaths.Tests/TedToolkit.FileSystem.ProjectPaths.Tests.csproj -c Release
 ```
 
-Run the repository pipeline:
-
-```shell
-dotnet run --project Build/Build.csproj
-```
+GitHub Actions uses the shared TedToolkit build workflow.
 
 ## Development Notes
 
